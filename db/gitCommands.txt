@@ -1,0 +1,22 @@
+
+! GIT IS CASE SENSITIVE
+
+I WANT to make a change to the [name] branch
+
+- git checkout [name]
+
+I MADE a change in the [name] branch, and want to push it to the [name] staging branch (ex: Backend, Frontend)
+(Do this once you are sure your code works properly, and want to communicate with endpoints, etc)
+
+* Make sure you're inside the [name] branch via git checkout [name]
+
+- git commit -m 'message'
+- git push
+- git checkout Backend / Frontend
+- git merge origin/[name] ( Database or Server )
+
+
+
+
+
+
