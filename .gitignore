@@ -1,3 +1,5 @@
+.MERGE_MSG.swp
+.git/.MERGE_MSG.swp
 
 /node_modules
 
