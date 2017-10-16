@@ -34,7 +34,7 @@ passport.use(new Auth0Strategy({
             if (user[0]) {
                 done(null, user);
             } else {
-                console.log(profile);
+                console.log(profile); //debug
                 // let fullname = profile.name.givenName + " " + profile.name.familyName;
                 // app.get('db').create_user([profile.id, fullname, profile.username, profile.picture, profile.emails[0].value]).then(user => {
                 //     done(null, user[0]);
