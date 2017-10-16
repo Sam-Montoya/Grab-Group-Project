@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-class ListingInfo extends Component{
+class Profile extends Component{
     constructor(){
         super()
         this.state={
@@ -10,10 +10,10 @@ class ListingInfo extends Component{
     render(){
         return(
             <div>
-                <h1>Listing Info page</h1>
+                <h1>Profile page</h1>
             </div>
         )
     }
 }
 
-export default ListingInfo
+export default Profile
