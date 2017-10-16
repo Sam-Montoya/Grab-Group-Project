@@ -1,6 +1,4 @@
--- This SQL query will bring back all information on the user and all 
--- details on the listings that user has.
+-- This will get all user information whether they have a listing or not.
 SELECT *
 FROM users
-JOIN listings ON users.user_id = listings.user_id
-WHERE users.user_id = $1;
+WHERE user_id = $1;
