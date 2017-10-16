@@ -3,13 +3,11 @@
  */
 
 module.exports = {
-	constructor(props) {
-		console.log(props);
-	},
-
 	//This is ran when the user first logs in (user info being stored on redux)
-	getInitialUserInfo() {
-		console.log('Hit initial user info!');
+	getInitialUserInfo(DB, response) {
+		DB.get_user_info(1).then(userData => {
+			response.status(200).send(userData);
+		});
 	},
 
 	//This is called when clicking on a listing (user listing info)
@@ -26,4 +24,4 @@ module.exports = {
 	getUserChats() {
 		console.log('Hit get user chats!');
 	}
-}
+};

@@ -18,17 +18,16 @@ massive(process.env.CONNECTIONSTRING)
 		app.set('db', db);
 		console.log('Connected successfully.');
 	})
-	.catch((err) => console.log('Something happened... ' + err));
+	.catch(err => console.log('Something happened... ' + err));
 
 /**
  * Endpoints
  */
 
 // -- Get Requests
-let db = app.get('db');
-getController.constructor(db);
 app.get('/api/getInitialUserInfo', (request, response) => {
-	getController.getInitialUserInfo();
+	let db = app.get('db');
+	getController.getInitialUserInfo(db, response);
 });
 app.get('/api/getUserInfo', (request, response) => {
 	getController.getUserInfo();
