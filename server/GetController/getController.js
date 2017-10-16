@@ -5,14 +5,16 @@
 module.exports = {
 	//This is ran when the user first logs in (user info being stored on redux)
 	getInitialUserInfo(DB, response) {
-		DB.get_user_info(1).then(userData => {
+		DB.get_initial_user(1).then(userData => {
 			response.status(200).send(userData);
 		});
 	},
 
 	//This is called when clicking on a listing (user listing info)
-	getUserInfo() {
-		console.log('Hit get user info!');
+	getUserInfo(DB, response) {
+		DB.get_user_info(1).then(userData => {
+			response.status(200).send(userData);
+		});
 	},
 
 	//This should be called when the user updates their favorites (called to get the new updated list)
