@@ -30,7 +30,8 @@ app.get('/api/getInitialUserInfo', (request, response) => {
 	getController.getInitialUserInfo(db, response);
 });
 app.get('/api/getUserInfo', (request, response) => {
-	getController.getUserInfo();
+	let db = app.get('db');
+	getController.getUserInfo(db, response);
 });
 app.get('/api/getUserListings', (request, response) => {});
 app.get('/api/getUserChats', (request, response) => {});

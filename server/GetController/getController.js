@@ -5,7 +5,7 @@
 module.exports = {
 	//This is ran when the user first logs in (user info being stored on redux)
 	getInitialUserInfo(DB, response) {
-		DB.get_initial_user(1).then(userData => {
+		DB.get_initial_user('123').then(userData => {
 			response.status(200).send(userData);
 		});
 	},
