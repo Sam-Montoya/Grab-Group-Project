@@ -44,7 +44,7 @@ app.get('/api/getUserListings', (request, response) => {
 	//Temp
 	getController.getProducts(db, response);
 });
-app.get('/api/getUserChats/:user_id', (request, response) => {
+app.get('/api/getUserChats/:auth_id', (request, response) => {
 	let db = app.get('db');
 	getController.getUserChats(db, request, response);
 });
@@ -54,7 +54,7 @@ app.post('/api/startChat', (request, response) => {
 	let db = app.get('db');
 	postController.startChat(db, request, response);
 })
-app.post('/api/addMessage/:listing_id', (request, response) => {
+app.post('/api/addMessage/:auth_id/:listing_id', (request, response) => {
 	let db = app.get('db');
 	postController.addMessage(db, request, response);
 });

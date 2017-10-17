@@ -27,8 +27,8 @@ module.exports = {
 
 	//This is called when viewing the user's chats
 	getUserChats(DB, request, response) {
-		DB.get_user_chats(request.params.user_id).then((userChats) => {
-			response.status(200).send(userData);
+		DB.get_user_chats(request.params.auth_id).then((userChats) => {
+			response.status(200).send(userChats);
 		});
 	},
 
