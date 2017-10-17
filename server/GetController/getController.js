@@ -38,14 +38,14 @@ module.exports = {
 		axios.get('https://practiceapi.devmountain.com/products').then((data) => {
 			response.status(200).send(data.data);
 		});
-	}, 
+	},
 
-	getUserListings(DB, request, response){
+	getUserListings(DB, request, response) {
 		DB.find_user(request.params.auth_id).then((user) => {
-			if(user){
+			if (user[0]) {
 				DB.get_user_listings(request.params.auth_id).then((userListings) => {
-					if(userListings.data){
-						response.status(200).send(userListings.data);
+					if (userListings[0]) {
+						response.status(200).send(userListings);
 					} else {
 						response.status(200).send('No Listings From this User.');
 					}

@@ -45,6 +45,11 @@ app.get('/api/getUserListings', (request, response) => {
 	//Temp
 	getController.getProducts(db, response);
 });
+// The Real Deal
+app.get('/api/getUserListings/:auth_id', (request, response) => {
+	let db = app.get('db');
+	getController.getUserListings(db, request, response);
+});
 app.get('/api/getUserChats/:auth_id', (request, response) => {
 	let db = app.get('db');
 	getController.getUserChats(db, request, response);
