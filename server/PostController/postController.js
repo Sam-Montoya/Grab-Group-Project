@@ -4,7 +4,12 @@
 
 module.exports = {
 	// Adds a listing into the database
-	addListing(DB, request, response) {},
+	addListing(DB, request, response) {
+		let { auth_id, user_id, title, price, images, city, state, zip, description, pros, cons, phone_number, contact_status, time_submitted } = req.body;
+		DB.add_listing([auth_id, user_id, title, price, images, city, state, zip, description, pros, cons, phone_number, contact_status, time_submitted]).then((listing) => {
+			response.status(200).send('Listing has been added');
+		});
+	},
 
 	// Adds the listing to the favorites
 	addFavorite(DB, request, response) {
