@@ -9,6 +9,7 @@ const express = require('express'),
 	axios = require('axios');
 
 let getController = require('./GetController/getController.js')
+let postController = require('./PostController/postController.js');
 
 let app = express();
 app.use(bodyParser.json());
@@ -33,13 +34,25 @@ app.get('/api/getUserInfo/:user_id', (request, response) => {
 	let db = app.get('db');
 	getController.getUserInfo(db, request, response);
 });
+app.get('/api/getUserFavorites/:user_id', (request, response) => {
+	let db = app.get('db');
+	getController.getUserFavorites(db, request, response);
+})
 app.get('/api/getUserListings', (request, response) => {
 	let db = app.get('db');
+	//Temp
 	getController.getProducts(db, response);
 });
-app.get('/api/getUserChats', (request, response) => {});
+app.get('/api/getUserChats/:user_id', (request, response) => {
+	let db = app.get('db');
+	getController.getUserChats(db, request, response);
+});
 
 // -- Post Requests
+app.post('/api/addMessage/:listing_id', (request, response) => {
+	let db = app.get('db');
+	postController.addMessage(db, request, response);
+});
 
 // -- Put Requests
 

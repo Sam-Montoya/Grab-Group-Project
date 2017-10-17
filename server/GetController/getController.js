@@ -26,13 +26,15 @@ module.exports = {
 	},
 
 	//This is called when viewing the user's chats
-	getUserChats() {
-		console.log('Hit get user chats!');
+	getUserChats(DB, request, response) {
+		DB.get_user_chats(request.params.user_id).then((userChats) => {
+			response.status(200).send(userData);
+		});
 	},
 
 	getProducts(db, response) {
-		axios.get('https://practiceapi.devmountain.com/products').then(data => {
+		axios.get('https://practiceapi.devmountain.com/products').then((data) => {
 			response.status(200).send(data.data);
-		})
+		});
 	}
 };
