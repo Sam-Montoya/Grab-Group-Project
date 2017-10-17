@@ -8,8 +8,9 @@ const express = require('express'),
 	session = require('express-session'),
 	axios = require('axios');
 
-let getController = require('./GetController/getController.js')
+let getController = require('./GetController/getController.js');
 let postController = require('./PostController/postController.js');
+let putController = require('./PutController/putController.js');
 let deleteController = require('./DeleteController/deleteController.js');
 
 let app = express();
@@ -20,7 +21,7 @@ massive(process.env.CONNECTIONSTRING)
 		app.set('db', db);
 		console.log('Connected successfully.');
 	})
-	.catch(err => console.log('Something happened... ' + err));
+	.catch((err) => console.log('Something happened... ' + err));
 
 /**
  * Endpoints
@@ -38,7 +39,7 @@ app.get('/api/getUserInfo/:user_id', (request, response) => {
 app.get('/api/getUserFavorites/:user_id', (request, response) => {
 	let db = app.get('db');
 	getController.getUserFavorites(db, request, response);
-})
+});
 app.get('/api/getUserListings', (request, response) => {
 	let db = app.get('db');
 	//Temp
@@ -53,13 +54,17 @@ app.get('/api/getUserChats/:auth_id', (request, response) => {
 app.post('/api/startChat', (request, response) => {
 	let db = app.get('db');
 	postController.startChat(db, request, response);
-})
-app.post('/api/addMessage/:auth_id/:listing_id', (request, response) => {
+});
+app.post('/api/addMessage/:listing_id', (request, response) => {
 	let db = app.get('db');
 	postController.addMessage(db, request, response);
 });
 
 // -- Put Requests
+app.put('/api/updateNotificationCount/:auth_id/:listing_id', (request, response) => {
+	let db = app.get('db');
+	putController.updateNotificationCount(db, request, response);
+});
 
 // -- Delete Requests
 app.delete('/api/deleteChat', (request, response) => {

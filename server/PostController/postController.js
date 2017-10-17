@@ -4,15 +4,13 @@
 
 module.exports = {
 	// Adds a listing into the database
-    addListing(DB, request, response) {
-        
-    },
-    
+	addListing(DB, request, response) {},
+
 	// Adds the listing to the favorites
 	addToFavorites(DB, request, response) {
 		DB.add_favorite([ request.body.listing_id, request.body.auth_id ]).then((res) => {
-            response.status(200).send('Favorite has been added!');
-        });
+			response.status(200).send('Favorite has been added!');
+		});
 	},
 
 	// Adds a message to the chat of that listing
@@ -23,16 +21,30 @@ module.exports = {
 	},
 
 	addMessage(DB, request, response) {
-		console.log(request.params);
-		console.log(request.body);
 		let commentInfo = {
-			auth_id_of_comment : request.params.auth_id,
-			message : request.body.message,
-			time_submitted : request.body.time_submitted
+			auth_id_of_comment: request.body.auth_id_of_comment,
+			message: request.body.message,
+			time_submitted: request.body.time_submitted
 		};
 
-		DB.add_message([ commentInfo, request.params.listing_id, request.params.auth_id ]).then((_) => {
-			response.status(200).send('Comment Submitted!');
+		DB.get_listing(request.params.listing_id).then((listingData) => {
+			if (listingData[0].auth_id === request.body.auth_id_of_comment) {
+				DB.add_owner_message([
+					commentInfo,
+					request.params.listing_id,
+					request.body.auth_id_of_comment
+				]).then((_) => {
+					response.status(200).send('Comment Submitted!');
+				});
+			} else {
+				DB.add_client_message([
+					commentInfo,
+					request.params.listing_id,
+					request.body.auth_id_of_comment
+				]).then((_) => {
+					response.status(200).send('Comment Submitted!');
+				});
+			}
 		});
 	}
 };
