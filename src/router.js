@@ -15,9 +15,9 @@ export default (
         <Route exact path="/" component={Home}> </Route>
         <Route path="/addlisting" component={AddListing}> </Route>
         <Route path="/alllistings" component={AllListings}> </Route>
-        <Route path="/ListingInfo" component={ListingInfo}> </Route>
-        <Route path="/Settings" component={Settings}></Route>
-        <Route path="/myFavorites" component={MyFavorites}></Route>
+        <Route path="/listinginfo" component={ListingInfo}> </Route>
+        <Route path="/settings" component={Settings}></Route>
+        <Route path="/myfavorites" component={MyFavorites}></Route>
         <Route path="/profile" component={Profile}></Route>
     </Switch>
 )

@@ -10,11 +10,35 @@
     margin:auto
 }
 
+.ListingPage{
+ width:100%
+ 
+}
+
+.leftBar{
+    position: fixed;
+    top: 0;
+    width: 150px;
+    height:100vh;
+    margin-top:65px;
+    background-color: #FFCC80;
+    text-align: center;
+}
+
+.leftBar Button{
+    width:100%;
+    background-color: white;
+    margin: 0px 0;
+}
+
 .ListingInfoContainer{
     display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 	justify-content: center;
-	align-items: baseline;
-	align-content: center;
+	align-items: stretch;
+	align-content: flex-start;
+     grid-column: 2/5;
+     margin-left:150px;
+
 }

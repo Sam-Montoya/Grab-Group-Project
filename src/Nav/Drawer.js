@@ -2,110 +2,152 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import Drawer from 'material-ui/Drawer';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
-import Typography from 'material-ui/Typography';
-import Hidden from 'material-ui/Hidden';
+import Button from 'material-ui/Button';
+import List, { ListItem, ListItemText } from 'material-ui/List';
 import Divider from 'material-ui/Divider';
-import Router from '../router'
-import Inbox from 'material-ui-icons/Inbox';
-import Favs from 'material-ui-icons/Star';
+import ImageIcon from 'material-ui-icons/Image';
+import Home from 'material-ui-icons/Home';
+import Settings from 'material-ui-icons/Settings';
+import Search from 'material-ui-icons/Search';
+import Create from 'material-ui-icons/Create';
 import ViewList from 'material-ui-icons/ViewList';
 import MenuIcon from 'material-ui-icons/Menu';
 import IconButton from 'material-ui/IconButton';
 import Profile from 'material-ui-icons/Face';
-import Description from 'material-ui-icons/Description';
-import Create from 'material-ui-icons/Create';
-import Search from 'material-ui-icons/Search';
-import Button from 'material-ui/Button';
-
-
-import List, { ListItem, ListItemText } from 'material-ui/List';
-import Avatar from 'material-ui/Avatar';
+import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
+import Dialog, {
+    DialogActions,
+    DialogContent,
+    DialogContentText,
+    DialogTitle,
+} from 'material-ui/Dialog';
+import Slide from 'material-ui/transitions/Slide';
+
+import Avatar from 'material-ui/Avatar';
+
 import './nav.css'
-import Input from 'material-ui/Input';
 
+const styles = {
+    list: {
+        width: 250,
+        flex: 'initial',
+    },
+    listFull: {
+        width: 'auto',
+        flex: 'initial',
+    },
+};
 
-const drawerWidth = 200;
-
-const styles = theme => ({
+const styles2 = theme => ({
     root: {
         width: '100%',
-        height: '100vh',
-        marginTop: theme.spacing.unit * 3,
-        zIndex: 1,
-        overflow: 'hidden'
-    },
-    
-    appFrame: {
-        position: 'relative',
-        display: 'flex',
-        width: '100%',
-        height: '100%',
-    },
-    appBar: {
-        color: 'white',
-        position: 'absolute',
-        marginLeft: drawerWidth,
-        [theme.breakpoints.up('md')]: {
-            width: `calc(100% - ${drawerWidth}px)`,
-        },
-    },
-    navIconHide: {
-        color: 'white',
-
-        [theme.breakpoints.up('md')]: {
-            display: 'none',
-        },
-    },
-    drawerHeader: theme.mixins.toolbar,
-    drawerPaper: {
-        color: 'white',
-        width: 250,
-        [theme.breakpoints.up('md')]: {
-            width: drawerWidth,
-            position: 'relative',
-            height: '100%',
-        },
-    },
-    content: {
-        backgroundColor: theme.palette.background.default,
-        width: '100%',
-        padding: theme.spacing.unit * 3,
-        height: 'calc(100% - 56px)',
-        marginTop: 56,
-        [theme.breakpoints.up('sm')]: {
-            height: 'calc(100% - 64px)',
-            marginTop: 64,
-        },
+        maxWidth: '360px',
+        background: theme.palette.background.paper,
     },
 });
 
-class ResponsiveDrawer extends React.Component {
-    state = {
-        mobileOpen: false,
+class TemporaryDrawer extends React.Component {
+    constructor() {
+        super();
+
+        this.state = {
+            open: {
+                top: false,
+                left: false,
+                bottom: false,
+                right: false,
+
+                //REDIRECTS
+                loggedin: false,
+                redirect: '',
+
+                //ALERT
+                alert: false
+            }
+        };
+    }
+
+    //ALERT
+
+    handleClickOpen = () => {
+        this.setState({ alert: true });
     };
 
-    handleDrawerToggle = () => {
-        this.setState({ mobileOpen: !this.state.mobileOpen });
+    handleRequestClose = () => {
+        this.setState({ alert: false });
     };
+
+    //DRAWER
+
+    toggleDrawer = (side, open) => {
+        const drawerState = {};
+        drawerState[side] = open;
+        this.setState({ open: drawerState });
+    };
+
+
+
+    handleLeftOpen = () => {
+        this.toggleDrawer('left', true);
+    };
+
+    handleLeftClose = () => {
+        this.toggleDrawer('left', false);
+    };
+
+    componentDidMount() {
+        axios.get(`/auth/me`)
+            .then(res => { //Before the page loads it hits this endpoint to check if there is a user on req.user. 
+                console.log('AUTH', res.data)
+                if (!res.data.id) { //If there is not a user. 
+                } else {
+                    this.setState({
+                        loggedin: true
+                    })
+                }
+            })
+
+    }
+
 
     render() {
-        const { classes, theme } = this.props;
+        const classes = this.props.classes;
 
-        const drawer = (
+        //REDIRECTS
+        if (this.state.redirect === 'profile') {
+            this.setState({
+                redirect: ''
+            })
+            return <Redirect push to={"/profile"} />;
+        }
+        if (this.state.redirect === 'property') {
+            this.setState({
+                redirect: ''
+            })
+            return <Redirect push to={"/wizard"} />;
+        }
+        if (this.state.redirect === 'settings') {
+            this.setState({
+                redirect: ''
+            })
+            return <Redirect push to={"/"} />;
+        }
+
+        const sideList = (
             <div>
+
                 <List className={classes.root} >
                     <Link to='/'>
                         <ListItem button>
                             <Avatar>
-                                <Inbox />
+                                <Home />
                             </Avatar>
-                            <ListItemText primary="Inbox" />
+                            <ListItemText primary="Home" />
                         </ListItem>
                     </ Link>
-                    <Link to='/profile'>
+                    <Link to="/profile">
                         <ListItem button>
                             <Avatar>
                                 <Profile />
@@ -114,25 +156,25 @@ class ResponsiveDrawer extends React.Component {
                         </ListItem>
                     </Link>
                     {/* <Divider inset /> */}
-                    <Link to='/myFavorites'>
+                    <Link to='/myfavorites'>
                         <ListItem button>
                             <Avatar>
-                                <Favs />
+                                <ViewList />
                             </Avatar>
                             <ListItemText primary="My Favorites" />
                         </ListItem>
                     </Link>
                     {/* <Divider inset /> */}
-                    <Link to='/addListing'>
+                     <Link to='/addlisting'>
                         <ListItem button>
                             <Avatar>
                                 <Create />
                             </Avatar>
-                            <ListItemText primary="Add Listing" />
+                            <ListItemText primary="Create Listing" />
                         </ListItem>
                     </Link>
                     {/* <Divider inset /> */}
-                    <Link to='/allListings'>
+                    <Link to="alllistings">
                         <ListItem button>
                             <Avatar>
                                 <Search />
@@ -141,116 +183,62 @@ class ResponsiveDrawer extends React.Component {
                         </ListItem>
                     </Link>
                     {/* <Divider inset /> */}
-                    <Link to='/settings'>
+                    <Link to="settings">
                         <ListItem button>
                             <Avatar>
-                                <Create />
+                                <Settings />
                             </Avatar>
                             <ListItemText primary="Settings" />
                         </ListItem>
                     </Link>
                     {/* <Divider inset /> */}
-                    <a href={process.env.REACT_APP_LOGOUT}>
-                        <ListItem button onClick={this.signout}>
-                            <Avatar>
-                                <ViewList />
-                            </Avatar>
-                            <ListItemText primary="Log Out" />
-                        </ListItem>
-                    </a>
-                    {/* <Divider inset /> */}
                 </List>
+
             </div>
         );
 
         return (
-            <div className={classes.root}>
-                <div className={classes.appFrame}>
-                    <AppBar 
-                    className={classes.appBar}
-                    >
+            <div>
+                <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+                <IconButton className={classes.menuButton} color="black" aria-label="Menu" onClick={this.handleLeftOpen}>
+                    <MenuIcon />
+                </IconButton>
 
-                        <Toolbar>
-                            <div className="nav">
+                <Drawer
+                    open={this.state.open.left}
+                    onRequestClose={this.handleLeftClose}
+                    onClick={this.handleLeftClose}
+                >
+                    {sideList}
+                </Drawer>
 
-                                <div className="Menu">
-                                    <IconButton
-                                        color="contrast"
-                                        aria-label="open drawer"
-                                        onClick={this.handleDrawerToggle}
-                                        className={classes.navIconHide}
-                                    >
-                                        <MenuIcon />
-                                    </IconButton>
-                                </div>
+                {/* ALERT */}
+                <Dialog open={this.state.alert} transition={Slide} onRequestClose={this.handleRequestClose}>
+                    <DialogTitle>{"Please Sign In"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText>
+                            To use some of our awesome features, you need to be logged in
+                    </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                        <Button onClick={this.handleRequestClose} color="primary">
+                            No Thanks
+                         </Button>
+                        <a href={process.env.REACT_APP_LOGIN}>
+                            <Button onClick={this.handleRequestClose} color="primary">
+                                Okay
+                             </Button>
+                        </a>
+                    </DialogActions>
+                </Dialog>
 
-                                <div>
-                                    <Typography type="title" color="inherit" noWrap >
-                                        Grab
-                            </Typography>
-                                </div>
-
-                                <div className="input">
-                                    <Input
-                                        placeholder="Search"
-                                        className="input"
-                                        inputProps={{
-                                            'aria-label': 'Description',
-                                        }}
-                                        style={{ backgroundColor: 'white', minWidth:'300px' }}
-                                    />
-                                </div>
-                                
-                                <div>
-                                    <Button raised
-                                        color="white"
-                                        style={{ backgroundColor: 'white' }}>
-                                        Sign In
-                                     </Button>
-                                </div>
-                            </div>
-                        </Toolbar>
-
-                    </AppBar>
-                    <Hidden mdUp>
-                        <Drawer
-                            type="temporary"
-                            anchor={theme.direction === 'rtl' ? 'right' : 'left'}
-                            open={this.state.mobileOpen}
-                            classes={{
-                                paper: classes.drawerPaper,
-                            }}
-                            onRequestClose={this.handleDrawerToggle}
-                            ModalProps={{
-                                keepMounted: true, // Better open performance on mobile.
-                            }}
-                        >
-                            {drawer}
-                        </Drawer>
-                    </Hidden>
-                    <Hidden mdDown implementation="css">
-                        <Drawer
-                            type="permanent"
-                            open
-                            classes={{
-                                paper: classes.drawerPaper,
-                            }}
-                        >
-                            {drawer}
-                        </Drawer>
-                    </Hidden>
-                    <main className={classes.content}>
-                        {Router}
-                    </main>
-                </div>
             </div>
         );
     }
 }
 
-ResponsiveDrawer.propTypes = {
+TemporaryDrawer.propTypes = {
     classes: PropTypes.object.isRequired,
-    theme: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles, { withTheme: true })(ResponsiveDrawer);
+export default withStyles(styles)(TemporaryDrawer);

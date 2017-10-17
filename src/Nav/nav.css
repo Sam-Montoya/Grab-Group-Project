@@ -3,13 +3,18 @@
 }
 
 .nav{
-    display: flex; 
+    /* display: flex; 
 	flex-direction: row;
 	flex-wrap: nowrap;
 	justify-content: space-between;
 	align-items: center;
-    width:100%;
-}
+    width:100%; */
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+} 
+
 
 .input{
         display: none

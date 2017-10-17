@@ -8,6 +8,7 @@ import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 import Drawer from './Drawer'
+import './nav.css'
 
 const styles = theme => ({
   root: {
@@ -26,14 +27,12 @@ const styles = theme => ({
 function ButtonAppBar(props) {
   const { classes } = props;
   return (
-    <div className={classes.root}>
+    <div className="nav">
       <AppBar position="static">
         <Toolbar>
-          <IconButton className={classes.menuButton} color="contrast" aria-label="Menu">
-            <MenuIcon />
-          </IconButton>
+          <Drawer />
           <Typography type="title" color="inherit" className={classes.flex}>
-            Title
+            Grab
           </Typography>
           <Button color="contrast">Login</Button>
         </Toolbar>
