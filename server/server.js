@@ -74,7 +74,10 @@ app.put('/api/updateNotificationCount/:auth_id', (request, response) => {
 	let db = app.get('db');
 	putController.updateNotificationCount(db, request, response);
 });
-
+app.put('/api/updateUserInfo', (request, response) => {
+	let db = app.get('db');
+	putController.updateUserInfo(db, request, response);
+})
 // -- Delete Requests
 app.delete('/api/deleteChat', (request, response) => {
 	let db = app.get('db');

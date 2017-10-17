@@ -4,7 +4,30 @@
 
 module.exports = {
 	// Updates the User info
-	updateUserInfo() {},
+	updateUserInfo(DB, request, response) {
+		console.log(request.body);
+		let { auth_id, full_name, username, profile_pic, city, state, zip, email, cover_photo } = request.body;
+
+		DB.find_user(auth_id).then((userData) => {
+			if (userData[0]) {
+				DB.update_user_info([
+					full_name,
+					username,
+					profile_pic,
+					city,
+					state,
+					zip,
+					email,
+					cover_photo,
+					auth_id
+				]).then((_) => {
+					response.status(200).send('User has been updated.');
+				});
+			} else {
+				response.status(404).send('User with that ID was not found.');
+			}
+		});
+	},
 
 	// Updates the notification count to zero when the user sees it
 	updateNotificationCount(DB, request, response) {
