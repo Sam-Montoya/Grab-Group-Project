@@ -1,4 +1,4 @@
--- This SQL query will get all from the favorites table based on the passed user_id
+-- This SQL query will get all from the favorites table and users table based on the passed user_id
 SELECT *
 FROM favorites
 JOIN listings ON listings.listing_id = favorites.listing_id
