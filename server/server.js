@@ -32,7 +32,7 @@ app.get('/api/getInitialUserInfo/:auth_id', (request, response) => {
 	let db = app.get('db');
 	getController.getInitialUserInfo(db, request, response);
 });
-app.get('/api/getUserInfo/:user_id', (request, response) => {
+app.get('/api/getUserInfo/:auth_id', (request, response) => {
 	let db = app.get('db');
 	getController.getUserInfo(db, request, response);
 });
@@ -60,7 +60,7 @@ app.post('/api/addListing', (request, response) => {
 	let db = app.get('db');
 	postController.addListing(db, request, response);
 });
-app.post('/api/addFavorite/:auth_id/:listing_id', (request, response) => {
+app.post('/api/addFavorite/:user_id/:listing_id', (request, response) => {
 	let db = app.get('db');
 	postController.addFavorite(db, request, response);
 });

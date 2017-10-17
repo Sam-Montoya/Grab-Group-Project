@@ -15,8 +15,9 @@ module.exports = {
 
 	//This is called when clicking on a listing (user listing info)
 	getUserInfo(DB, request, response) {
-		DB.get_user_info(request.params.user_id).then((userData) => {
-			response.status(200).send(userData);
+		DB.get_user_info(request.params.auth_id).then((userData) => {
+			if (userData[0]) response.status(200).send(userData);
+			else response.status(404).send('User Not Found...');
 		});
 	},
 
