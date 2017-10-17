@@ -8,7 +8,7 @@ import Drawer from './Nav/Drawer'
 //Theme
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import orange from 'material-ui/colors/orange';
-import green from 'material-ui/colors/green';
+import green from 'material-ui/colors/lightBlue';
 import red from 'material-ui/colors/red';
 
 class App extends Component {

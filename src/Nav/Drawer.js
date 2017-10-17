@@ -17,14 +17,17 @@ import Profile from 'material-ui-icons/Face';
 import Description from 'material-ui-icons/Description';
 import Create from 'material-ui-icons/Create';
 import Search from 'material-ui-icons/Search';
+import Button from 'material-ui/Button';
 
 
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Avatar from 'material-ui/Avatar';
 import { Link } from 'react-router-dom';
 import './nav.css'
+import Input from 'material-ui/Input';
 
-const drawerWidth = 240;
+
+const drawerWidth = 200;
 
 const styles = theme => ({
     root: {
@@ -32,8 +35,9 @@ const styles = theme => ({
         height: '100vh',
         marginTop: theme.spacing.unit * 3,
         zIndex: 1,
-        overflow: 'hidden',
+        overflow: 'hidden'
     },
+    
     appFrame: {
         position: 'relative',
         display: 'flex',
@@ -58,7 +62,6 @@ const styles = theme => ({
     drawerHeader: theme.mixins.toolbar,
     drawerPaper: {
         color: 'white',
-
         width: 250,
         [theme.breakpoints.up('md')]: {
             width: drawerWidth,
@@ -120,7 +123,7 @@ class ResponsiveDrawer extends React.Component {
                         </ListItem>
                     </Link>
                     {/* <Divider inset /> */}
-                     <Link to='/addListing'>
+                    <Link to='/addListing'>
                         <ListItem button>
                             <Avatar>
                                 <Create />
@@ -134,7 +137,7 @@ class ResponsiveDrawer extends React.Component {
                             <Avatar>
                                 <Search />
                             </Avatar>
-                            <ListItemText primary="Search Listings" />
+                            <ListItemText primary="Search" />
                         </ListItem>
                     </Link>
                     {/* <Divider inset /> */}
@@ -163,20 +166,51 @@ class ResponsiveDrawer extends React.Component {
         return (
             <div className={classes.root}>
                 <div className={classes.appFrame}>
-                    <AppBar className={classes.appBar}>
+                    <AppBar 
+                    className={classes.appBar}
+                    >
+
                         <Toolbar>
-                            <IconButton
-                                color="contrast"
-                                aria-label="open drawer"
-                                onClick={this.handleDrawerToggle}
-                                className={classes.navIconHide}
-                            >
-                                <MenuIcon />
-                            </IconButton>
-                            <Typography type="title" color="inherit" noWrap>
-                                Grab
-              </Typography>
+                            <div className="nav">
+
+                                <div className="Menu">
+                                    <IconButton
+                                        color="contrast"
+                                        aria-label="open drawer"
+                                        onClick={this.handleDrawerToggle}
+                                        className={classes.navIconHide}
+                                    >
+                                        <MenuIcon />
+                                    </IconButton>
+                                </div>
+
+                                <div>
+                                    <Typography type="title" color="inherit" noWrap >
+                                        Grab
+                            </Typography>
+                                </div>
+
+                                <div className="input">
+                                    <Input
+                                        placeholder="Search"
+                                        className="input"
+                                        inputProps={{
+                                            'aria-label': 'Description',
+                                        }}
+                                        style={{ backgroundColor: 'white', minWidth:'300px' }}
+                                    />
+                                </div>
+                                
+                                <div>
+                                    <Button raised
+                                        color="white"
+                                        style={{ backgroundColor: 'white' }}>
+                                        Sign In
+                                     </Button>
+                                </div>
+                            </div>
                         </Toolbar>
+
                     </AppBar>
                     <Hidden mdUp>
                         <Drawer

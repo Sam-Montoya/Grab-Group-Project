@@ -1,0 +1,20 @@
+.imgContainer img{
+    /* height:330px; */
+    width:100%;
+    margin: auto 
+}
+
+.imgContainer{
+    max-width: 475px;
+    overflow: hidden;
+    margin:auto
+}
+
+.ListingInfoContainer{
+    display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: baseline;
+	align-content: center;
+}
