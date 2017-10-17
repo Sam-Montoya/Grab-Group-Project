@@ -5,9 +5,48 @@
 module.exports = {
 	// Adds a listing into the database
 	addListing(DB, request, response) {
-		let { auth_id, user_id, title, price, images, city, state, zip, description, pros, cons, phone_number, contact_status, time_submitted, category } = req.body;
-		DB.add_listing([auth_id, user_id, title, price, images, city, state, zip, description, pros, cons, phone_number, contact_status, time_submitted, category]).then((listing) => {
-			response.status(200).send('Listing has been added');
+		DB.find_user(request.body.auth_id).then((userData) => {
+			if (userData[0]) {
+				let {
+					auth_id,
+					user_id,
+					title,
+					price,
+					images,
+					city,
+					state,
+					zip,
+					description,
+					pros,
+					cons,
+					phone_number,
+					contact_status,
+					time_submitted,
+					category
+				} = request.body;
+
+				DB.add_listing([
+					auth_id,
+					user_id,
+					title,
+					price,
+					images,
+					city,
+					state,
+					zip,
+					description,
+					pros,
+					cons,
+					phone_number,
+					contact_status,
+					time_submitted,
+					category
+				]).then((listing) => {
+					response.status(200).send('Listing has been added');
+				});
+			} else {
+				response.status(404).send('Please log in to post a listing.');
+			}
 		});
 	},
 
