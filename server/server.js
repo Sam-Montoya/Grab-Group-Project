@@ -49,6 +49,10 @@ app.get('/api/getUserChats/:user_id', (request, response) => {
 });
 
 // -- Post Requests
+app.post('/api/startChat', (request, response) => {
+	let db = app.get('db');
+	postController.startChat(db, request, response);
+})
 app.post('/api/addMessage/:listing_id', (request, response) => {
 	let db = app.get('db');
 	postController.addMessage(db, request, response);
