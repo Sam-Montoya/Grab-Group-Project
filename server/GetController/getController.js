@@ -38,5 +38,21 @@ module.exports = {
 		axios.get('https://practiceapi.devmountain.com/products').then((data) => {
 			response.status(200).send(data.data);
 		});
+	}, 
+
+	getUserListings(DB, request, response){
+		DB.find_user(request.params.auth_id).then((user) => {
+			if(user){
+				DB.get_user_listings(request.params.auth_id).then((userListings) => {
+					if(userListings.data){
+						response.status(200).send(userListings.data);
+					} else {
+						response.status(200).send('No Listings From this User.');
+					}
+				});
+			} else {
+				response.status(200).send('User does not Exist');
+			}
+		});
 	}
 };

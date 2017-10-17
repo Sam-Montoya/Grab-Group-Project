@@ -1,4 +1,4 @@
--- This SQL query will get all the listings based on a passed in user_id.
+-- This SQL query will get all the listings based on a passed in auth_id.
 SELECT * 
 FROM listings
-WHERE user_id = $1;
+WHERE auth_id = $1;
