@@ -56,6 +56,10 @@ app.get('/api/getUserChats/:auth_id', (request, response) => {
 });
 
 // -- Post Requests
+app.post('/api/addListing', (request, response) => {
+	let db = app.get('db');
+	postController.addListing(db, request, response);
+});
 app.post('/api/addFavorite/:auth_id/:listing_id', (request, response) => {
 	let db = app.get('db');
 	postController.addFavorite(db, request, response);
@@ -77,7 +81,7 @@ app.put('/api/updateNotificationCount/:auth_id', (request, response) => {
 app.put('/api/updateUserInfo', (request, response) => {
 	let db = app.get('db');
 	putController.updateUserInfo(db, request, response);
-})
+});
 // -- Delete Requests
 app.delete('/api/deleteChat', (request, response) => {
 	let db = app.get('db');
