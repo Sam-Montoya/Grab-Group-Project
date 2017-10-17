@@ -16,7 +16,7 @@ module.exports = {
 	},
 
 	addMessage(DB, request, response) {
-		DB.add_message([ request.body, request.params.listing_id, request.body.user_id]).then((_) => {
+		DB.add_message([ request.body, request.params.listing_id, request.body.auth_id]).then((_) => {
 			response.status(200).send('Comment Submitted!');
 		});
 	}
