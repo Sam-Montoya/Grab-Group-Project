@@ -1,18 +1,21 @@
+const axios = require('axios');
+
 /**
  * This controller holds all the get requests
  */
 
 module.exports = {
 	//This is ran when the user first logs in (user info being stored on redux)
-	getInitialUserInfo(DB, response) {
-		DB.get_initial_user('123').then(userData => {
-			response.status(200).send(userData);
+	getInitialUserInfo(DB, request, response) {
+		DB.get_initial_user(request.params.auth_id).then((userData) => {
+			if (userData[0]) response.status(200).send(userData);
+			else response.status(404).send('User Not Found...');
 		});
 	},
 
 	//This is called when clicking on a listing (user listing info)
-	getUserInfo(DB, response) {
-		DB.get_user_info(1).then(userData => {
+	getUserInfo(DB, request, response) {
+		DB.get_user_info(request.params.user_id).then((userData) => {
 			response.status(200).send(userData);
 		});
 	},
@@ -23,7 +26,15 @@ module.exports = {
 	},
 
 	//This is called when viewing the user's chats
-	getUserChats() {
-		console.log('Hit get user chats!');
+	getUserChats(DB, request, response) {
+		DB.get_user_chats(request.params.user_id).then((userChats) => {
+			response.status(200).send(userData);
+		});
+	},
+
+	getProducts(db, response) {
+		axios.get('https://practiceapi.devmountain.com/products').then((data) => {
+			response.status(200).send(data.data);
+		});
 	}
 };
