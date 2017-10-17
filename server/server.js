@@ -25,16 +25,15 @@ massive(process.env.CONNECTIONSTRING)
  */
 
 // -- Get Requests
-app.get('/api/getInitialUserInfo', (request, response) => {
+app.get('/api/getInitialUserInfo/:auth_id', (request, response) => {
 	let db = app.get('db');
-	getController.getInitialUserInfo(db, response);
+	getController.getInitialUserInfo(db, request, response);
 });
-app.get('/api/getUserInfo', (request, response) => {
+app.get('/api/getUserInfo/:user_id', (request, response) => {
 	let db = app.get('db');
-	getController.getUserInfo(db, response);
+	getController.getUserInfo(db, request, response);
 });
 app.get('/api/getUserListings', (request, response) => {
-	console.log('Get User Listings')
 	let db = app.get('db');
 	getController.getProducts(db, response);
 });
