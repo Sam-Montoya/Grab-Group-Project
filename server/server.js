@@ -82,6 +82,7 @@ app.put('/api/updateUserInfo', (request, response) => {
 	let db = app.get('db');
 	putController.updateUserInfo(db, request, response);
 });
+
 // -- Delete Requests
 app.delete('/api/deleteChat', (request, response) => {
 	let db = app.get('db');
