@@ -1,1 +1,0 @@
-UPDATE chats SET notification_count = 0 WHERE listing_id = $1 AND owner_id = $2;

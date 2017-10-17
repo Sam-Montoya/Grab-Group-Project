@@ -51,6 +51,10 @@ app.get('/api/getUserChats/:auth_id', (request, response) => {
 });
 
 // -- Post Requests
+app.post('/api/addFavorite/:auth_id/:listing_id', (request, response) => {
+	let db = app.get('db');
+	postController.addFavorite(db, request, response);
+});
 app.post('/api/startChat', (request, response) => {
 	let db = app.get('db');
 	postController.startChat(db, request, response);
@@ -61,7 +65,7 @@ app.post('/api/addMessage/:listing_id', (request, response) => {
 });
 
 // -- Put Requests
-app.put('/api/updateNotificationCount/:auth_id/:listing_id', (request, response) => {
+app.put('/api/updateNotificationCount/:auth_id', (request, response) => {
 	let db = app.get('db');
 	putController.updateNotificationCount(db, request, response);
 });

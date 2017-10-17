@@ -1,0 +1,1 @@
+UPDATE users SET notification_count = 0 WHERE auth_id = $1;
