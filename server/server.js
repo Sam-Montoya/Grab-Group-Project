@@ -66,13 +66,13 @@ app.post('/api/addMessage/:listing_id', (request, response) => {
  * Auth 0
  */
 
-app.use(
-	session({
-		secret: process.env.SECRET,
-		resave: false,
-		saveUninitialized: true
-	})
-);
+// app.use(
+// 	session({
+// 		secret: process.env.SECRET,
+// 		resave: false,
+// 		saveUninitialized: true
+// 	})
+// );
 
 // app.use(passport.initialize());
 // app.use(passport.session());
@@ -86,18 +86,18 @@ app.use(
 // 			callbackURL: process.env.AUTH_CALLBACK
 // 		},
 // 		function(accessToken, refreshToken, extraParams, profile, done) {
-			// app.get('db').find_user(profile.id).then((user) => {
-			// 	if (user[0]) {
-			// 		done(null, user);
-			// 	} else {
-			// 		console.log(profile); //debug
-			// 		let fullname = profile.name.givenName + " " + profile.name.familyName;
-			// 		app.get('db').create_user([profile.id, fullname, profile.username, profile.picture, profile.emails[0].value]).then(user => {
-			// 		    done(null, user[0]);
-			// 		});
-			// 		done(null, profile);
-			// 	}
-			// });
+// 			app.get('db').find_user(profile.id).then((user) => {
+// 				if (user[0]) {
+// 					done(null, user);
+// 				} else {
+// 					console.log(profile); //debug
+// 					let fullname = profile.name.givenName + " " + profile.name.familyName;
+// 					app.get('db').create_user([profile.id, fullname, profile.username, profile.picture, profile.emails[0].value]).then(user => {
+// 					    done(null, user[0]);
+// 					});
+// 					done(null, profile);
+// 				}
+// 			});
 // 		}
 // 	)
 // );
@@ -133,7 +133,6 @@ app.use(
 // 	res.redirect(302, 'http://localhost:3000/#/');
 // });
 
-app.get
 /**
  * Auth 0 End
  */
