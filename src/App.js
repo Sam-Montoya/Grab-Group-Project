@@ -35,9 +35,11 @@ class App extends Component {
     return (
       <div>
         <MuiThemeProvider theme={theme}>
-          <Drawer />
+          <Nav />
         </MuiThemeProvider>
-        {/* {router}  */}
+        <div style={{marginTop:'70px'}}>
+          {router}
+        </div>
       </div>
     );
   }

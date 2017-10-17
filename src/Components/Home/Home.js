@@ -9,7 +9,7 @@ class Home extends Component{
     }
     render(){
         return(
-            <div>
+            <div style={{backgroundColor:'red'}}>
                 <h1>Home</h1>
             </div>
         )

@@ -27,3 +27,19 @@
     font-size: 1rem;
     text-align: center;
 }
+
+leftBar{
+    position: fixed;
+    top: 0;
+    width: 150px;
+    height:100vh;
+    margin-top:65px;
+    background-color: #FFCC80;
+    text-align: center;
+}
+
+.leftBar Button{
+    width:100%;
+    background-color: white;
+    margin: 0px 0;
+}

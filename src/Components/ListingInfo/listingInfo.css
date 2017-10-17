@@ -11,19 +11,24 @@
 }
 
 .ListingPage{
- display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-gap: 10px;
-  grid-auto-rows: minmax(75px, auto);  
+ width:100%
  
 }
 
 .leftBar{
-    height:99vh;
-    width:200px;
-    margin:0;
-    padding:0;
-    position: absolute
+    position: fixed;
+    top: 0;
+    width: 150px;
+    height:100vh;
+    margin-top:65px;
+    background-color: #FFCC80;
+    text-align: center;
+}
+
+.leftBar Button{
+    width:100%;
+    background-color: white;
+    margin: 0px 0;
 }
 
 .ListingInfoContainer{
@@ -34,5 +39,6 @@
 	align-items: stretch;
 	align-content: flex-start;
      grid-column: 2/5;
+     margin-left:150px;
 
 }
