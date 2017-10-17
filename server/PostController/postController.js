@@ -6,7 +6,8 @@ module.exports = {
 	// Adds a listing into the database
 	addListing() {},
 	// Adds the listing to the favorites
-	addToFavorites() {},
+    addToFavorites() {},
+    
 	// Adds a message to the chat of that listing
 	startChat(DB, request, response) {
 		DB.start_chat([ request.body.owner_id, request.body.client_id, request.body.listing_id ]).then((_) => {
