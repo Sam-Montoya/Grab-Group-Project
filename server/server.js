@@ -10,6 +10,7 @@ const express = require('express'),
 
 let getController = require('./GetController/getController.js')
 let postController = require('./PostController/postController.js');
+let deleteController = require('./DeleteController/deleteController.js');
 
 let app = express();
 app.use(bodyParser.json());
@@ -61,6 +62,10 @@ app.post('/api/addMessage/:listing_id', (request, response) => {
 // -- Put Requests
 
 // -- Delete Requests
+app.delete('/api/deleteChat', (request, response) => {
+	let db = app.get('db');
+	deleteController.deleteChat(db, request, response);
+});
 
 /**
  * Endpoints End
