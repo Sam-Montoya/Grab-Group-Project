@@ -21,8 +21,10 @@ module.exports = {
 	},
 
 	//This should be called when the user updates their favorites (called to get the new updated list)
-	getUserFavorites() {
-		console.log('Hit get user listings!');
+	getUserFavorites(DB, request, response) {
+		DB.get_user_favorites(request.params.user_id).then((userFavorites) => {
+			response.status(200).send(userFavorites);
+		});
 	},
 
 	//This is called when viewing the user's chats
