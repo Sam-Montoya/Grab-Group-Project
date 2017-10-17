@@ -10,11 +10,29 @@
     margin:auto
 }
 
+.ListingPage{
+ display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 10px;
+  grid-auto-rows: minmax(75px, auto);  
+ 
+}
+
+.leftBar{
+    height:99vh;
+    width:200px;
+    margin:0;
+    padding:0;
+    position: absolute
+}
+
 .ListingInfoContainer{
     display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 	justify-content: center;
-	align-items: baseline;
-	align-content: center;
+	align-items: stretch;
+	align-content: flex-start;
+     grid-column: 2/5;
+
 }

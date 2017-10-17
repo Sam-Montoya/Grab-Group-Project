@@ -25,7 +25,7 @@ class allListings extends Component {
     render() {
         return (
             <div>
-                <a href="http://localhost:3001/listinginfo">
+                <a href="http://localhost:3001/#/listinginfo">
                     <Paper elevation={4}
                         className="Item" style={{
                             width: '300px',

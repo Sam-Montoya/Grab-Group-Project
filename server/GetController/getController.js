@@ -30,6 +30,7 @@ module.exports = {
 	},
 
 	getProducts(){
+		console.log('Get controller hit')
 		axios.get('https://practiceapi.devmountain.com/products', (req, res) => {
 			console.log(req.data)
 		})
