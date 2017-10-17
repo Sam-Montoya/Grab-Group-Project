@@ -5,8 +5,8 @@
 module.exports = {
 	// Adds a listing into the database
 	addListing(DB, request, response) {
-		let { auth_id, user_id, title, price, images, city, state, zip, description, pros, cons, phone_number, contact_status, time_submitted } = req.body;
-		DB.add_listing([auth_id, user_id, title, price, images, city, state, zip, description, pros, cons, phone_number, contact_status, time_submitted]).then((listing) => {
+		let { auth_id, user_id, title, price, images, city, state, zip, description, pros, cons, phone_number, contact_status, time_submitted, category } = req.body;
+		DB.add_listing([auth_id, user_id, title, price, images, city, state, zip, description, pros, cons, phone_number, contact_status, time_submitted, category]).then((listing) => {
 			response.status(200).send('Listing has been added');
 		});
 	},
