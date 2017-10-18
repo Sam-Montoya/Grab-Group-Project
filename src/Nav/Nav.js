@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from 'material-ui/styles';
 import AppBar from 'material-ui/AppBar';
@@ -9,49 +9,44 @@ import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 import Drawer from './Drawer'
 import './nav.css';
+import { connect } from 'react-redux';
+import { getUserInfo } from '../Redux/reducer';
 
-const styles = theme => ({
-  root: {
-    marginTop: theme.spacing.unit * 3,
-    width: '100%',
-  },
-  flex: {
-    flex: 1,
-  },
-  menuButton: {
-    marginLeft: -12,
-    marginRight: 20,
-  },
-});
 
-function ButtonAppBar(props) {
-  const { classes } = props;
-  return (
-    <div className="nav">
-      <AppBar position="static">
-        <Toolbar>
-          <Drawer />
-          <Typography type="title" color="inherit" className={classes.flex}>
-            Grab
+class ButtonAppBar extends Component {
+
+  componentDidMount() {
+    this.props.getUserInfo();
+  }
+  
+  render() {
+    return (
+      <div className="nav">
+        <AppBar position="static">
+          <Toolbar>
+            <Drawer />
+            <Typography type="title" color="inherit">
+              Grab
           </Typography>
 
-          {/* This turnary checks to see if someone is logged in and displays the correct login/logout button accordingly. */}
-          {
-            props.reduxUser
-            ?
-              <a href={process.env.REACT_APP_LOGOUT}><Button color="contrast">Logout</Button></a>
-            :
-              <a href={process.env.REACT_APP_LOGIN}><Button color="contrast">Login</Button></a>
-          }
+            {/* This turnary checks to see if someone is logged in and displays the correct login/logout button accordingly. */}
+            {
+              this.props.user
+                ?
+                <a href={process.env.REACT_APP_LOGOUT}><Button color="contrast">Logout</Button></a>
+                :
+                <a href={process.env.REACT_APP_LOGIN}><Button color="contrast">Login</Button></a>
+            }
 
-        </Toolbar>
-      </AppBar>
-    </div>
-  );
+          </Toolbar>
+        </AppBar>
+      </div>
+    );
+  }
 }
 
-ButtonAppBar.propTypes = {
-  classes: PropTypes.object.isRequired,
-};
+function mapStateToProps(state) {
+  return state;
+}
 
-export default withStyles(styles)(ButtonAppBar);
+export default connect(mapStateToProps, { getUserInfo })(ButtonAppBar);

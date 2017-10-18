@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 import router from './router';
 import Nav from './Nav/Nav'
 import Drawer from './Nav/Drawer'
-import { getUserInfo } from './Redux/reducer';
-import { connect } from 'react-redux';
 
 //Theme
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
@@ -19,11 +17,6 @@ class App extends Component {
     this.state = {
 
     }
-    this.componentDidMount = this.componentDidMount.bind(this);
-  }
-
-  componentDidMount(){
-    this.props.getUserInfo();
   }
 
   render() {
@@ -42,9 +35,9 @@ class App extends Component {
     return (
       <div>
         <MuiThemeProvider theme={theme}>
-          <Nav reduxUser={ this.props.user }/>
+          <Nav reduxUser={this.props.user} />
         </MuiThemeProvider>
-        <div style={{marginTop:'70px'}}>
+        <div style={{ marginTop: '70px' }}>
           {router}
         </div>
       </div>
@@ -52,8 +45,5 @@ class App extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return state;
-}
 
-export default connect(mapStateToProps, { getUserInfo })(App);
+export default App;
