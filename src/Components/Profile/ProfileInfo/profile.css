@@ -1,0 +1,11 @@
+.ProfilePageContainer{
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  justify-content: center;
+}
+
+.MainContentProfile{
+    grid-column: 1/7;
+    margin-left:150px;
+    padding:20px;
+}
