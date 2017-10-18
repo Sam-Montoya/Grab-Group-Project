@@ -8,8 +8,10 @@ const express = require('express'),
 	session = require('express-session'),
 	axios = require('axios');
 
-let getController = require('./GetController/getController.js')
+let getController = require('./GetController/getController.js');
 let postController = require('./PostController/postController.js');
+let putController = require('./PutController/putController.js');
+let deleteController = require('./DeleteController/deleteController.js');
 
 let app = express();
 app.use(bodyParser.json());
@@ -19,7 +21,7 @@ massive(process.env.CONNECTIONSTRING)
 		app.set('db', db);
 		console.log('Connected successfully.');
 	})
-	.catch(err => console.log('Something happened... ' + err));
+	.catch((err) => console.log('Something happened... ' + err));
 
 /**
  * Endpoints
@@ -30,37 +32,62 @@ app.get('/api/getInitialUserInfo/:auth_id', (request, response) => {
 	let db = app.get('db');
 	getController.getInitialUserInfo(db, request, response);
 });
-app.get('/api/getUserInfo/:user_id', (request, response) => {
+app.get('/api/getUserInfo/:auth_id', (request, response) => {
 	let db = app.get('db');
 	getController.getUserInfo(db, request, response);
 });
 app.get('/api/getUserFavorites/:user_id', (request, response) => {
 	let db = app.get('db');
 	getController.getUserFavorites(db, request, response);
-})
+});
 app.get('/api/getUserListings', (request, response) => {
 	let db = app.get('db');
 	//Temp
 	getController.getProducts(db, response);
 });
-app.get('/api/getUserChats/:user_id', (request, response) => {
+// The Real Deal
+app.get('/api/getUserListings/:auth_id', (request, response) => {
+	let db = app.get('db');
+	getController.getUserListings(db, request, response);
+});
+app.get('/api/getUserChats/:auth_id', (request, response) => {
 	let db = app.get('db');
 	getController.getUserChats(db, request, response);
 });
 
 // -- Post Requests
+app.post('/api/addListing', (request, response) => {
+	let db = app.get('db');
+	postController.addListing(db, request, response);
+});
+app.post('/api/addFavorite/:user_id/:listing_id', (request, response) => {
+	let db = app.get('db');
+	postController.addFavorite(db, request, response);
+});
 app.post('/api/startChat', (request, response) => {
 	let db = app.get('db');
 	postController.startChat(db, request, response);
-})
+});
 app.post('/api/addMessage/:listing_id', (request, response) => {
 	let db = app.get('db');
 	postController.addMessage(db, request, response);
 });
 
 // -- Put Requests
+app.put('/api/updateNotificationCount/:auth_id', (request, response) => {
+	let db = app.get('db');
+	putController.updateNotificationCount(db, request, response);
+});
+app.put('/api/updateUserInfo', (request, response) => {
+	let db = app.get('db');
+	putController.updateUserInfo(db, request, response);
+});
 
 // -- Delete Requests
+app.delete('/api/deleteChat', (request, response) => {
+	let db = app.get('db');
+	deleteController.deleteChat(db, request, response);
+});
 
 /**
  * Endpoints End
