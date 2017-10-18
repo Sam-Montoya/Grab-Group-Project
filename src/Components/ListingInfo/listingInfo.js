@@ -31,28 +31,28 @@ class ListingInfo extends Component {
                     <div className="leftBar">
                         <div className="topMenuThing">
                             <a href="#">
-                                <div style={{ backgroundColor: 'white', width: '100%', height: '80px', }}>
+                                <div style={{ backgroundColor: 'white', width: '100%', height: '25%', }}>
                                     <Avatar style={{ backgroundColor: '#607D8B' }}>
                                         <Back />
                                     </Avatar>
                                 </div>
                             </a>
                             <a href="#">
-                                <div style={{ backgroundColor: '#EF9A9A', width: '100%', height: '80px', }}>
+                                <div style={{ backgroundColor: '#EF9A9A', width: '100%', height: '25%', }}>
                                     <Avatar style={{ backgroundColor: '#C62828' }}>
                                         <Person />
                                     </Avatar>
                                 </div>
                             </a>
                             <a href="#">
-                                <div style={{ backgroundColor: 'lightblue', width: '100%', height: '80px', }}>
+                                <div style={{ backgroundColor: 'lightblue', width: '100%', height: '25%', }}>
                                     <Avatar style={{ backgroundColor: 'navy' }}>
                                         <Inbox />
                                     </Avatar>
                                 </div>
                             </a>
                             <a href="#">
-                                <div style={{ backgroundColor: '#FF9800', width: '100%', height: '80px', }}>
+                                <div style={{ backgroundColor: '#FF9800', width: '100%', height: '25%', }}>
                                     <Avatar style={{ backgroundColor: '#E65100' }}>
                                         <Star />
                                     </Avatar>
