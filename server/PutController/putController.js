@@ -29,8 +29,8 @@ module.exports = {
 
 	checkUserName(DB, request, response) {
 		DB.check_username(request.params.username).then((status) => {
-			if (status === true) response.status(200).send('Username Available!');
-			else response.status(400).send('Username is taken.');
+			if (status[0].exists === true) response.status(200).send('Username is taken.');
+			else response.status(400).send('Username Available!');
 		});
 	},
 
