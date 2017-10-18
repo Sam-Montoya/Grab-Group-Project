@@ -13,9 +13,7 @@ import { connect } from 'react-redux';
 import { getUserInfo } from '../Redux/reducer';
 import { Link } from 'react-router-dom';
 import Paper from 'material-ui/Paper';
-import FontAwesome from 'react-fontawesome';
 import Search from 'material-ui-icons/Search';
-
 
 class ButtonAppBar extends Component {
 
