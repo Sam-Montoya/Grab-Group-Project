@@ -11,7 +11,7 @@ import Checkbox from 'material-ui/Checkbox';
 import axios from 'axios';
 import Paper from 'material-ui/Paper';
 
-class MyFavorites extends Component {
+class Profile extends Component {
     constructor() {
         super()
         this.state = {
@@ -189,4 +189,4 @@ class MyFavorites extends Component {
     }
 }
 
-export default MyFavorites
+export default Profile;
