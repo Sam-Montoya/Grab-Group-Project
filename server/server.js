@@ -84,6 +84,10 @@ app.put('/api/updateUserInfo', (request, response) => {
 	let db = app.get('db');
 	putController.updateUserInfo(db, request, response);
 });
+app.put('/api/checkUserName', (request, response) => {
+	let db = app.get('db');
+	putController.checkUserName(db, request, response);
+});
 
 // -- Delete Requests
 app.delete('/api/deleteChat', (request, response) => {
@@ -123,9 +127,19 @@ passport.use(
 				if (user[0]) {
 					return done(null, user);
 				} else {
-					app.get('db').create_user([profile.id, profile.displayName, profile.nickname, profile.picture, profile.emails[0].value, new Date(Date.now())]).then(newUser => {
-						return done(null, newUser[0]);
-					});
+					app
+						.get('db')
+						.create_user([
+							profile.id,
+							profile.displayName,
+							profile.nickname,
+							profile.picture,
+							profile.emails[0].value,
+							new Date(Date.now())
+						])
+						.then((newUser) => {
+							return done(null, newUser[0]);
+						});
 				}
 			});
 		}
