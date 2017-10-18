@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import './MyFavorites.css';
+import './myFavorites.css';
 import Inbox from 'material-ui-icons/Message';
 import Pageview from 'material-ui-icons/Pageview';
 import Star from 'material-ui-icons/Star';
 import Person from 'material-ui-icons/Person';
 import Back from 'material-ui-icons/KeyboardBackspace';
 import Avatar from 'material-ui/Avatar';
+
 import { FormGroup, FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 import axios from 'axios';

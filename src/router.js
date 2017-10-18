@@ -5,7 +5,7 @@ import Home from './Components/Home/Home'
 import AddListing from './Components/AddListing/addListing';
 import AllListings from './Components/AllListings/allListings';
 import ListingInfo from './Components/ListingInfo/listingInfo';
-import MyFavorites from './Components/Profile/MyFavorites/MyFavorites';
+import MyFavorites from './Components/Profile/MyFavorites/myFavorites';
 import Settings from './Components/Settings/Settings';
 import Profile from './Components/Profile/ProfileInfo/Profile';
 

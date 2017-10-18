@@ -47,7 +47,7 @@ class Profile extends Component {
             var x = Math.floor((Math.random() * 3) + 1);
             if (elem.image)
                 return (
-                    <div>
+                    <div key={i}>
                         <a href="http://localhost:3000/#/listinginfo">
                             <Paper elevation={4}
                                 className="Item" style={{
@@ -75,8 +75,8 @@ class Profile extends Component {
         return (
             <div>
                 <div className="ProfilePageContainer">
-                    <div className="leftNavFavorites">
-                        <div className="LinkIconsonLeft">
+                    <div className="leftNavProfile">
+                        <div className="LinkIconsonLeftProfile">
 
                             <div style={{ backgroundColor: '#CFD8DC', width: '100%', height: '25%', }}>
                                 <Avatar style={{ backgroundColor: '#455A64', height: '90px', width: '90px' }}>
