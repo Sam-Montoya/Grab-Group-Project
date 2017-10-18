@@ -8,7 +8,7 @@
 }
 
 .MuiTypography-subheading-145 {
-    color: white !important;
+    color: rgb(63, 63, 63) !important;
 }
 
 .description {
@@ -37,7 +37,7 @@
 	width: 200px;
 	height: 100vh;
 	margin-top: 64px;
-	background-color: #4a4a4a;
+	background-color: #d7d7d7;
     text-align: center;
 }
 
@@ -50,7 +50,7 @@
 	align-content: flex-start;
 	grid-column: 2/5;
     margin-left: 200px;
-    background-color: rgb(50, 50, 50);
+    background-color: white;
 }
 
 .categories {

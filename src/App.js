@@ -34,7 +34,7 @@ class App extends Component {
     });
 
     return (
-      <div>
+      <div className='App'>
         <MuiThemeProvider theme={theme}>
           <Nav reduxUser={this.props.user} />
         </MuiThemeProvider>
