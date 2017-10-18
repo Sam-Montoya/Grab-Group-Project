@@ -82,7 +82,9 @@ module.exports = {
 					request.params.listing_id,
 					request.body.auth_id_of_comment
 				]).then((_) => {
-					response.status(200).send('Comment Submitted!');
+					DB.add_notification(request.body.client_id).then((_) => {
+						response.status(200).send('Comment Submitted from the Owner!');
+					});
 				});
 			} else {
 				DB.add_client_message([
@@ -90,7 +92,9 @@ module.exports = {
 					request.params.listing_id,
 					request.body.auth_id_of_comment
 				]).then((_) => {
-					response.status(200).send('Comment Submitted!');
+					DB.add_notification(listingData[0].auth_id).then((_) => {
+						response.status(200).send('Comment Submitted from the Client!');
+					});
 				});
 			}
 		});
