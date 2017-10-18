@@ -11,6 +11,7 @@ import Drawer from './Drawer'
 import './nav.css';
 import { connect } from 'react-redux';
 import { getUserInfo } from '../Redux/reducer';
+import { Link } from 'react-router-dom';
 
 
 class ButtonAppBar extends Component {
@@ -26,7 +27,7 @@ class ButtonAppBar extends Component {
           <Toolbar>
             <Drawer />
             <Typography type="title" color="inherit">
-              Grab
+              <Link style={{color: 'white'}}to='/allListings'>Grab</Link>
           </Typography>
 
             {/* This turnary checks to see if someone is logged in and displays the correct login/logout button accordingly. */}
