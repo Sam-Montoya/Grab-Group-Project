@@ -37,7 +37,7 @@ class App extends Component {
         <MuiThemeProvider theme={theme}>
           <Nav reduxUser={this.props.user} />
         </MuiThemeProvider>
-        <div style={{ marginTop: '70px' }}>
+        <div style={{ marginTop: '67px' }}>
           {router}
         </div>
       </div>
