@@ -52,8 +52,6 @@ class allListings extends Component {
     render() {
 
         const { classes } = this.props;
-
-        let test = <div><p>bla</p></div>
         let color1 = 'rgba(0, 137, 54, 0.5'
         let color2 = 'rgba(46, 29, 138, 0.5'
         let color3 = 'rgba(46, 138, 138, .5)'
@@ -64,7 +62,7 @@ class allListings extends Component {
             if (elem.image)
                 return (
                     <div>
-                        <a href="http://localhost:3001/#/listinginfo">
+                        <a href="http://localhost:3000/#/listinginfo">
                             <Paper elevation={4}
                                 className="Item" style={{
                                     width: '200px',
@@ -131,12 +129,6 @@ class allListings extends Component {
 
                     </div>
                     <div
-                        /* style={{ */
-                        /* width: '100%',
-                        backgroundColor: 'white',
-                        marginTop: '50px',
-                        padding: '10px 0 30px 0'
-                    }} */
                         className="categories"
                     >
                         <p>Categories</p>
