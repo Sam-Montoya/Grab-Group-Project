@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import './Reset.css';
 import { Link } from 'react-router-dom';
 import router from './router';
 import Nav from './Nav/Nav'
@@ -37,7 +38,7 @@ class App extends Component {
         <MuiThemeProvider theme={theme}>
           <Nav reduxUser={this.props.user} />
         </MuiThemeProvider>
-        <div style={{ marginTop: '67px' }}>
+        <div style={{ marginTop: '64px' }}>
           {router}
         </div>
       </div>

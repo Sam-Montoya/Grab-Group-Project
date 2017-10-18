@@ -94,7 +94,7 @@ class allListings extends Component {
 						style={{ width: '60px', height: '60px', margin: 'auto', marginTop: '20px' }}
 					/>
 
-					<List>
+					<List className='user_settings'>
 						<Link to="/myChats">
 							<ListItem button>
 								<Avatar style={{ backgroundColor: 'lightblue', width: '30px', height: '30px' }}>
@@ -131,7 +131,7 @@ class allListings extends Component {
 								<ListItemText primary="Favorites" />
 							</ListItem>
 						</Link>
-                        
+
 					</List>
 					<div
 						style={{
