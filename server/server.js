@@ -127,12 +127,13 @@ passport.use(
 				if (user[0]) {
 					return done(null, user);
 				} else {
+					console.log(profile);
 					app
 						.get('db')
 						.create_user([
 							profile.id,
 							profile.displayName,
-							profile.nickname,
+							profile._json.name,
 							profile.picture,
 							profile.emails[0].value,
 							new Date(Date.now())
