@@ -28,18 +28,50 @@
     text-align: center;
 }
 
-leftBar{
+.leftBarOnSearch{
     position: fixed;
     top: 0;
-    width: 150px;
+    width: 180px;
     height:100vh;
     margin-top:65px;
     background-color: #FFCC80;
     text-align: center;
 }
 
-.leftBar Button{
+.leftBarOnSearch Button{
     width:100%;
     background-color: white;
     margin: 0px 0;
+}
+
+button :active{
+    background-color: 'red'
+}
+
+.SearchContainer{
+     display: flex; 
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: stretch;
+	align-content: flex-start;
+     grid-column: 2/5;
+     margin-left:180px;
+}
+
+.categories{
+     display: flex; 
+	flex-direction: column;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+    align-content: stretch;
+    background-color:white;
+    padding: 20px;
+    margin-top: 30px;
+}
+
+.categories p{
+    align-items: center;
+    width:100%
 }
