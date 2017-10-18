@@ -2,4 +2,4 @@
 SELECT EXISTS
     (SELECT username
         FROM users
-        WHERE LOWER(username) = LOWER('Wh3at1y'));
+        WHERE LOWER(username) = LOWER($1));
