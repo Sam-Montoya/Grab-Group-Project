@@ -52,7 +52,7 @@ module.exports = {
 					}
 				});
 			} else {
-				response.status(200).send('User does not Exist');
+				response.status(404).send('User does not Exist');
 			}
 		});
 	}
