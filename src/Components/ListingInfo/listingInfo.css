@@ -10,18 +10,14 @@
     margin:auto
 }
 
-.ListingPage{
- width:100%
- 
-}
 
 .leftBar{
     position: fixed;
     top: 0;
-    width: 150px;
+    width: 200px;
     height:100vh;
     margin-top:65px;
-    background-color: #FFCC80;
+    background-color:white;
     text-align: center;
 }
 
@@ -32,13 +28,101 @@
 }
 
 .ListingInfoContainer{
-    display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	justify-content: center;
-	align-items: stretch;
-	align-content: flex-start;
-     grid-column: 2/5;
-     margin-left:150px;
-
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
+  margin-left:200px;
 }
+
+/* .ListingInfoContainer > *{
+    margin:30px;
+    padding:20px;
+    text-align: center
+} */
+ .half1{
+    margin:30px 15px 15px 30px;
+    padding:20px;
+    text-align: center
+} 
+
+  .half{
+    margin:30px 30px 15px 15px;
+    padding:20px;
+    text-align: center
+}  
+
+.full{
+    margin:15px 30px;
+    grid-column: 1/3;
+    padding: 20px
+}
+
+.topMenuThing{
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+    width:100%
+}
+
+.topMenuThing div{
+     display: flex; 
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	align-content: stretch;
+}
+
+.logos{
+     display: flex; 
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-around;
+	align-items: center;
+	align-content: center;
+}
+
+.logos img{
+    width:30px;
+    height:30px
+}
+
+.moreFromThisSellerContainer{
+    background-color: white;
+    padding-top: 10px;
+}
+
+.moreFromThisSeller{
+    width: 100%;
+    text-align: center;
+    background-color: white;
+}
+.moreFromThisSeller img{
+    width:90%;
+    margin: 10px 0;
+}
+
+.moreFromThisSeller caption{
+    text-align: center;
+    width: 200px
+}
+
+@media screen and (max-width: 900px) { 
+		.ListingInfoContainer{
+             grid-template-columns: repeat(1, 1fr);
+ 
+        }
+        .half{
+              margin:10px ;
+                grid-column: 1/3;
+            } 
+            .half1{
+               margin:10px ;
+                grid-column: 1/3; 
+            }
+            .full{
+                margin:10px ;
+                grid-column: 1/3;
+            }
+	}
+ 
