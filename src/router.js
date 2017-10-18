@@ -7,8 +7,7 @@ import AllListings from './Components/AllListings/allListings';
 import ListingInfo from './Components/ListingInfo/listingInfo';
 import MyFavorites from './Components/Profile/MyFavorites/MyFavorites';
 import Settings from './Components/Settings/Settings';
-import Profile from './Components/Profile/Profile';
-
+import Profile from './Components/Profile/ProfileInfo/Profile';
 
 export default (
     <Switch>
