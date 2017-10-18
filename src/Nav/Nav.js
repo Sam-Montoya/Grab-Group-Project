@@ -34,7 +34,7 @@ function ButtonAppBar(props) {
           <Typography type="title" color="inherit" className={classes.flex}>
             Grab
           </Typography>
-          <Button color="contrast">Login</Button>
+          <a href={process.env.REACT_APP_LOGIN}><Button color="contrast">Login</Button></a>
         </Toolbar>
       </AppBar>
     </div>

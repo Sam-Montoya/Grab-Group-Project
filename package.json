@@ -29,6 +29,7 @@
   },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).",
   "main": "./server/server.js",
+  "proxy": "http://localhost:3060",
   "devDependencies": {},
   "keywords": [],
   "author": "",
