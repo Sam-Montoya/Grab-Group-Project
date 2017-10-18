@@ -80,27 +80,27 @@ class Profile extends Component {
                     <div className="leftNavProfile">
                         <div className="LinkIconsonLeftProfile">
 
-                            <div style={{ backgroundColor: '#CFD8DC', width: '100%', height: '25%', }}>
+                            <div style={{ backgroundColor: 'white', width: '100%', height: '25%', }}>
                                 <Avatar style={{ backgroundColor: '#455A64', height: '60px', width: '60px' }}>
                                     <Back />
                                 </Avatar>
                             </div>
 
-                            <div style={{ backgroundColor: '#EF9A9A', width: '100%', height: '25%', }}>
+                            <div style={{ backgroundColor: 'white', width: '100%', height: '25%', }}>
                                 <Avatar style={{ backgroundColor: '#C62828', height: '60px', width: '60px' }}>
                                     <Person />
                                 </Avatar>
                             </div>
 
 
-                            <div style={{ backgroundColor: '#81D4FA', width: '100%', height: '25%', }}>
+                            <div style={{ backgroundColor: 'white', width: '100%', height: '25%', }}>
                                 <Avatar style={{ backgroundColor: 'navy', height: '60px', width: '60px' }}>
                                     <Inbox />
                                 </Avatar>
                             </div>
 
 
-                            <div style={{ backgroundColor: '#FFCC80', width: '100%', height: '25%', }}>
+                            <div style={{ backgroundColor: 'white', width: '100%', height: '25%', }}>
                                 <Avatar style={{ backgroundColor: '#E65100', height: '60px', width: '60px' }}>
                                     <Star />
                                 </Avatar>
