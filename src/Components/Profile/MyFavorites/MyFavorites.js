@@ -26,7 +26,6 @@ class MyFavorites extends Component {
 	}
 
 	componentDidMount() {
-		console.log('MOUNTED');
 		axios.get('http://localhost:3060/api/getUserListings').then((res) => {
 			this.setState({
 				listings: res.data
