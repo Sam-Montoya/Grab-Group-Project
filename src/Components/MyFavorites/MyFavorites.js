@@ -48,7 +48,7 @@ class MyFavorites extends Component {
             if (elem.image)
                 return (
                     <div>
-                        <a href="http://localhost:3001/#/listinginfo">
+                        <a href="http://localhost:3000/#/listinginfo">
                             <Paper elevation={4}
                                 className="Item" style={{
                                     width: '200px',
