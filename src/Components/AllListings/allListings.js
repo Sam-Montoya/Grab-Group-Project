@@ -64,20 +64,17 @@ class allListings extends Component {
 						<a href="http://localhost:3000/#/listinginfo">
 							<Paper
 								elevation={4}
-								className="Item"
+								className="item_container"
 								style={{
-									width: '200px',
-									height: '200px',
-									margin: 'auto',
-									margin: '20px',
-									background: `url(${elem.image}) no-repeat center center`,
-									backgroundSize: 'cover'
+                                    background: `url(${elem.image}) no-repeat center center`,
+                                    backgroundSize: 'cover'
 								}}>
 								<div
-									className="description"
-									style={{ backgroundColor: x === 1 ? color1 : x === 2 ? color2 : color3 }}>
-									<p className="title">{elem.title}</p>
-									<p className="descriptionText"> {elem.desc}</p>
+									className="item_description"
+									style={{ backgroundColor: 'rgba(53, 138, 255, 0.68)' }}>
+									<h1 className="title">{elem.title}</h1>
+									<h2 className="descriptionText"> {elem.desc}</h2>
+                                    <h3 className="descriptionText"> $400</h3>
 								</div>
 							</Paper>
 						</a>
@@ -94,7 +91,7 @@ class allListings extends Component {
 						style={{ width: '60px', height: '60px', margin: 'auto', marginTop: '20px' }}
 					/>
 
-					<List className='user_settings'>
+					<List className="user_settings">
 						<Link to="/myChats">
 							<ListItem button>
 								<Avatar style={{ backgroundColor: 'lightblue', width: '30px', height: '30px' }}>
@@ -131,12 +128,10 @@ class allListings extends Component {
 								<ListItemText primary="Favorites" />
 							</ListItem>
 						</Link>
-
 					</List>
 					<div
 						style={{
 							width: '100%',
-							backgroundColor: 'rgba(255,255,255, 0.9)',
 							padding: '10px 0 30px 0'
 						}}>
 						<p>Location</p>
