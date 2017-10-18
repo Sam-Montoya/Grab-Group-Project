@@ -9,7 +9,7 @@ import Button from 'material-ui/Button';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Inbox from 'material-ui-icons/Inbox';
 import Star from 'material-ui-icons/Star';
-import Pageview from 'material-ui-icons/Pageview';
+import Pageview from 'material-ui-icons/List';
 import Input from 'material-ui/Input';
 import img from '../../images/xbox.jpg';
 import profile from '../../images/benMt.1866739e.jpg';
@@ -66,15 +66,16 @@ class allListings extends Component {
 								elevation={4}
 								className="item_container"
 								style={{
-                                    background: `url(${elem.image}) no-repeat center center`,
-                                    backgroundSize: 'cover'
+									background: `url(${elem.image}) no-repeat center center`,
+									backgroundSize: 'cover'
 								}}>
 								<div
 									className="item_description"
 									style={{ backgroundColor: 'rgba(53, 138, 255, 0.68)' }}>
-									<h1 className="title">{elem.title}</h1>
-									<h2 className="descriptionText"> {elem.desc}</h2>
-                                    <h3 className="descriptionText"> $400</h3>
+									<h1 className="title">Product Title</h1>
+									<hr />
+									<h2 className="descriptionText">Sandy, Utah</h2>
+									<h3 className="descriptionText">$400</h3>
 								</div>
 							</Paper>
 						</a>
@@ -91,19 +92,11 @@ class allListings extends Component {
 						style={{ width: '60px', height: '60px', margin: 'auto', marginTop: '20px' }}
 					/>
 
-					<List className="user_settings">
+					<List className="user_options">
 						<Link to="/myChats">
 							<ListItem button>
-								<Avatar style={{ backgroundColor: 'lightblue', width: '30px', height: '30px' }}>
-									<div
-										style={{
-											backgroundColor: 'navy',
-											width: '30px',
-											height: '30px',
-											paddingTop: '8px'
-										}}>
-										1
-									</div>
+								<Avatar className="inbox_circle">
+									<h1>1</h1>
 								</Avatar>
 
 								<ListItemText primary="Inbox" />
@@ -112,44 +105,28 @@ class allListings extends Component {
 
 						<Link to="/myListings">
 							<ListItem button>
-								<Avatar style={{ backgroundColor: 'purple', width: '30px', height: '30px' }}>
-									<Pageview />
-								</Avatar>
-
+								<Pageview className="listings_icon" />
 								<ListItemText primary="Listings" />
 							</ListItem>
 						</Link>
 
 						<Link to="/myFavorites">
 							<ListItem button>
-								<Avatar style={{ backgroundColor: 'red', width: '30px', height: '30px' }}>
-									<Star />
-								</Avatar>
+								<Star className="favorites_icon" />
 								<ListItemText primary="Favorites" />
 							</ListItem>
 						</Link>
 					</List>
-					<div
-						style={{
-							width: '100%',
-							padding: '10px 0 30px 0'
-						}}>
-						<p>Location</p>
-						<Input
-							placeholder="State"
-							inputProps={{
-								'aria-label': 'Description'
-							}}
-						/>
-						<Input
-							placeholder="City"
-							inputProps={{
-								'aria-label': 'Description'
-							}}
-						/>
+
+					<h1 className="search_header">Search Filters</h1>
+
+					<div className="search_inputs">
+						<p style={{ fontWeight: 'bold' }}>Distance</p>
+						<Input type="number" placeholder="Zip" />
+						<Input type="number" placeholder="Miles Away" />
 					</div>
 					<div className="categories">
-						<p>Categories</p>
+						<p style={{ fontWeight: 'bold', marginBottom: '5px' }}>Categories</p>
 						<div>
 							<FormControlLabel
 								control={
