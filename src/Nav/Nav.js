@@ -8,7 +8,7 @@ import Button from 'material-ui/Button';
 import IconButton from 'material-ui/IconButton';
 import MenuIcon from 'material-ui-icons/Menu';
 import Drawer from './Drawer'
-import './nav.css'
+import './nav.css';
 
 const styles = theme => ({
   root: {
@@ -34,7 +34,16 @@ function ButtonAppBar(props) {
           <Typography type="title" color="inherit" className={classes.flex}>
             Grab
           </Typography>
-          <a href={process.env.REACT_APP_LOGIN}><Button color="contrast">Login</Button></a>
+
+          {/* This turnary checks to see if someone is logged in and displays the correct login/logout button accordingly. */}
+          {
+            props.reduxUser
+            ?
+              <a href={process.env.REACT_APP_LOGOUT}><Button color="contrast">Logout</Button></a>
+            :
+              <a href={process.env.REACT_APP_LOGIN}><Button color="contrast">Login</Button></a>
+          }
+
         </Toolbar>
       </AppBar>
     </div>
