@@ -3,8 +3,8 @@ import Dropzone from 'react-dropzone';
 import request from 'superagent';
 import './test.css';
 
-const CLOUDINARY_UPLOAD_PRESET = 'v7tjejit';
-const CLOUDINARY_UPLOAD_URL = 'https://api.cloudinary.com/v1_1/grab/upload';
+const uploadUrl = process.env.CLOUDINARY_UPLOAD_URL;
+const uploadPreset = process.env.CLOUDINARY_UPLOAD_PRESET;
 
 class AddListing extends Component {
     constructor() {
@@ -25,8 +25,8 @@ class AddListing extends Component {
 
     handleImageUpload(file) {
         for (let i = 0; i < file.length; i++) {
-            let upload = request.post(CLOUDINARY_UPLOAD_URL)
-                .field('upload_preset', CLOUDINARY_UPLOAD_PRESET)
+            let upload = request.post(uploadUrl)
+                .field('upload_preset', uploadPreset)
                 .field('file', file[i]);
 
             upload.end((err, response) => {
