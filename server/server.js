@@ -84,7 +84,7 @@ app.put('/api/updateUserInfo', (request, response) => {
 	let db = app.get('db');
 	putController.updateUserInfo(db, request, response);
 });
-app.put('/api/checkUserName', (request, response) => {
+app.put('/api/checkUserName/:username', (request, response) => {
 	let db = app.get('db');
 	putController.checkUserName(db, request, response);
 });
