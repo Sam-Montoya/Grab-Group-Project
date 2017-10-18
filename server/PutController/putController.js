@@ -27,10 +27,17 @@ module.exports = {
 		});
 	},
 
+	checkUserName(DB, request, response) {
+		DB.check_username(request.params.username).then((status) => {
+			if (status[0].exists === true) response.status(200).send('Username is taken.');
+			else response.status(400).send('Username Available!');
+		});
+	},
+
 	// Updates the notification count to zero when the user sees it
 	updateNotificationCount(DB, request, response) {
 		DB.find_user(request.params.auth_id).then((user) => {
-			if(user[0]){
+			if (user[0]) {
 				DB.update_notification(request.params.auth_id).then((_) => {
 					response.status(200).send('Notifications have been viewed and reset.');
 				});

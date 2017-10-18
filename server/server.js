@@ -6,6 +6,7 @@ const express = require('express'),
 	Auth0Strategy = require('passport-auth0'),
 	massive = require('massive'),
 	session = require('express-session'),
+	cors = require('cors'),
 	axios = require('axios');
 
 let getController = require('./GetController/getController.js');
@@ -15,6 +16,7 @@ let deleteController = require('./DeleteController/deleteController.js');
 
 let app = express();
 app.use(bodyParser.json());
+app.use(cors());
 
 massive(process.env.CONNECTIONSTRING)
 	.then((db) => {
@@ -82,6 +84,10 @@ app.put('/api/updateUserInfo', (request, response) => {
 	let db = app.get('db');
 	putController.updateUserInfo(db, request, response);
 });
+app.put('/api/checkUserName/:username', (request, response) => {
+	let db = app.get('db');
+	putController.checkUserName(db, request, response);
+});
 
 // -- Delete Requests
 app.delete('/api/deleteChat', (request, response) => {
@@ -97,72 +103,80 @@ app.delete('/api/deleteChat', (request, response) => {
  * Auth 0
  */
 
-// app.use(
-// 	session({
-// 		secret: process.env.SECRET,
-// 		resave: false,
-// 		saveUninitialized: true
-// 	})
-// );
+app.use(
+	session({
+		secret: process.env.SECRET,
+		resave: false,
+		saveUninitialized: true
+	})
+);
 
-// app.use(passport.initialize());
-// app.use(passport.session());
+app.use(passport.initialize());
+app.use(passport.session());
 
-// passport.use(
-// 	new Auth0Strategy(
-// 		{
-// 			domain: process.env.AUTH_DOMAIN,
-// 			clientID: process.env.AUTH_CLIENT_ID,
-// 			clientSecret: process.env.AUTH_CLIENT_SECRET,
-// 			callbackURL: process.env.AUTH_CALLBACK
-// 		},
-// 		function(accessToken, refreshToken, extraParams, profile, done) {
-// 			app.get('db').find_user(profile.id).then((user) => {
-// 				if (user[0]) {
-// 					done(null, user);
-// 				} else {
-// 					console.log(profile); //debug
-// 					let fullname = profile.name.givenName + " " + profile.name.familyName;
-// 					app.get('db').create_user([profile.id, fullname, profile.username, profile.picture, profile.emails[0].value]).then(user => {
-// 					    done(null, user[0]);
-// 					});
-// 					done(null, profile);
-// 				}
-// 			});
-// 		}
-// 	)
-// );
+passport.use(
+	new Auth0Strategy(
+		{
+			domain: process.env.AUTH_DOMAIN,
+			clientID: process.env.AUTH_CLIENT_ID,
+			clientSecret: process.env.AUTH_CLIENT_SECRET,
+			callbackURL: process.env.AUTH_CALLBACK
+		},
+		function(accessToken, refreshToken, extraParams, profile, done) {
+			app.get('db').find_user(profile.id).then((user) => {
+				if (user[0]) {
+					return done(null, user);
+				} else {
+					console.log(profile);
+					app
+						.get('db')
+						.create_user([
+							profile.id,
+							profile.displayName,
+							profile._json.name,
+							profile.picture,
+							profile.emails[0].value,
+							new Date(Date.now())
+						])
+						.then((newUser) => {
+							return done(null, newUser[0]);
+						});
+				}
+			});
+		}
+	)
+);
 
-// passport.serializeUser(function(user, done) {
-// 	done(null, user);
-// });
+passport.serializeUser(function(user, done) {
+	done(null, user);
+});
 
-// passport.deserializeUser(function(user, done) {
-// 	done(null, user);
-// });
+passport.deserializeUser(function(user, done) {
+	done(null, user);
+});
 
-// app.get('/auth', passport.authenticate('auth0'));
+app.get('/auth', passport.authenticate('auth0'));
 
-// app.get(
-// 	'/auth/callback',
-// 	passport.authenticate('auth0', {
-// 		successRedirect: 'http://localhost:3000/#/',
-// 		failureRedirect: '/'
-// 	})
-// );
+app.get(
+	'/auth/callback',
+	passport.authenticate('auth0', {
+		successRedirect: 'http://localhost:3000/#/',
+		failureRedirect: '/'
+	})
+);
 
-// app.get('/auth/me', (req, res, next) => {
-// 	if (!req.user) {
-// 		res.status(200).send('User not found');
-// 	} else {
-// 		res.status(200).send(req.user);
-// 	}
-// });
+app.get('/auth/me', (req, res, next) => {
+	if (!req.user) {
+		res.status(200).send('User not found');
+	} else {
+		res.status(200).send(req.user);
+	}
+});
 
-// app.get('/auth/logout', (req, res) => {
-// 	req.logOut();
-// 	res.redirect(302, 'http://localhost:3000/#/');
-// });
+app.get('/auth/logout', (req, res) => {
+	req.logOut();
+	res.redirect(302, 'http://localhost:3000/#/');
+});
 
 /**
  * Auth 0 End

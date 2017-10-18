@@ -52,9 +52,13 @@ module.exports = {
 
 	// Adds the listing to the favorites
 	addFavorite(DB, request, response) {
-		DB.add_favorite([ request.params.listing_id, request.params.user_id ]).then((res) => {
-			response.status(200).send('Favorite has been added!');
-		});
+		DB.add_favorite([ request.params.listing_id, request.params.user_id ])
+			.then((res) => {
+				response.status(200).send('Favorite has been added!');
+			})
+			.catch((_) => {
+				response.status(400).send('Failed to add favorites.');
+			});
 	},
 
 	// Adds a message to the chat of that listing
@@ -78,7 +82,9 @@ module.exports = {
 					request.params.listing_id,
 					request.body.auth_id_of_comment
 				]).then((_) => {
-					response.status(200).send('Comment Submitted!');
+					DB.add_notification(request.body.client_id).then((_) => {
+						response.status(200).send('Comment Submitted from the Owner!');
+					});
 				});
 			} else {
 				DB.add_client_message([
@@ -86,7 +92,9 @@ module.exports = {
 					request.params.listing_id,
 					request.body.auth_id_of_comment
 				]).then((_) => {
-					response.status(200).send('Comment Submitted!');
+					DB.add_notification(listingData[0].auth_id).then((_) => {
+						response.status(200).send('Comment Submitted from the Client!');
+					});
 				});
 			}
 		});
