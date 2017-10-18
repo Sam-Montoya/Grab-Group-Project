@@ -6,8 +6,8 @@
 
 .MainContentProfile{
     grid-column: 1/7;
-    margin-left:150px;
-    padding:20px;
+    margin-left:100px;
+    padding:0px;
 }
 
 .leftNavProfile{
@@ -36,3 +36,30 @@
 	align-items: center;
 	align-content: center;
 }
+
+.CoverPhoto{
+     background: url('../../../images/blur_colors_of_life-wallpaper-1152x720.jpg') no-repeat center center; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    width:100%;
+    height:300px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center;
+}
+
+.CoverPhotoStuff{
+    color:white;
+    /* display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    justify-content: center; */
+    display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+    align-content: center;
+}
+

@@ -38,6 +38,8 @@ class Profile extends Component {
     };
 
     render() {
+        const profileImg = require('../../../images/benMt.1866739e.jpg')
+
         let color1 = 'rgba(0, 137, 54, 0.5'
         let color2 = 'rgba(46, 29, 138, 0.5'
         let color3 = 'rgba(46, 138, 138, .5)'
@@ -59,9 +61,9 @@ class Profile extends Component {
                                     backgroundSize: 'cover'
                                 }}
                             >
-                            <Avatar style={{ backgroundColor: 'lightblue', width: '30px', height: '30px' }} className="removeIcon">
-                                <div style={{ backgroundColor: 'tomato', width: '30px', height: '30px', paddingTop: '7px', paddingLeft:'11px' }}>-</div>
-                            </Avatar>
+                                <Avatar style={{ backgroundColor: 'lightblue', width: '30px', height: '30px' }} className="removeIcon">
+                                    <div style={{ backgroundColor: 'tomato', width: '30px', height: '30px', paddingTop: '7px', paddingLeft: '11px' }}>-</div>
+                                </Avatar>
                                 <div className="description" style={{ backgroundColor: (x === 1) ? color1 : (x === 2) ? color2 : color3 }}>
                                     <p className="title">{elem.title}</p>
                                     <p className="descriptionText"> {elem.desc}</p>
@@ -107,10 +109,26 @@ class Profile extends Component {
                         </div>
                     </div>
                     <div className="MainContentProfile">
+
+                        <div className="CoverPhoto">
+                            <div className="CoverPhotoStuff">
+                                <div>
+                                    <Avatar
+                                        alt="Me"
+                                        src={profileImg}
+                                        style={{ width: '80px', height: '80px', marginRight:'40px' }}
+                                    />
+                                </div>
+                                <div>
+                                    <p style={{ fontSize: '30px' }}>Ben Ahlander</p>
+                                    <p><i class="material-icons">location_on</i> Orem Provo</p>
+                                </div>
+                            </div>
+                        </div>
                         <h1>Profile</h1>
                         <div className="FavoriteListingsContainer">
                             {listings}
-                            </div>
+                        </div>
                     </div>
                     {/* <div className="rightNavFavorites">
                         <div
