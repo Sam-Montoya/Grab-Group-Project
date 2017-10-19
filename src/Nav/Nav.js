@@ -41,17 +41,24 @@ class ButtonAppBar extends Component {
 	}
 
 	render() {
+		const logo1 = require('../images/GrabIconWhite.png');
+		const logo2 = require('../images/GrabIconGrey.png');
+		const logo3 = require('../images/grabIconOrange.png');
+
 		return (
 			<div className="nav">
 				<AppBar style={{ backgroundColor: '#4FC3F7' }}>
 					<Toolbar className="navtoolbar">
 						<div className="navtoolbar">
-							<Drawer className='test' />
-							<Typography type="title" color="inherit">
-								<Link to="/allListings" className="Logo">
-									Grab
+							<Drawer />
+							<div className="navtoolbar">
+								<img src={logo1} className="logoicon" />
+								<Typography type="title" color="inherit">
+									<Link to="/allListings" className="Logo">
+										Grab
 								</Link>
-							</Typography>
+								</Typography>
+							</div>
 						</div>
 
 						<div className="wrap">
@@ -67,14 +74,14 @@ class ButtonAppBar extends Component {
 
 						{/* This turnary checks to see if someone is logged in and displays the correct login/logout button accordingly. */}
 						{this.props.user ? (
-							<div style={{display:'flex'}}>
+							<div style={{ display: 'flex' }}>
 								<Avatar
 									alt="Me"
 									src={this.state.profile_pic}
 									style={{ width: '40px', height: '40px', marginRight: '5px' }}
 								/>
 								<a href={process.env.REACT_APP_LOGOUT}>
-									<Button color="contrast" style={{ color: 'white', marginTop:'5px' }}>
+									<Button color="contrast" style={{ color: 'white', marginTop: '5px' }}>
 										Logout
 									</Button>
 								</a>
