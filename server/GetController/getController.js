@@ -37,7 +37,6 @@ module.exports = {
 
 	getAllListings(DB, response) {
 		DB.get_all_listings().then((data) => {
-			console.log(data);
 			response.status(200).send(data);
 		});
 	},
