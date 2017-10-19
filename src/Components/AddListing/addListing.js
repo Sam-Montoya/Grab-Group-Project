@@ -45,10 +45,15 @@ class AddListing extends Component {
     upload(){
         let test = {
             image: this.state.uploadedFileCloudinaryUrl,
-            listing_id: 33
+            listing_id: 34
         }
         axios.put('/api/updateImages', test).then((res) => {
             console.log(res);
+            if(res.data === "Added"){
+                this.setState({
+                    uploadedFileCloudinaryUrl: []
+                })
+            }
         })
     }
 
