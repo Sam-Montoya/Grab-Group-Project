@@ -73,7 +73,11 @@ class allListings extends Component {
 			if (this.state.listings.length)
 				return (
 					<div key={i}>
-						<a href="http://localhost:3000/#/listinginfo">
+						<Link
+							to={{
+								pathname: '/listingInfo/' + i,
+								query: listing
+							}}>
 							<Paper
 								elevation={4}
 								className="item_container"
@@ -89,15 +93,14 @@ class allListings extends Component {
 									<h2 className="descriptionText">
 										{listing.city}, {listing.state}
 									</h2>
-									{
-										listing.price === '$0.00' ?
+									{listing.price === '$0.00' ? (
 										<h3 className="descriptionText">Free</h3>
-										:
+									) : (
 										<h3 className="descriptionText">{listing.price}</h3>
-									}
+									)}
 								</div>
 							</Paper>
-						</a>
+						</Link>
 					</div>
 				);
 		});
