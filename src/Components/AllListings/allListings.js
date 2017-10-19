@@ -38,9 +38,9 @@ class allListings extends Component {
 	}
 
 	componentDidMount() {
-		axios.get('http://localhost:3060/api/getUserListings').then((res) => {
+		axios.get('http://localhost:3060/api/getAllListings').then((listings) => {
 			this.setState({
-				listings: res.data
+				listings: listings.data
 			});
 		});
 		this.props.getUserInfo();
@@ -66,8 +66,11 @@ class allListings extends Component {
 	};
 
 	render() {
-		let listings = this.state.listings.map((elem, i) => {
-			if (elem.image)
+		console.log(this.state.listings);
+		let listings = this.state.listings.map((listing, i) => {
+			let imageTest;
+			if (listing.images !== null) imageTest = listing.images[0];
+			if (this.state.listings.length)
 				return (
 					<div key={i}>
 						<a href="http://localhost:3000/#/listinginfo">
@@ -75,16 +78,23 @@ class allListings extends Component {
 								elevation={4}
 								className="item_container"
 								style={{
-									background: `url(${elem.image}) no-repeat center center`,
+									background: `url(${imageTest}) no-repeat center center`,
 									backgroundSize: 'cover'
 								}}>
 								<div
 									className="item_description"
 									style={{ backgroundColor: 'rgba(53, 138, 255, 0.68)' }}>
-									<h1 className="title">Product Title</h1>
+									<h1 className="title">{listing.title}</h1>
 									<hr />
-									<h2 className="descriptionText">Sandy, Utah</h2>
-									<h3 className="descriptionText">$400</h3>
+									<h2 className="descriptionText">
+										{listing.city}, {listing.state}
+									</h2>
+									{
+										listing.price === '$0.00' ?
+										<h3 className="descriptionText">Free</h3>
+										:
+										<h3 className="descriptionText">{listing.price}</h3>
+									}
 								</div>
 							</Paper>
 						</a>
@@ -99,7 +109,8 @@ class allListings extends Component {
 						<div>
 							<section className="profile_pic_nav_container">
 								<Link to="/profile">
-									<Avatar className='profile_pic_nav'
+									<Avatar
+										className="profile_pic_nav"
 										alt="Remy Sharp"
 										src={this.state.profile_pic ? this.state.profile_pic : profile}
 									/>
