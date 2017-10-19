@@ -75,7 +75,7 @@ class allListings extends Component {
 					<div key={i}>
 						<Link
 							to={{
-								pathname: '/listingInfo/' + i,
+								pathname: '/listingInfo/' + listing.listing_id,
 								query: listing
 							}}>
 							<Paper

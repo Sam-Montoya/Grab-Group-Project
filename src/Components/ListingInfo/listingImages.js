@@ -25,66 +25,110 @@ const styles = (theme) => ({
 });
 
 class TextMobileStepper extends React.Component {
+	constructor() {
+		super();
+		this.test = this.test.bind(this);
+	}
 	state = {
-		activeStep: 0
+		activeStep: 0,
+		picture: ''
 	};
 
 	handleNext = () => {
 		this.setState({
 			activeStep: this.state.activeStep + 1
 		});
+		this.test();
 	};
 
 	handleBack = () => {
 		this.setState({
 			activeStep: this.state.activeStep - 1
 		});
+		this.test();
 	};
 
-	render() {
-        const classes = this.props.classes;
-        return (
-            <div className={classes.root}>
-                <Paper square elevation={0} className={classes.header}>
-                    <Typography> Picture {this.state.activeStep + 1} of 3</Typography>
-                </Paper>
-                {
-                    (this.state.activeStep === 0) ? <div className="imgContainer">
-                        <img src="https://s.yimg.com/ny/api/res/1.2/tQKmRJ1OYtRWStip4MacXg--/YXBwaWQ9aGlnaGxhbmRlcjtzbT0xO3c9NjAwO2g9NDAw/https://cdn2.benzinga.com/files/imagecache/600x400xUP/images/story/2012/console-playstation-xbox-joystick-video-games-1216816.jpeg" />
-                    </div>
-                        :
-                        (this.state.activeStep === 1) ?
-                            <div className="imgContainer">
-                                <img src="https://pisces.bbystatic.com/BestBuy_US/store/ee/2016/vg/pol/evn-xbox-one-s-0821.jpg;maxHeight=288;maxWidth=520" />
-                            </div>
-                            :
-                            <div className="imgContainer">
-                                <img src="http://www.omarimc.com/wp-content/uploads/2017/06/video-games-893225_960_720.jpg" />
-                            </div>
-                }
+	test() {
+		switch (this.state.activeStep) {
+			case 0:
+			console.log('hit')
+				this.setState({
+					pictures: (
+						<div className="imgContainer">
+							<img src={this.props.images[0]} />
+						</div>
+					)
+				});
+			case 1:
+				this.setState({
+					pictures: (
+						<div className="imgContainer">
+							<img src={this.props.images[1]} />
+						</div>
+					)
+				});
+			case 2:
+				this.setState({
+					pictures: (
+						<div className="imgContainer">
+							<img src={this.props.images[2]} />
+						</div>
+					)
+				});
+			case 3:
+				this.setState({
+					pictures: (
+						<div className="imgContainer">
+							<img src={this.props.images[3]} />
+						</div>
+					)
+				});
+		}
+	}
 
-                <MobileStepper
-                    type="dots"
-                    steps={3}
-                    position="static"
-                    activeStep={this.state.activeStep}
-                    style={{ backgroundColor: 'white' }} 
-                    nextButton={
-                        <Button dense onClick={this.handleNext} disabled={this.state.activeStep === 2}>
-                            Next
-                 <KeyboardArrowRight />
-                        </Button>
-                    }
-                    backButton={
-                        <Button dense onClick={this.handleBack} disabled={this.state.activeStep === 0}>
-                            <KeyboardArrowLeft />
-                            Back
-                         </Button>
-                    }
-                />
-            </div>
-        );
-    }
+	componentWillReceiveProps(nextProps) {
+		this.props = nextProps;
+		console.log(nextProps);
+	}
+
+	render() {
+		const classes = this.props.classes;
+		console.log('PICTURE ', this.state.picture)
+		return (
+			<div className={classes.root}>
+				<Paper square elevation={0} className={classes.header}>
+					<Typography>
+						Picture {this.state.activeStep + 1} of {this.props.images.length}
+					</Typography>
+				</Paper>
+
+				{this.state.picture}
+
+				<MobileStepper
+					type="dots"
+					steps={this.props.images.length}
+					position="static"
+					activeStep={this.state.activeStep}
+					style={{ backgroundColor: 'white' }}
+					nextButton={
+						<Button
+							dense
+							onClick={this.handleNext}
+							disabled={this.state.activeStep === this.props.images.length - 1}>
+							Next
+							<KeyboardArrowRight />
+						</Button>
+					}
+					backButton={
+						<Button dense onClick={this.handleBack} disabled={this.state.activeStep === 0}>
+							<KeyboardArrowLeft />
+							Back
+						</Button>
+					}
+				/>
+			</div>
+		);
+	}
 }
 
 TextMobileStepper.propTypes = {
@@ -106,3 +150,25 @@ export default withStyles(styles)(TextMobileStepper);
 // 		<img src="http://www.omarimc.com/wp-content/uploads/2017/06/video-games-893225_960_720.jpg" />
 // 	</div>
 // )}
+
+// {this.state.activeStep === 0 ? (
+// 					<div className="imgContainer">
+// 						<img src={this.props.images[0]} />
+// 					</div>
+// 				) : this.state.activeStep === 1 ? (
+// 					<div className="imgContainer">
+// 						<img src={this.props.images[1]} />
+// 					</div>
+// 				) : this.state.activeStep === 3 ? (
+// 					<div className="imgContainer">
+// 						<img src={this.props.images[2]} />
+// 					</div>
+// 				) : this.state.activeStep === 4 ? (
+// 					<div className="imgContainer">
+// 						<img src={this.props.images[3]} />
+// 					</div>
+// 				) : (
+// 					<div className="imgContainer">
+// 						<img src={this.props.images[4]} />
+// 					</div>
+// 				)}
