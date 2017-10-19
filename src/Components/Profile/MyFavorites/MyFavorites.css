@@ -62,7 +62,6 @@
 .locationProfile{
     display: flex; 
 	flex-direction: row;
-	justify-content: center;
 	align-items: center;
     align-content: flex-start;
     margin-top: 10px
