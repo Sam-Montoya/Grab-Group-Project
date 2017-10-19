@@ -7,6 +7,8 @@ import axios from 'axios';
 import Avatar from 'material-ui/Avatar';
 import Button from 'material-ui/Button';
 import List, { ListItem, ListItemText } from 'material-ui/List';
+import MenuItem from 'material-ui/Menu/MenuItem';
+import TextField from 'material-ui/TextField';
 import Inbox from 'material-ui-icons/Inbox';
 import Star from 'material-ui-icons/Star';
 import Pageview from 'material-ui-icons/List';
@@ -35,6 +37,10 @@ class allListings extends Component {
 			checkedD: false,
 			checkedE: false
 		};
+	}
+
+	test = () => {
+
 	}
 
 	componentDidMount() {
@@ -189,11 +195,14 @@ class allListings extends Component {
 						<Input type="number" placeholder="Miles Away" />
 					</section>
 
-					<section>
+					<section className='pricing_container'>
 						<h1 style={{ fontWeight: 'bold' }}>Pricing</h1>
-						<Input type='number' placeholder='Lowest' />
-						<Input type='number' placeholder='Highest' />
-						<br/>
+						<Input type="number" placeholder="Lowest" />
+						<Input type="number" placeholder="Highest" />
+						<br />
+						<TextField select id='test' value='test' onChange={this.test} style={{ width: '82%'}}placeholder="Price Sorting">
+							<MenuItem value="test"> Test </MenuItem>
+						</TextField>
 					</section>
 				</div>
 				<div className="SearchContainer">

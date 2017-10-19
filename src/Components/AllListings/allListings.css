@@ -95,7 +95,6 @@
 	align-items: flex-start;
 	align-content: stretch;
     padding: 20px;
-    margin-top: 10px;
 }
 
 .categories p {
@@ -131,7 +130,11 @@
 }
 
 .search_header {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: bold;
-    margin: 15px 0 15px 0;
+    margin: 15px 0 0 0;
+}
+
+.pricing_container {
+    margin-bottom: 20px;
 }
