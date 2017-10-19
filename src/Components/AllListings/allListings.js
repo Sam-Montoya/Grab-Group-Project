@@ -97,11 +97,14 @@ class allListings extends Component {
 				<div className="leftBarOnSearch">
 					{this.state.isLoggedIn ? (
 						<div>
-							<Avatar
-								alt="Remy Sharp"
-								src={this.state.profile_pic ? this.state.profile_pic : profile}
-								style={{ width: '60px', height: '60px', margin: 'auto', marginTop: '20px' }}
-							/>
+							<section className="profile_pic_nav_container">
+								<Link to="/profile">
+									<Avatar className='profile_pic_nav'
+										alt="Remy Sharp"
+										src={this.state.profile_pic ? this.state.profile_pic : profile}
+									/>
+								</Link>
+							</section>
 
 							<List className="user_options">
 								<Link to="/myChats">
@@ -114,7 +117,7 @@ class allListings extends Component {
 									</ListItem>
 								</Link>
 
-								<Link to="/myListings">
+								<Link to="/profile">
 									<ListItem button>
 										<Pageview className="listings_icon" />
 										<ListItemText primary="Listings" />
