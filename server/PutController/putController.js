@@ -45,5 +45,13 @@ module.exports = {
 				response.status(200).send('User does not Exist');
 			}
 		});
+	},
+
+	updateImages(DB, request, response){
+		for(let i = 0; i < request.body.images.length; i++){
+			DB.update_images([request.body.images[i], request.body.listing_id]).then((res) => {
+				response.status(200).send('Added');
+			});
+		}
 	}
 };

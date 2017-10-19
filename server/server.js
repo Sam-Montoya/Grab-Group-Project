@@ -88,6 +88,10 @@ app.put('/api/checkUserName/:username', (request, response) => {
 	let db = app.get('db');
 	putController.checkUserName(db, request, response);
 });
+app.put('/api/updateImages', (request, response) => {
+	let db = app.get('db');
+	putController.updateImages(db, request, response);
+});
 
 // -- Delete Requests
 app.delete('/api/deleteChat', (request, response) => {

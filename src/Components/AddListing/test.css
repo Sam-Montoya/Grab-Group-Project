@@ -1,0 +1,4 @@
+/* This is how you are going to style the upload dropbox */
+.test *{
+    border-color: red !important;
+}
