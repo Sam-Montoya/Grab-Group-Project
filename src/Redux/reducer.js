@@ -1,7 +1,9 @@
 import axios from 'axios';
 
 const initialState = {
-    user: {}
+    user: {
+        profile_pic: ''
+    }
 }
 
 //ACTION TYPES
