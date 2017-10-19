@@ -51,7 +51,7 @@ module.exports = {
 		let imageInfo = {
 			images: request.body.image
 		}
-		DB.update_images([imageInfo, 30]).then((res) => {
+		DB.update_images([imageInfo, request.body.listing_id]).then((res) => {
 			response.status(200).send('Added');
 		});
 	}

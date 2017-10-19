@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
+import axios from 'axios';
 import './test.css';
 
 class AddListing extends Component {
@@ -41,6 +42,16 @@ class AddListing extends Component {
         }
     }
 
+    upload(){
+        let test = {
+            image: this.state.uploadedFileCloudinaryUrl,
+            listing_id: 33
+        }
+        axios.put('/api/updateImages', test).then((res) => {
+            console.log(res);
+        })
+    }
+
     render() {
         let mappedImages = this.state.uploadedFileCloudinaryUrl.map((image, i) => {
             return <div key={i}>
@@ -66,6 +77,7 @@ class AddListing extends Component {
                     mappedImages 
                     }
                 </div>
+                <button onClick={() => this.upload()}>Upload</button>
             </div>
         )
     }
