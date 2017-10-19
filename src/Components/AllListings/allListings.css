@@ -1,77 +1,141 @@
-.Item{
-     /* background: url('../../images/xbox.jpg') no-repeat center center;  */
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-     display: flex;
-  flex-direction: column;
+.item_container {
+	display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+	width: 210px;
+	height: 210px;
+    margin: 15px;
 }
 
-.description{
-    background-color:rgba(0, 0, 0, .4);
-    width: 100%;
-    height: 80px;
-    color:white;
-    margin-top:120px;
-   margin-top: auto;
+.MuiTypography-subheading-145 {
+	color: rgb(63, 63, 63) !important;
 }
 
-.descriptionText{
-    font-size: .75rem;
-    margin-bottom:10px;
-    text-align: center
+.item_description {
+	width: 100%;
+	height: 80px;
+	color: white;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+    align-items: flex-start;
 }
 
-.title{
-    font-size: 1rem;
-    text-align: center;
+.item_description h1 {
+	font-size: 17px;
+    font-weight: bold;
+    margin-left: 10px;
 }
 
-.leftBarOnSearch{
-    position: fixed;
-    top: 0;
-    width: 180px;
-    height:100vh;
-    margin-top:65px;
-    background-color: #FFCC80;
-    text-align: center;
-}
-
-.leftBarOnSearch Button{
-    width:100%;
+.item_description hr {
+    border: none;
+    height: 1px;
+    width: 92%;
+    -webkit-margin-after: 0;
+    -webkit-margin-before: 0;
+    margin-top: 5px;
+    margin-bottom: 5px;
     background-color: white;
-    margin: 0px 0;
 }
 
-button :active{
-    background-color: 'red'
+.item_description h2 {
+    font-size: 14px;
+    margin-left: 10px;
+    margin-bottom: 3px;
 }
 
-.SearchContainer{
-     display: flex; 
+.item_description h3 {
+    font-size: 14px;
+    margin-left: 10px;
+}
+
+.descriptionText {
+	font-size: .75rem;
+    text-align: center;
+    margin-left: 10px;
+}
+
+.title {
+	font-size: 1rem;
+	text-align: center;
+}
+
+.leftBarOnSearch {
+	position: fixed;
+	top: 0;
+	width: 200px;
+	height: 90vh;
+	margin-top: 64px;
+	background-color: #f0f0f0;
+    text-align: center;
+    overflow-y: scroll;
+}
+
+.SearchContainer {
+	display: flex;
 	flex-direction: row;
 	flex-wrap: wrap;
 	justify-content: center;
 	align-items: stretch;
 	align-content: flex-start;
-     grid-column: 2/5;
-     margin-left:180px;
+	grid-column: 2/5;
+    margin-left: 200px;
+    padding-top: 20px;
 }
 
-.categories{
-     display: flex; 
+.MuiListItem-default-124 {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+}
+
+.categories {
+	display: flex;
 	flex-direction: column;
 	flex-wrap: nowrap;
 	justify-content: flex-start;
 	align-items: flex-start;
-    align-content: stretch;
-    background-color:white;
+	align-content: stretch;
     padding: 20px;
-    margin-top: 30px;
 }
 
-.categories p{
-    align-items: center;
-    width:100%
+.categories p {
+	align-items: center;
+	width: 100%;
+}
+
+.inbox_circle {
+    width: 35px !important;
+    height: 35px !important;
+    background-color: #f03b3b !important;
+}
+
+.listings_icon {
+    width: 35px !important;
+    height: 35px !important;
+    color: darkviolet;
+}
+
+.favorites_icon {
+    width: 35px !important;
+    height: 35px !important;
+    color: gold;
+}
+
+.search_inputs Input {
+    width: 100%;
+    padding: 18px 0 5px 0;
+}
+
+.search_inputs {
+    margin-bottom: 20px;
+}
+
+.search_header {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 15px 0 0 0;
+}
+
+.pricing_container {
+    margin-bottom: 20px;
 }
