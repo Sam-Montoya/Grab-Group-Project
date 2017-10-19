@@ -10,6 +10,8 @@ import { FormGroup, FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 import axios from 'axios';
 import Paper from 'material-ui/Paper';
+import { getUserInfo } from '../../../Redux/reducer'
+import { connect } from 'react-redux'
 
 class Profile extends Component {
     constructor() {
@@ -20,7 +22,9 @@ class Profile extends Component {
             checkedB: false,
             checkedC: false,
             checkedD: false,
-            checkedE: false
+            checkedE: false,
+            profile_pic: '',
+            username: ''
         }
     }
 
@@ -30,6 +34,20 @@ class Profile extends Component {
                 listings: res.data
             })
         })
+        this.props.getUserInfo();
+
+    }
+
+    componentWillReceiveProps(nextProps) {
+        console.log(nextProps.user)
+        if (nextProps.user) {
+            console.log(nextProps.user)
+            this.setState({
+                profile_pic: nextProps.user.profile_pic,
+                username: nextProps.user.username
+            })
+        }
+
     }
 
     handleChangeInput = name => event => {
@@ -37,6 +55,10 @@ class Profile extends Component {
     };
 
     render() {
+
+        console.log((this.props.user) ? this.props.user : 'no user')
+        console.log('State', this.state)
+
         const profileImg = require('../../../images/benMt.1866739e.jpg')
 
         let color1 = 'rgba(0, 137, 54, 0.5'
@@ -178,12 +200,12 @@ class Profile extends Component {
                                 <div>
                                     <Avatar
                                         alt="Me"
-                                        src={profileImg}
+                                        src={(this.state.profile_pic) ? this.state.profile_pic : profileImg}
                                         style={{ width: '120px', height: '120px', marginRight: '40px' }}
                                     />
                                 </div>
                                 <div>
-                                    <p style={{ fontSize: '30px' }}>Ben Ahlander</p>
+                                    <p style={{ fontSize: '30px' }}>{(this.state.username) ? this.state.username : 'Ben Ahlander'}</p>
                                     <div class="locationProfile">
                                         <i class="material-icons">
                                             location_on
@@ -199,6 +221,7 @@ class Profile extends Component {
                         </div>
 
                         <div className="Chat">
+                            <div className="ChatNotification"></div>
                             <Avatar style={{ backgroundColor: '#03A9F4', height: '60px', width: '60px' }}>
                                 <Inbox />
                             </Avatar>
@@ -282,4 +305,10 @@ class Profile extends Component {
     }
 }
 
-export default Profile;
+function mapStateToProps(state) {
+    return {
+        user: state.user
+    }
+}
+
+export default connect(mapStateToProps, { getUserInfo })(Profile);

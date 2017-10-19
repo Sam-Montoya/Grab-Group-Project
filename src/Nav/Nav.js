@@ -32,9 +32,9 @@ class ButtonAppBar extends Component {
 	componentWillReceiveProps(nextProps) {
 		console.log(nextProps.user)
 		if (nextProps.user) {
-			console.log(nextProps.user[0].profile_pic)
+			console.log(nextProps.user.profile_pic)
 			this.setState({
-				profile_pic: nextProps.user[0].profile_pic
+				profile_pic: nextProps.user.profile_pic
 			})
 		}
 
@@ -48,7 +48,7 @@ class ButtonAppBar extends Component {
 						<div className="navtoolbar">
 							<Drawer className='test' />
 							<Typography type="title" color="inherit">
-								<Link style={{ color: 'white' }} to="/allListings">
+								<Link to="/allListings" className="Logo">
 									Grab
 								</Link>
 							</Typography>
@@ -68,17 +68,16 @@ class ButtonAppBar extends Component {
 						{/* This turnary checks to see if someone is logged in and displays the correct login/logout button accordingly. */}
 						{this.props.user ? (
 							<div style={{display:'flex'}}>
-								<a href={process.env.REACT_APP_LOGOUT}>
-									<Button color="contrast" style={{ color: 'white', marginTop:'7px' }}>
-										Logout
-									</Button>
-								</a>
-
 								<Avatar
 									alt="Me"
 									src={this.state.profile_pic}
-									style={{ width: '40px', height: '40px', marginRight: '20px' }}
+									style={{ width: '40px', height: '40px', marginRight: '5px' }}
 								/>
+								<a href={process.env.REACT_APP_LOGOUT}>
+									<Button color="contrast" style={{ color: 'white', marginTop:'5px' }}>
+										Logout
+									</Button>
+								</a>
 							</div>
 						) : (
 								<a href={process.env.REACT_APP_LOGIN}>

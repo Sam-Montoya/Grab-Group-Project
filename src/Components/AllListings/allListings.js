@@ -79,7 +79,7 @@ class allListings extends Component {
 			var x = Math.floor(Math.random() * 3 + 1);
 			if (elem.image)
 				return (
-					<div>
+					<div key={i}>
 						<a href="http://localhost:3000/#/listinginfo">
 							<Paper
 								elevation={4}
