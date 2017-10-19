@@ -1,0 +1,3 @@
+--GETS ALL LISTINGS
+SELECT *
+FROM listings;

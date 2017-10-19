@@ -35,9 +35,10 @@ module.exports = {
 		});
 	},
 
-	getProducts(db, response) {
-		axios.get('https://practiceapi.devmountain.com/products').then((data) => {
-			response.status(200).send(data.data);
+	getAllListings(DB, response) {
+		DB.get_all_listings().then((data) => {
+			console.log(data);
+			response.status(200).send(data);
 		});
 	},
 

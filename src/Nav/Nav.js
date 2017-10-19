@@ -54,7 +54,7 @@ class ButtonAppBar extends Component {
 							<div className="navtoolbar">
 								<img src={logo1} className="logoicon" />
 								<Typography type="title" color="inherit">
-									<Link to="/allListings" className="Logo">
+									<Link to="/" className="Logo">
 										Grab
 								</Link>
 								</Typography>
