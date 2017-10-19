@@ -38,7 +38,7 @@ class allListings extends Component {
 	}
 
 	componentDidMount() {
-		axios.get('http://localhost:3060/api/getAllListings').then((listings) => {
+		axios.get('/api/getAllListings').then((listings) => {
 			this.setState({
 				listings: listings.data
 			});
