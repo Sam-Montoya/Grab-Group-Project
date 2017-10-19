@@ -120,13 +120,8 @@ class allListings extends Component {
 
 					<h1 className="search_header">Search Filters</h1>
 
-					<div className="search_inputs">
-						<p style={{ fontWeight: 'bold' }}>Distance</p>
-						<Input type="number" placeholder="Zip" />
-						<Input type="number" placeholder="Miles Away" />
-					</div>
 					<div className="categories">
-						<p style={{ fontWeight: 'bold', marginBottom: '5px' }}>Categories</p>
+						<p style={{ fontWeight: 'bold', marginBottom: '10px' }}>Categories</p>
 						<div>
 							<FormControlLabel
 								control={
@@ -187,6 +182,19 @@ class allListings extends Component {
 							label="Free"
 						/>
 					</div>
+
+					<section className="search_inputs">
+						<p style={{ fontWeight: 'bold' }}>Distance</p>
+						<Input type="number" placeholder="Zip" />
+						<Input type="number" placeholder="Miles Away" />
+					</section>
+
+					<section>
+						<h1 style={{ fontWeight: 'bold' }}>Pricing</h1>
+						<Input type='number' placeholder='Lowest' />
+						<Input type='number' placeholder='Highest' />
+						<br/>
+					</section>
 				</div>
 				<div className="SearchContainer">
 					{/* <a href="http://localhost:3001/#/listinginfo">
