@@ -1,0 +1,79 @@
+.AddListingContainer{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  justify-content: center;
+}
+
+ .halfFirst{
+    margin:30px 15px 15px 30px;
+    padding:20px;
+    text-align: center
+} 
+
+  .halfSecond{
+    margin:30px 30px 15px 15px;
+    padding:20px;
+    text-align: center
+}  
+
+.FullRow{
+    margin:15px 30px;
+    grid-column: 1/3;
+    padding: 20px
+}
+
+.AddListingHeading{
+    font-size: 2.5rem;
+    margin:30px;
+    padding-top:30px;
+}
+
+.PictureUploadContainer div{
+    margin: auto;
+    padding: 20px
+}
+
+.ProsAndCons{
+    width:100%
+}
+
+.InputandButton{
+    display: flex;
+}
+
+.buttonAdd{
+    height:10px;
+    position: relative;
+    bottom:-20px
+}
+
+.ProAndCon{
+    width: 90%;
+    display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: space-between;
+	align-items: center;
+	align-content: stretch;
+}
+
+
+@media screen and (max-width: 900px) { 
+		.AddListingContainer{
+             grid-template-columns: repeat(1, 1fr);
+ 
+        }
+        .halfFirst{
+              margin:10px ;
+                grid-column: 1/3;
+            } 
+            .halfSecond{
+               margin:10px ;
+                grid-column: 1/3; 
+            }
+            .FullRow{
+                margin:10px ;
+                grid-column: 1/3;
+            }
+	}
+ 
