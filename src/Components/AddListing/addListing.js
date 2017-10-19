@@ -32,6 +32,7 @@ class AddListing extends Component {
                 }
 
                 if (response.body.secure_url !== '') {
+                    console.log(response.body.secure_url);
                     this.setState({
                         uploadedFileCloudinaryUrl: [... this.state.uploadedFileCloudinaryUrl, response.body.secure_url]
                     });
