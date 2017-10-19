@@ -143,3 +143,7 @@
 .pricing_container {
     margin-bottom: 20px;
 }
+
+.electronics_checkbox span, .electronics_checkbox p {
+    color: rgb(53, 138, 255);
+}

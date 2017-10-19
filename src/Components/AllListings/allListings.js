@@ -38,7 +38,8 @@ class allListings extends Component {
 			checkedD: false,
 			checkedE: false,
 			profile_pic: '',
-			priceSorting: 'lowest_to_highest'
+			priceSorting: 'lowest_to_highest',
+			isLoggedIn: false
 		};
 	}
 
@@ -54,10 +55,9 @@ class allListings extends Component {
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.user) {
 			this.setState({
-				profile_pic: nextProps.user.profile_pic
+				profile_pic: nextProps.user.profile_pic,
+				isLoggedIn: true
 			});
-			console.log(this.props.user);
-			if(this.props.user.hasOwnProperty('username')) console.log('Hit');
 		}
 	}
 
@@ -101,101 +101,114 @@ class allListings extends Component {
 		return (
 			<div className="sidebar">
 				<div className="leftBarOnSearch">
-					<Avatar
-						alt="Remy Sharp"
-						src={this.state.profile_pic ? this.state.profile_pic : profile}
-						style={{ width: '60px', height: '60px', margin: 'auto', marginTop: '20px' }}
-					/>
+					{this.state.isLoggedIn ? (
+						<div>
+							<Avatar
+								alt="Remy Sharp"
+								src={this.state.profile_pic ? this.state.profile_pic : profile}
+								style={{ width: '60px', height: '60px', margin: 'auto', marginTop: '20px' }}
+							/>
 
-					<List className="user_options">
-						<Link to="/myChats">
-							<ListItem button>
-								<Avatar className="inbox_circle">
-									<h1>1</h1>
-								</Avatar>
+							<List className="user_options">
+								<Link to="/myChats">
+									<ListItem button>
+										<Avatar className="inbox_circle">
+											<h1>1</h1>
+										</Avatar>
 
-								<ListItemText primary="Inbox" />
-							</ListItem>
-						</Link>
+										<ListItemText primary="Inbox" />
+									</ListItem>
+								</Link>
 
-						<Link to="/myListings">
-							<ListItem button>
-								<Pageview className="listings_icon" />
-								<ListItemText primary="Listings" />
-							</ListItem>
-						</Link>
+								<Link to="/myListings">
+									<ListItem button>
+										<Pageview className="listings_icon" />
+										<ListItemText primary="Listings" />
+									</ListItem>
+								</Link>
 
-						<Link to="/myFavorites">
-							<ListItem button>
-								<Star className="favorites_icon" />
-								<ListItemText primary="Favorites" />
-							</ListItem>
-						</Link>
-					</List>
+								<Link to="/myFavorites">
+									<ListItem button>
+										<Star className="favorites_icon" />
+										<ListItemText primary="Favorites" />
+									</ListItem>
+								</Link>
+							</List>
+						</div>
+					) : (
+						<h1>Login</h1>
+					)}
 
 					<h1 className="search_header">Search Filters</h1>
 
 					<div className="categories">
 						<p style={{ fontWeight: 'bold', marginBottom: '10px' }}>Categories</p>
-						<div>
+						<div className="electronics_checkbox">
 							<FormControlLabel
 								control={
 									<Checkbox
 										checked={this.state.checkedA}
 										onChange={this.handleChangeInput('checkedA')}
 										value="checkedA"
-										style={{ color: 'red' }}
 									/>
 								}
 								label="Electronics"
 							/>
 						</div>
-						<div>
+						<div className="home_checkbox">
 							<FormControlLabel
 								control={
 									<Checkbox
 										checked={this.state.checkedB}
 										onChange={this.handleChangeInput('checkedB')}
 										value="checkedB"
-										style={{ color: 'Purple' }}
 									/>
 								}
 								label="Home"
 							/>
 						</div>
-						<FormControlLabel
-							control={
-								<Checkbox
-									checked={this.state.checkedC}
-									onChange={this.handleChangeInput('checkedC')}
-									value="checkedC"
-									style={{ color: 'green' }}
-								/>
-							}
-							label="Sports"
-						/>
-						<FormControlLabel
-							control={
-								<Checkbox
-									checked={this.state.checkedD}
-									onChange={this.handleChangeInput('checkedD')}
-									value="checkedD"
-									style={{ color: 'grey' }}
-								/>
-							}
-							label="Parts"
-						/>
-						<FormControlLabel
-							control={
-								<Checkbox
-									checked={this.state.checkedE}
-									onChange={this.handleChangeInput('checkedE')}
-									value="checkedE"
-									style={{ color: 'green' }}
-								/>
-							}
-							label="Free"
-						/>
+						<div className="sports_checkbox">
+							<FormControlLabel
+								control={
+									<Checkbox
+										checked={this.state.checkedC}
+										onChange={this.handleChangeInput('checkedC')}
+										value="checkedC"
+										style={{ color: 'green' }}
+									/>
+								}
+								label="Sports"
+							/>
+						</div>
+
+						<div className="parts_checkbox">
+							<FormControlLabel
+								control={
+									<Checkbox
+										checked={this.state.checkedD}
+										onChange={this.handleChangeInput('checkedD')}
+										value="checkedD"
+										style={{ color: 'grey' }}
+									/>
+								}
+								label="Parts"
+							/>
+						</div>
+
+						<div className="free_checkbox">
+							<FormControlLabel
+								control={
+									<Checkbox
+										checked={this.state.checkedE}
+										onChange={this.handleChangeInput('checkedE')}
+										value="checkedE"
+										style={{ color: 'green' }}
+									/>
+								}
+								label="Free"
+							/>
+						</div>
+						
 					</div>
 
 					<section className="search_inputs">
