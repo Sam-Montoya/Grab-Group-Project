@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Route, Switch } from 'react-router-dom';
 
-import Home from './Components/Home/Home'
 import AddListing from './Components/AddListing/addListing';
 import AllListings from './Components/AllListings/allListings';
 import MyListings from './Components/Profile/MyListings/MyListings'
@@ -12,9 +11,8 @@ import Profile from './Components/Profile/ProfileInfo/Profile';
 
 export default (
     <Switch>
-        <Route exact path="/" component={Home}> </Route>
+        <Route exact path="/" component={AllListings}> </Route>
         <Route path="/addlisting" component={AddListing}> </Route>
-        <Route path="/allListings" component={AllListings}> </Route>
         <Route path="/listinginfo" component={ListingInfo}> </Route>
         <Route path="/settings" component={Settings}></Route>
         <Route path="/myfavorites" component={MyFavorites}></Route>

@@ -21,12 +21,6 @@ import { Link } from 'react-router-dom';
 import { getUserInfo } from '../../Redux/reducer';
 import { connect } from 'react-redux';
 
-// const styles = {
-//     checked: {
-//         color: green[500],
-//     },
-// };
-
 class allListings extends Component {
 	constructor() {
 		super();
@@ -44,9 +38,9 @@ class allListings extends Component {
 	}
 
 	componentDidMount() {
-		axios.get('http://localhost:3060/api/getUserListings').then((res) => {
+		axios.get('http://localhost:3060/api/getAllListings').then((listings) => {
 			this.setState({
-				listings: res.data
+				listings: listings.data
 			});
 		});
 		this.props.getUserInfo();
@@ -72,8 +66,11 @@ class allListings extends Component {
 	};
 
 	render() {
-		let listings = this.state.listings.map((elem, i) => {
-			if (elem.image)
+		console.log(this.state.listings);
+		let listings = this.state.listings.map((listing, i) => {
+			let imageTest;
+			if (listing.images !== null) imageTest = listing.images[0];
+			if (this.state.listings.length)
 				return (
 					<div key={i}>
 						<a href="http://localhost:3000/#/listinginfo">
@@ -81,16 +78,23 @@ class allListings extends Component {
 								elevation={4}
 								className="item_container"
 								style={{
-									background: `url(${elem.image}) no-repeat center center`,
+									background: `url(${imageTest}) no-repeat center center`,
 									backgroundSize: 'cover'
 								}}>
 								<div
 									className="item_description"
 									style={{ backgroundColor: 'rgba(53, 138, 255, 0.68)' }}>
-									<h1 className="title">Product Title</h1>
+									<h1 className="title">{listing.title}</h1>
 									<hr />
-									<h2 className="descriptionText">Sandy, Utah</h2>
-									<h3 className="descriptionText">$400</h3>
+									<h2 className="descriptionText">
+										{listing.city}, {listing.state}
+									</h2>
+									{
+										listing.price === '$0.00' ?
+										<h3 className="descriptionText">Free</h3>
+										:
+										<h3 className="descriptionText">{listing.price}</h3>
+									}
 								</div>
 							</Paper>
 						</a>
@@ -103,11 +107,15 @@ class allListings extends Component {
 				<div className="leftBarOnSearch">
 					{this.state.isLoggedIn ? (
 						<div>
-							<Avatar
-								alt="Remy Sharp"
-								src={this.state.profile_pic ? this.state.profile_pic : profile}
-								style={{ width: '60px', height: '60px', margin: 'auto', marginTop: '20px' }}
-							/>
+							<section className="profile_pic_nav_container">
+								<Link to="/profile">
+									<Avatar
+										className="profile_pic_nav"
+										alt="Remy Sharp"
+										src={this.state.profile_pic ? this.state.profile_pic : profile}
+									/>
+								</Link>
+							</section>
 
 							<List className="user_options">
 								<Link to="/myChats">
@@ -120,7 +128,7 @@ class allListings extends Component {
 									</ListItem>
 								</Link>
 
-								<Link to="/myListings">
+								<Link to="/profile">
 									<ListItem button>
 										<Pageview className="listings_icon" />
 										<ListItemText primary="Listings" />
@@ -136,7 +144,7 @@ class allListings extends Component {
 							</List>
 						</div>
 					) : (
-						<h1>Login</h1>
+						<div />
 					)}
 
 					<h1 className="search_header">Search Filters</h1>
@@ -208,7 +216,6 @@ class allListings extends Component {
 								label="Free"
 							/>
 						</div>
-						
 					</div>
 
 					<section className="search_inputs">
