@@ -48,11 +48,10 @@ module.exports = {
 	},
 
 	updateImages(DB, request, response){
-		let imageInfo = {
-			images: request.body.image
+		for(let i = 0; i < request.body.images.length; i++){
+			DB.update_images([request.body.images[i], request.body.listing_id]).then((res) => {
+				response.status(200).send('Added');
+			});
 		}
-		DB.update_images([imageInfo, request.body.listing_id]).then((res) => {
-			response.status(200).send('Added');
-		});
 	}
 };

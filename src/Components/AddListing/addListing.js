@@ -44,8 +44,8 @@ class AddListing extends Component {
 
     upload(){
         let test = {
-            image: this.state.uploadedFileCloudinaryUrl,
-            listing_id: 34
+            images: this.state.uploadedFileCloudinaryUrl,
+            listing_id: 38
         }
         axios.put('/api/updateImages', test).then((res) => {
             console.log(res);
@@ -55,6 +55,31 @@ class AddListing extends Component {
                 })
             }
         })
+
+        // let addTest = {
+        //     auth_id: 'google-oauth2|111891641192346730945',
+        //     user_id: 21,
+        //     title: 'Test',
+        //     price: 300,
+        //     images: this.state.uploadedFileCloudinaryUrl,
+        //     city: 'Provo',
+        //     state: 'Utah',
+        //     zip: 84084,
+        //     description: 'This is a test that Twan and I are trying to see if we can insert a new Listing into the db',
+        //     pros: 'It could work',
+        //     cons: 'None, because it worked',
+        //     phone_number: '801-885-5466',
+        //     contact_status: 'Call Only',
+        //     time_submitted: new Date(Date.now()),
+        //     category: 'Electronics'
+        // }
+        // axios.post('/api/addListing', addTest).then((res) => {
+        //     if(res.data === "Listing has been added"){
+        //         this.setState({
+        //             uploadedFileCloudinaryUrl: []
+        //         })
+        //     }
+        // })
     }
 
     render() {
