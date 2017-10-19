@@ -50,12 +50,15 @@ class ListingInfo extends Component {
 	}
 
 	addListingToFavorites() {
+		if(this.props.user) {
 		const config = { listing_id: this.state.listingInfo.listing_id, user_id: this.props.user.user_id }
-
 		axios.post('/api/addFavorite', config)
 			.then((response) => {
 				alert('Added to Favorites!');
 			});
+		} else {
+			alert('Please log in to favorite listings!');
+		}
 	}
 
 	render() {
