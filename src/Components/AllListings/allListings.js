@@ -13,12 +13,13 @@ import Inbox from 'material-ui-icons/Inbox';
 import Star from 'material-ui-icons/Star';
 import Pageview from 'material-ui-icons/List';
 import Input from 'material-ui/Input';
-import img from '../../images/xbox.jpg';
 import profile from '../../images/benMt.1866739e.jpg';
 import { FormGroup, FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 import green from 'material-ui/colors/green';
 import { Link } from 'react-router-dom';
+import {getUserInfo} from '../../Redux/reducer'
+import {connect} from 'react-redux'
 
 // const styles = {
 //     checked: {
@@ -35,13 +36,11 @@ class allListings extends Component {
 			checkedB: false,
 			checkedC: false,
 			checkedD: false,
-			checkedE: false
+			checkedE: false,
+			profile_pic: ''
 		};
 	}
 
-	test = () => {
-
-	}
 
 	componentDidMount() {
 		axios.get('http://localhost:3060/api/getUserListings').then((res) => {
@@ -49,6 +48,18 @@ class allListings extends Component {
 				listings: res.data
 			});
 		});
+		this.props.getUserInfo();
+	}
+
+	componentWillReceiveProps(nextProps) {
+		console.log(nextProps.user)
+		if (nextProps.user) {
+			console.log(nextProps.user[0].profile_pic)
+			this.setState({
+				profile_pic: nextProps.user[0].profile_pic
+			})
+		}
+
 	}
 
 	handleChangeInput = (name) => (event) => {
@@ -56,13 +67,15 @@ class allListings extends Component {
 	};
 
 	render() {
+
+		console.log((this.props.user) ? this.props.user[0] : 'no user')
+
 		const { classes } = this.props;
 		let color1 = 'rgba(0, 137, 54, 0.5';
 		let color2 = 'rgba(46, 29, 138, 0.5';
 		let color3 = 'rgba(46, 138, 138, .5)';
 
 		let listings = this.state.listings.map((elem, i) => {
-			console.log(elem);
 			var x = Math.floor(Math.random() * 3 + 1);
 			if (elem.image)
 				return (
@@ -94,7 +107,7 @@ class allListings extends Component {
 				<div className="leftBarOnSearch">
 					<Avatar
 						alt="Remy Sharp"
-						src={profile}
+						src={(this.state.profile_pic) ? this.state.profile_pic : profile}
 						style={{ width: '60px', height: '60px', margin: 'auto', marginTop: '20px' }}
 					/>
 
@@ -230,4 +243,10 @@ class allListings extends Component {
 	}
 }
 
-export default allListings;
+function mapStateToProps(state){
+	return {
+		user: state.user
+	}
+}
+
+export default connect(mapStateToProps, {getUserInfo})(allListings);

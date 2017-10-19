@@ -6,7 +6,7 @@
 
 .MainContentProfile{
     grid-column: 1/7;
-    
+    margin-left:150px;
     padding:0px;
 }
 
@@ -63,10 +63,10 @@
     align-content: center;
 }
 
-.MainContentProfile h1{
+ .ProfileHeading{
     font-size: 2.5rem;
     margin:30px;
-}
+} 
 
 .Chat{
     position: fixed;

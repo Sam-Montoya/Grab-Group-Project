@@ -51,33 +51,25 @@ class MyFavorites extends Component {
 						<a href="http://localhost:3000/#/listinginfo">
 							<Paper
 								elevation={4}
-								className="Item"
+								className="item_container"
 								style={{
-									width: '200px',
-									height: '200px',
-									margin: 'auto',
-									margin: '20px',
 									background: `url(${elem.image}) no-repeat center center`,
 									backgroundSize: 'cover'
 								}}>
-								<Avatar
-									style={{ backgroundColor: 'lightcoral', width: '30px', height: '30px' }}
-									className="removeIcon">
-									<div className="deleteLine">
-										<hr />
-									</div>
-								</Avatar>
 								<div
-									className="description"
-									style={{ backgroundColor: x === 1 ? color1 : x === 2 ? color2 : color3 }}>
-									<p className="title">{elem.title}</p>
-									<p className="descriptionText"> {elem.desc}</p>
+									className="item_description"
+									style={{ backgroundColor: 'rgba(53, 138, 255, 0.68)' }}>
+									<h1 className="title">Product Title</h1>
+									<hr />
+									<h2 className="descriptionText">Sandy, Utah</h2>
+									<h3 className="descriptionText">$400</h3>
 								</div>
 							</Paper>
 						</a>
 					</div>
 				);
 		});
+
 
 		return (
 			<div>
@@ -120,12 +112,6 @@ class MyFavorites extends Component {
 
 					<div className="Chat">
 						<Avatar style={{ backgroundColor: '#03A9F4', height: '60px', width: '60px' }}>
-							<Inbox />
-						</Avatar>
-					</div>
-
-					<div>
-						<Avatar style={{ backgroundColor: 'navy', height: '60px', width: '60px' }}>
 							<Inbox />
 						</Avatar>
 					</div>
