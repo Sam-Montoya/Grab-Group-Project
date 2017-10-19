@@ -17,228 +17,212 @@ import Profile from 'material-ui-icons/Face';
 import { Redirect } from 'react-router';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import Dialog, {
-    DialogActions,
-    DialogContent,
-    DialogContentText,
-    DialogTitle,
-} from 'material-ui/Dialog';
+import Dialog, { DialogActions, DialogContent, DialogContentText, DialogTitle } from 'material-ui/Dialog';
 import Slide from 'material-ui/transitions/Slide';
 
 import Avatar from 'material-ui/Avatar';
 
-import './nav.css'
+import './nav.css';
 
 const styles = {
-    list: {
-        width: 250,
-        flex: 'initial',
-    },
-    listFull: {
-        width: 'auto',
-        flex: 'initial',
-    },
+	list: {
+		width: 250,
+		flex: 'initial'
+	},
+	listFull: {
+		width: 'auto',
+		flex: 'initial'
+	}
 };
 
-const styles2 = theme => ({
-    root: {
-        width: '100%',
-        maxWidth: '360px',
-        background: theme.palette.background.paper,
-    },
+const styles2 = (theme) => ({
+	root: {
+		width: '100%',
+		maxWidth: '360px',
+		background: theme.palette.background.paper
+	}
 });
 
 class TemporaryDrawer extends React.Component {
-    constructor() {
-        super();
+	constructor() {
+		super();
 
-        this.state = {
-            open: {
-                top: false,
-                left: false,
-                bottom: false,
-                right: false,
+		this.state = {
+			open: {
+				top: false,
+				left: false,
+				bottom: false,
+				right: false,
 
-                //REDIRECTS
-                loggedin: false,
-                redirect: '',
+				//REDIRECTS
+				loggedin: false,
+				redirect: '',
 
-                //ALERT
-                alert: false
-            }
-        };
-    }
+				//ALERT
+				alert: false
+			}
+		};
+	}
 
-    //ALERT
+	//ALERT
 
-    handleClickOpen = () => {
-        this.setState({ alert: true });
-    };
+	handleClickOpen = () => {
+		this.setState({ alert: true });
+	};
 
-    handleRequestClose = () => {
-        this.setState({ alert: false });
-    };
+	handleRequestClose = () => {
+		this.setState({ alert: false });
+	};
 
-    //DRAWER
+	//DRAWER
 
-    toggleDrawer = (side, open) => {
-        const drawerState = {};
-        drawerState[side] = open;
-        this.setState({ open: drawerState });
-    };
+	toggleDrawer = (side, open) => {
+		const drawerState = {};
+		drawerState[side] = open;
+		this.setState({ open: drawerState });
+	};
 
+	handleLeftOpen = () => {
+		this.toggleDrawer('left', true);
+	};
 
+	handleLeftClose = () => {
+		this.toggleDrawer('left', false);
+	};
 
-    handleLeftOpen = () => {
-        this.toggleDrawer('left', true);
-    };
+	componentDidMount() {
+		axios.get(`/auth/me`).then((res) => {
+			//Before the page loads it hits this endpoint to check if there is a user on req.user.
+			console.log('AUTH', res.data);
+			if (!res.data.id) {
+				//If there is not a user.
+			} else {
+				this.setState({
+					loggedin: true
+				});
+			}
+		});
+	}
 
-    handleLeftClose = () => {
-        this.toggleDrawer('left', false);
-    };
+	render() {
+		const classes = this.props.classes;
 
-    componentDidMount() {
-        axios.get(`/auth/me`)
-            .then(res => { //Before the page loads it hits this endpoint to check if there is a user on req.user. 
-                console.log('AUTH', res.data)
-                if (!res.data.id) { //If there is not a user. 
-                } else {
-                    this.setState({
-                        loggedin: true
-                    })
-                }
-            })
+		//REDIRECTS
+		if (this.state.redirect === 'profile') {
+			this.setState({
+				redirect: ''
+			});
+			return <Redirect push to={'/profile'} />;
+		}
+		if (this.state.redirect === 'property') {
+			this.setState({
+				redirect: ''
+			});
+			return <Redirect push to={'/wizard'} />;
+		}
+		if (this.state.redirect === 'settings') {
+			this.setState({
+				redirect: ''
+			});
+			return <Redirect push to={'/'} />;
+		}
 
-    }
+		const sideList = (
+			<div>
+				<List className={classes.root}>
+					<Link to="/">
+						<ListItem button>
+							<Avatar>
+								<Home />
+							</Avatar>
+							<ListItemText primary="Home" />
+						</ListItem>
+					</Link>
+					<Link to="/profile">
+						<ListItem button>
+							<Avatar>
+								<Profile />
+							</Avatar>
+							<ListItemText primary="Profile" />
+						</ListItem>
+					</Link>
+					{/* <Divider inset /> */}
+					<Link to="/myfavorites">
+						<ListItem button>
+							<Avatar>
+								<ViewList />
+							</Avatar>
+							<ListItemText primary="My Favorites" />
+						</ListItem>
+					</Link>
+					{/* <Divider inset /> */}
+					<Link to="/addlisting">
+						<ListItem button>
+							<Avatar>
+								<Create />
+							</Avatar>
+							<ListItemText primary="Create Listing" />
+						</ListItem>
+					</Link>
 
+					{/* <Divider inset /> */}
+					<Link to="settings">
+						<ListItem button>
+							<Avatar>
+								<Settings />
+							</Avatar>
+							<ListItemText primary="Settings" />
+						</ListItem>
+					</Link>
+					{/* <Divider inset /> */}
+				</List>
+			</div>
+		);
 
-    render() {
-        const classes = this.props.classes;
+		return (
+			<div>
+				<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+				<IconButton
+					className={classes.menuButton}
+					color="black"
+					aria-label="Menu"
+					onClick={this.handleLeftOpen}>
+					<MenuIcon />
+				</IconButton>
 
-        //REDIRECTS
-        if (this.state.redirect === 'profile') {
-            this.setState({
-                redirect: ''
-            })
-            return <Redirect push to={"/profile"} />;
-        }
-        if (this.state.redirect === 'property') {
-            this.setState({
-                redirect: ''
-            })
-            return <Redirect push to={"/wizard"} />;
-        }
-        if (this.state.redirect === 'settings') {
-            this.setState({
-                redirect: ''
-            })
-            return <Redirect push to={"/"} />;
-        }
+				<Drawer
+					open={this.state.open.left}
+					onRequestClose={this.handleLeftClose}
+					onClick={this.handleLeftClose}>
+					{sideList}
+				</Drawer>
 
-        const sideList = (
-            <div>
-
-                <List className={classes.root} >
-                    <Link to='/'>
-                        <ListItem button>
-                            <Avatar>
-                                <Home />
-                            </Avatar>
-                            <ListItemText primary="Home" />
-                        </ListItem>
-                    </ Link>
-                    <Link to="/profile">
-                        <ListItem button>
-                            <Avatar>
-                                <Profile />
-                            </Avatar>
-                            <ListItemText primary="Profile" />
-                        </ListItem>
-                    </Link>
-                    {/* <Divider inset /> */}
-                    <Link to='/myfavorites'>
-                        <ListItem button>
-                            <Avatar>
-                                <ViewList />
-                            </Avatar>
-                            <ListItemText primary="My Favorites" />
-                        </ListItem>
-                    </Link>
-                    {/* <Divider inset /> */}
-                     <Link to='/addlisting'>
-                        <ListItem button>
-                            <Avatar>
-                                <Create />
-                            </Avatar>
-                            <ListItemText primary="Create Listing" />
-                        </ListItem>
-                    </Link>
-                    {/* <Divider inset /> */}
-                    <Link to="alllistings">
-                        <ListItem button>
-                            <Avatar>
-                                <Search />
-                            </Avatar>
-                            <ListItemText primary="Search" />
-                        </ListItem>
-                    </Link>
-                    {/* <Divider inset /> */}
-                    <Link to="settings">
-                        <ListItem button>
-                            <Avatar>
-                                <Settings />
-                            </Avatar>
-                            <ListItemText primary="Settings" />
-                        </ListItem>
-                    </Link>
-                    {/* <Divider inset /> */}
-                </List>
-
-            </div>
-        );
-
-        return (
-            <div>
-                <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-                <IconButton className={classes.menuButton} color="black" aria-label="Menu" onClick={this.handleLeftOpen}>
-                    <MenuIcon />
-                </IconButton>
-
-                <Drawer
-                    open={this.state.open.left}
-                    onRequestClose={this.handleLeftClose}
-                    onClick={this.handleLeftClose}
-                >
-                    {sideList}
-                </Drawer>
-
-                {/* ALERT */}
-                <Dialog open={this.state.alert} transition={Slide} onRequestClose={this.handleRequestClose}>
-                    <DialogTitle>{"Please Sign In"}</DialogTitle>
-                    <DialogContent>
-                        <DialogContentText>
-                            To use some of our awesome features, you need to be logged in
-                    </DialogContentText>
-                    </DialogContent>
-                    <DialogActions>
-                        <Button onClick={this.handleRequestClose} color="primary">
-                            No Thanks
-                         </Button>
-                        <a href={process.env.REACT_APP_LOGIN}>
-                            <Button onClick={this.handleRequestClose} color="primary">
-                                Okay
-                             </Button>
-                        </a>
-                    </DialogActions>
-                </Dialog>
-
-            </div>
-        );
-    }
+				{/* ALERT */}
+				<Dialog open={this.state.alert} transition={Slide} onRequestClose={this.handleRequestClose}>
+					<DialogTitle>{'Please Sign In'}</DialogTitle>
+					<DialogContent>
+						<DialogContentText>
+							To use some of our awesome features, you need to be logged in
+						</DialogContentText>
+					</DialogContent>
+					<DialogActions>
+						<Button onClick={this.handleRequestClose} color="primary">
+							No Thanks
+						</Button>
+						<a href={process.env.REACT_APP_LOGIN}>
+							<Button onClick={this.handleRequestClose} color="primary">
+								Okay
+							</Button>
+						</a>
+					</DialogActions>
+				</Dialog>
+			</div>
+		);
+	}
 }
 
 TemporaryDrawer.propTypes = {
-    classes: PropTypes.object.isRequired,
+	classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(TemporaryDrawer);

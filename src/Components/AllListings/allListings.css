@@ -1,10 +1,10 @@
 .item_container {
 	display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
+	flex-direction: column;
+	justify-content: flex-end;
 	width: 210px;
 	height: 210px;
-    margin: 15px;
+	margin: 15px;
 }
 
 .MuiTypography-subheading-145 {
@@ -18,41 +18,41 @@
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-    align-items: flex-start;
+	align-items: flex-start;
 }
 
 .item_description h1 {
 	font-size: 17px;
-    font-weight: bold;
-    margin-left: 10px;
+	font-weight: bold;
+	margin-left: 10px;
 }
 
 .item_description hr {
-    border: none;
-    height: 1px;
-    width: 92%;
-    -webkit-margin-after: 0;
-    -webkit-margin-before: 0;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    background-color: white;
+	border: none;
+	height: 1px;
+	width: 92%;
+	-webkit-margin-after: 0;
+	-webkit-margin-before: 0;
+	margin-top: 5px;
+	margin-bottom: 5px;
+	background-color: white;
 }
 
 .item_description h2 {
-    font-size: 14px;
-    margin-left: 10px;
-    margin-bottom: 3px;
+	font-size: 14px;
+	margin-left: 10px;
+	margin-bottom: 3px;
 }
 
 .item_description h3 {
-    font-size: 14px;
-    margin-left: 10px;
+	font-size: 14px;
+	margin-left: 10px;
 }
 
 .descriptionText {
 	font-size: .75rem;
-    text-align: center;
-    margin-left: 10px;
+	text-align: center;
+	margin-left: 10px;
 }
 
 .title {
@@ -67,8 +67,8 @@
 	height: 90vh;
 	margin-top: 64px;
 	background-color: #f0f0f0;
-    text-align: center;
-    overflow-y: scroll;
+	text-align: center;
+	overflow-y: scroll;
 }
 
 .SearchContainer {
@@ -79,13 +79,13 @@
 	align-items: stretch;
 	align-content: flex-start;
 	grid-column: 2/5;
-    margin-left: 200px;
-    padding-top: 20px;
+	margin-left: 200px;
+	padding-top: 20px;
 }
 
 .MuiListItem-default-124 {
-    padding-top: 8px !important;
-    padding-bottom: 8px !important;
+	padding-top: 8px !important;
+	padding-bottom: 8px !important;
 }
 
 .categories {
@@ -95,7 +95,7 @@
 	justify-content: flex-start;
 	align-items: flex-start;
 	align-content: stretch;
-    padding: 20px;
+	padding: 20px;
 }
 
 .categories p {
@@ -104,46 +104,67 @@
 }
 
 .inbox_circle {
-    width: 35px !important;
-    height: 35px !important;
-    background-color: #f03b3b !important;
+	width: 35px !important;
+	height: 35px !important;
+	background-color: #f03b3b !important;
 }
 
 .listings_icon {
-    width: 35px !important;
-    height: 35px !important;
-    color: darkviolet;
+	width: 35px !important;
+	height: 35px !important;
+	color: darkviolet;
 }
 
 .favorites_icon {
-    width: 35px !important;
-    height: 35px !important;
-    color: gold;
+	width: 35px !important;
+	height: 35px !important;
+	color: gold;
 }
 
 .leftBarOnSearch Input {
-    width: 100%;
-    padding: 18px 0 5px 0;
+	width: 100%;
+	padding: 18px 0 5px 0;
 }
 
 .pricing_select div {
-    margin-top: 10px;
+	margin-top: 10px;
 }
 
 .search_inputs {
-    margin-bottom: 20px;
+	margin-bottom: 20px;
 }
 
 .search_header {
-    font-size: 20px;
-    font-weight: bold;
-    margin: 15px 0 0 0;
+	font-size: 20px;
+	font-weight: bold;
+	margin: 15px 0 0 0;
 }
 
 .pricing_container {
-    margin-bottom: 20px;
+	margin-bottom: 20px;
 }
 
-.electronics_checkbox span, .electronics_checkbox p {
-    color: rgb(53, 138, 255);
+.electronics_checkbox span,
+.electronics_checkbox p {
+	color: rgb(53, 138, 255);
+}
+
+.home_checkbox span,
+.home_checkbox p {
+	color: rgb(147, 74, 255);
+}
+
+.sports_checkbox span,
+.sports_checkbox p {
+	color: rgb(104, 208, 52);
+}
+
+.parts_checkbox span,
+.parts_checkbox p {
+	color: rgb(151, 151, 151);
+}
+
+.free_checkbox span,
+.free_checkbox p {
+	color: rgb(255, 127, 127);
 }

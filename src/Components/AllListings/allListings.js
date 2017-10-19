@@ -21,12 +21,6 @@ import { Link } from 'react-router-dom';
 import { getUserInfo } from '../../Redux/reducer';
 import { connect } from 'react-redux';
 
-// const styles = {
-//     checked: {
-//         color: green[500],
-//     },
-// };
-
 class allListings extends Component {
 	constructor() {
 		super();
@@ -136,7 +130,7 @@ class allListings extends Component {
 							</List>
 						</div>
 					) : (
-						<h1>Login</h1>
+						<div />
 					)}
 
 					<h1 className="search_header">Search Filters</h1>
@@ -208,7 +202,6 @@ class allListings extends Component {
 								label="Free"
 							/>
 						</div>
-						
 					</div>
 
 					<section className="search_inputs">
