@@ -18,8 +18,8 @@ import { FormGroup, FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 import green from 'material-ui/colors/green';
 import { Link } from 'react-router-dom';
-import {getUserInfo} from '../../Redux/reducer'
-import {connect} from 'react-redux'
+import { getUserInfo } from '../../Redux/reducer';
+import { connect } from 'react-redux';
 
 // const styles = {
 //     checked: {
@@ -37,10 +37,10 @@ class allListings extends Component {
 			checkedC: false,
 			checkedD: false,
 			checkedE: false,
-			profile_pic: ''
+			profile_pic: '',
+			priceSorting: 'lowest_to_highest'
 		};
 	}
-
 
 	componentDidMount() {
 		axios.get('http://localhost:3060/api/getUserListings').then((res) => {
@@ -52,31 +52,27 @@ class allListings extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		console.log(nextProps.user)
 		if (nextProps.user) {
-			console.log(nextProps.user[0].profile_pic)
 			this.setState({
-				profile_pic: nextProps.user[0].profile_pic
-			})
+				profile_pic: nextProps.user.profile_pic
+			});
+			console.log(this.props.user);
+			if(this.props.user.hasOwnProperty('username')) console.log('Hit');
 		}
-
 	}
 
 	handleChangeInput = (name) => (event) => {
 		this.setState({ [name]: event.target.checked });
 	};
 
+	handleInputChange = (name) => (event) => {
+		this.setState({
+			[name]: event.target.value
+		});
+	};
+
 	render() {
-
-		console.log((this.props.user) ? this.props.user[0] : 'no user')
-
-		const { classes } = this.props;
-		let color1 = 'rgba(0, 137, 54, 0.5';
-		let color2 = 'rgba(46, 29, 138, 0.5';
-		let color3 = 'rgba(46, 138, 138, .5)';
-
 		let listings = this.state.listings.map((elem, i) => {
-			var x = Math.floor(Math.random() * 3 + 1);
 			if (elem.image)
 				return (
 					<div key={i}>
@@ -107,7 +103,7 @@ class allListings extends Component {
 				<div className="leftBarOnSearch">
 					<Avatar
 						alt="Remy Sharp"
-						src={(this.state.profile_pic) ? this.state.profile_pic : profile}
+						src={this.state.profile_pic ? this.state.profile_pic : profile}
 						style={{ width: '60px', height: '60px', margin: 'auto', marginTop: '20px' }}
 					/>
 
@@ -208,45 +204,31 @@ class allListings extends Component {
 						<Input type="number" placeholder="Miles Away" />
 					</section>
 
-					<section className='pricing_container'>
+					<section className="pricing_container">
 						<h1 style={{ fontWeight: 'bold' }}>Pricing</h1>
 						<Input type="number" placeholder="Lowest" />
 						<Input type="number" placeholder="Highest" />
-						<br />
-						<TextField select id='test' value='test' onChange={this.test} style={{ width: '82%'}}placeholder="Price Sorting">
-							<MenuItem value="test"> Test </MenuItem>
+						<TextField
+							className="pricing_select"
+							select
+							value={this.state.priceSorting}
+							onChange={this.handleInputChange('priceSorting')}
+							style={{ width: '82%' }}>
+							<MenuItem value="lowest_to_highest">Lowest to Highest</MenuItem>
+							<MenuItem value="highest_to_lowest">Highest to Lowest</MenuItem>
 						</TextField>
 					</section>
 				</div>
-				<div className="SearchContainer">
-					{/* <a href="http://localhost:3001/#/listinginfo">
-                        <Paper elevation={4}
-                            className="Item" style={{
-                                width: '300px',
-                                height: '200px',
-                                margin: 'auto',
-                                marginTop: '50px',
-                                background: `url(${img}) no-repeat center center`,
-                                backgroundSize: 'cover'
-                            }}
-                        >
-                            <div className="description">
-                                <p className="title">Xbox</p>
-                                <p className="descriptionText"> This is a really cool xbox. You should buy it!</p>
-                            </div>
-                        </Paper>
-                    </a> */}
-					{listings}
-				</div>
+				<div className="SearchContainer">{listings}</div>
 			</div>
 		);
 	}
 }
 
-function mapStateToProps(state){
+function mapStateToProps(state) {
 	return {
 		user: state.user
-	}
+	};
 }
 
-export default connect(mapStateToProps, {getUserInfo})(allListings);
+export default connect(mapStateToProps, { getUserInfo })(allListings);
