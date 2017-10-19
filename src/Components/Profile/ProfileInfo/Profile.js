@@ -25,7 +25,6 @@ class Profile extends Component {
     }
 
     componentDidMount() {
-        console.log('MOUNTED')
         axios.get('http://localhost:3060/api/getUserListings').then((res) => {
             this.setState({
                 listings: res.data
@@ -45,7 +44,6 @@ class Profile extends Component {
         let color3 = 'rgba(46, 138, 138, .5)'
 
         let listings = this.state.listings.map((elem, i) => {
-            console.log(elem)
             var x = Math.floor((Math.random() * 3) + 1);
             if (elem.image)
                 return (
@@ -77,16 +75,16 @@ class Profile extends Component {
         return (
             <div>
                 <div className="ProfilePageContainer">
-                    <div className="leftNavProfile">
-                        <div className="LinkIconsonLeftProfile">
+                    {/* <div className="leftNavProfile">
+                        <div className="LinkIconsonLeftProfile"> */}
 
-                            <div style={{ backgroundColor: 'white', width: '100%', height: '25%', }}>
+                    {/* <div style={{ backgroundColor: 'white', width: '100%', height: '25%', }}>
                                 <Avatar style={{ backgroundColor: '#455A64', height: '60px', width: '60px' }}>
                                     <Back />
                                 </Avatar>
-                            </div>
+                            </div> */}
 
-                            <div style={{ backgroundColor: 'white', width: '100%', height: '25%', }}>
+                    {/* <div style={{ backgroundColor: 'white', width: '100%', height: '25%', }}>
                                 <Avatar style={{ backgroundColor: '#C62828', height: '60px', width: '60px' }}>
                                     <Person />
                                 </Avatar>
@@ -104,10 +102,10 @@ class Profile extends Component {
                                 <Avatar style={{ backgroundColor: '#E65100', height: '60px', width: '60px' }}>
                                     <Star />
                                 </Avatar>
-                            </div>
-
+                            </div> */}
+                    {/* 
                         </div>
-                    </div>
+                    </div> */}
                     <div className="MainContentProfile">
 
                         <div className="CoverPhoto">
@@ -116,19 +114,31 @@ class Profile extends Component {
                                     <Avatar
                                         alt="Me"
                                         src={profileImg}
-                                        style={{ width: '80px', height: '80px', marginRight:'40px' }}
+                                        style={{ width: '120px', height: '120px', marginRight: '40px' }}
                                     />
                                 </div>
                                 <div>
                                     <p style={{ fontSize: '30px' }}>Ben Ahlander</p>
-                                    <p><i class="material-icons">location_on</i> Orem Provo</p>
+                                    <div class="locationProfile">
+                                        <i class="material-icons">
+                                            location_on
+                                            </i>
+                                        <p>Orem, Utah</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <h1>Profile</h1>
+                        <h1>My Listings</h1>
                         <div className="FavoriteListingsContainer">
                             {listings}
                         </div>
+
+                        <div className="Chat">
+                            <Avatar style={{ backgroundColor: '#03A9F4', height: '60px', width: '60px' }}>
+                                <Inbox />
+                            </Avatar>
+                        </div>
+
                     </div>
                     {/* <div className="rightNavFavorites">
                         <div

@@ -6,7 +6,7 @@
 
 .MainContentProfile{
     grid-column: 1/7;
-    margin-left:100px;
+    
     padding:0px;
 }
 
@@ -38,7 +38,7 @@
 }
 
 .CoverPhoto{
-     background: url('../../../images/blur_colors_of_life-wallpaper-1152x720.jpg') no-repeat center center; 
+     background: url('../../../images/Background3.jpg') no-repeat center center; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -63,3 +63,13 @@
     align-content: center;
 }
 
+.MainContentProfile h1{
+    font-size: 2.5rem;
+    margin:30px;
+}
+
+.Chat{
+    position: fixed;
+    right:40px;
+    bottom:40px
+}
