@@ -9,6 +9,8 @@ import Pageview from 'material-ui-icons/Pageview';
 import Star from 'material-ui-icons/Star';
 import Person from 'material-ui-icons/Person';
 import Back from 'material-ui-icons/KeyboardBackspace';
+import axios from 'axios';
+import { connect } from 'react-redux';
 
 class ListingInfo extends Component {
 	constructor() {
@@ -36,15 +38,24 @@ class ListingInfo extends Component {
 			gmail: require('../../images/mailLogo.png'),
 			faceboook: require('../../images/fbLogo.png')
 		};
+
 	}
 
 	componentDidMount() {
 		if (this.props.location.query) {
-			console.log('IM HIT');
 			this.setState({
 				listingInfo: this.props.location.query
 			});
 		}
+	}
+
+	addListingToFavorites() {
+		const config = { listing_id: this.state.listingInfo.listing_id, user_id: this.props.user.user_id }
+
+		axios.post('/api/addFavorite', config)
+			.then((response) => {
+				alert('Added to Favorites!');
+			});
 	}
 
 	render() {
@@ -75,13 +86,15 @@ class ListingInfo extends Component {
 									</Avatar>
 								</div>
 							</a>
-							<a href="#">
+							<div className='favorite_button'>
 								<div style={{ backgroundColor: '#FF9800', width: '100%', height: '80px' }}>
 									<Avatar style={{ backgroundColor: '#E65100' }}>
-										<Star />
+										<Star 
+											onClick={() => { this.addListingToFavorites() }} 
+										/>
 									</Avatar>
 								</div>
-							</a>
+							</div>
 						</div>
 						<h3>Price: {this.state.listingInfo.price}</h3>
 						<hr />
@@ -111,8 +124,8 @@ class ListingInfo extends Component {
 						{this.state.listingInfo.images.length !== 0 ? (
 							<ListingImages images={this.state.listingInfo.images} />
 						) : (
-							<div>No Images</div>
-						)}
+								<div>No Images</div>
+							)}
 					</Paper>
 					<Paper className="half">
 						<h3>{this.state.listingInfo.title}</h3>
@@ -135,4 +148,8 @@ class ListingInfo extends Component {
 	}
 }
 
-export default ListingInfo;
+function mapStateToProps(state) {
+	return state;
+}
+
+export default connect(mapStateToProps)(ListingInfo);

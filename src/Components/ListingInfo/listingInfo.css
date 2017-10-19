@@ -107,6 +107,10 @@
     width: 200px
 }
 
+.favorite_button {
+    cursor: pointer;
+}
+
 @media screen and (max-width: 900px) { 
 		.ListingInfoContainer{
              grid-template-columns: repeat(1, 1fr);

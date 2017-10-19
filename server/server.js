@@ -60,7 +60,7 @@ app.post('/api/addListing', (request, response) => {
 	let db = app.get('db');
 	postController.addListing(db, request, response);
 });
-app.post('/api/addFavorite/:user_id/:listing_id', (request, response) => {
+app.post('/api/addFavorite', (request, response) => {
 	let db = app.get('db');
 	postController.addFavorite(db, request, response);
 });
