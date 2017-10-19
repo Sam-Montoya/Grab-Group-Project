@@ -26,7 +26,6 @@ class MyFavorites extends Component {
 	}
 
 	componentDidMount() {
-		console.log('MOUNTED');
 		axios.get('http://localhost:3060/api/getUserListings').then((res) => {
 			this.setState({
 				listings: res.data
@@ -52,34 +51,18 @@ class MyFavorites extends Component {
 						<a href="http://localhost:3000/#/listinginfo">
 							<Paper
 								elevation={4}
-								className="Item"
+								className="item_container"
 								style={{
-									width: '200px',
-									height: '200px',
-									margin: 'auto',
-									margin: '20px',
 									background: `url(${elem.image}) no-repeat center center`,
 									backgroundSize: 'cover'
 								}}>
-								<Avatar
-									style={{ backgroundColor: 'lightblue', width: '30px', height: '30px' }}
-									className="removeIcon">
-									<div
-										style={{
-											backgroundColor: 'tomato',
-											width: '30px',
-											height: '30px',
-											paddingTop: '7px',
-											paddingLeft: '11px'
-										}}>
-										-
-									</div>
-								</Avatar>
 								<div
-									className="description"
-									style={{ backgroundColor: x === 1 ? color1 : x === 2 ? color2 : color3 }}>
-									<p className="title">{elem.title}</p>
-									<p className="descriptionText"> {elem.desc}</p>
+									className="item_description"
+									style={{ backgroundColor: 'rgba(53, 138, 255, 0.68)' }}>
+									<h1 className="title">Product Title</h1>
+									<hr />
+									<h2 className="descriptionText">Sandy, Utah</h2>
+									<h3 className="descriptionText">$400</h3>
 								</div>
 							</Paper>
 						</a>
@@ -87,40 +70,52 @@ class MyFavorites extends Component {
 				);
 		});
 
+
 		return (
 			<div>
 				<div className="myFavoritesPageContainer">
-					<div className="leftNavFavorites">
-						<div className="LinkIconsonLeft">
-							<div style={{ backgroundColor: '#CFD8DC', width: '100%', height: '25%' }}>
-								<Avatar style={{ backgroundColor: '#455A64', height: '90px', width: '90px' }}>
-									<Back />
-								</Avatar>
-							</div>
+					{/* <div className="leftNavFavorites">
+						<div className="LinkIconsonLeft"> */}
+					{/* <div style={{ backgroundColor: 'white', width: '100%', height: '25%', }}>
+                                <Avatar style={{ backgroundColor: '#455A64', height: '60px', width: '60px' }}>
+                                    <Back />
+                                </Avatar>
+                            </div>
 
-							<div style={{ backgroundColor: '#EF9A9A', width: '100%', height: '25%' }}>
-								<Avatar style={{ backgroundColor: '#C62828', height: '90px', width: '90px' }}>
-									<Person />
-								</Avatar>
-							</div>
+                            <div style={{ backgroundColor: 'white', width: '100%', height: '25%', }}>
+                                <Avatar style={{ backgroundColor: '#C62828', height: '60px', width: '60px' }}>
+                                    <Person />
+                                </Avatar>
+                            </div>
 
-							<div style={{ backgroundColor: '#81D4FA', width: '100%', height: '25%' }}>
-								<Avatar style={{ backgroundColor: 'navy', height: '90px', width: '90px' }}>
-									<Inbox />
-								</Avatar>
-							</div>
 
-							<div style={{ backgroundColor: '#FFCC80', width: '100%', height: '25%' }}>
-								<Avatar style={{ backgroundColor: '#E65100', height: '90px', width: '90px' }}>
-									<Star />
-								</Avatar>
-							</div>
+                            <div style={{ backgroundColor: 'white', width: '100%', height: '25%', }}>
+                                <Avatar style={{ backgroundColor: 'navy', height: '60px', width: '60px' }}>
+                                    <Inbox />
+                                </Avatar>
+                            </div>
+
+
+                            <div style={{ backgroundColor: 'white', width: '100%', height: '25%', }}>
+                                <Avatar style={{ backgroundColor: '#E65100', height: '60px', width: '60px' }}>
+                                    <Star />
+                                </Avatar>
+                            </div> */}
+					{/* 
 						</div>
-					</div>
+					</div> */}
+					
 					<div className="MainContentFavorites">
-						<h1>My Favorites Page</h1>
+						<h1 className="FavoritesPageHeading">My Favorites Page</h1>
 						<div className="FavoriteListingsContainer">{listings}</div>
 					</div>
+
+					<div className="Chat">
+						<Avatar style={{ backgroundColor: '#03A9F4', height: '60px', width: '60px' }}>
+							<Inbox />
+						</Avatar>
+					</div>
+
 					<div className="rightNavFavorites">
 						<div className="categories">
 							<p>Categories</p>

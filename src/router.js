@@ -4,6 +4,7 @@ import { Route, Switch } from 'react-router-dom';
 import Home from './Components/Home/Home'
 import AddListing from './Components/AddListing/addListing';
 import AllListings from './Components/AllListings/allListings';
+import MyListings from './Components/Profile/MyListings/MyListings'
 import ListingInfo from './Components/ListingInfo/listingInfo';
 import MyFavorites from './Components/Profile/MyFavorites/MyFavorites';
 import Settings from './Components/Settings/Settings';

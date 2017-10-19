@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './MyFavorites.css';
+import './MyListings.css';
 import Inbox from 'material-ui-icons/Message';
 import Pageview from 'material-ui-icons/Pageview';
 import Star from 'material-ui-icons/Star';
