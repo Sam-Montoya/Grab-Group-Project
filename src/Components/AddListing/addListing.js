@@ -3,9 +3,6 @@ import Dropzone from 'react-dropzone';
 import request from 'superagent';
 import './test.css';
 
-const uploadUrl = process.env.CLOUDINARY_UPLOAD_URL;
-const uploadPreset = process.env.CLOUDINARY_UPLOAD_PRESET;
-
 class AddListing extends Component {
     constructor() {
         super()
@@ -25,8 +22,8 @@ class AddListing extends Component {
 
     handleImageUpload(file) {
         for (let i = 0; i < file.length; i++) {
-            let upload = request.post(uploadUrl)
-                .field('upload_preset', uploadPreset)
+            let upload = request.post(process.env.REACT_APP_UPLOAD_URL)
+                .field('upload_preset', process.env.REACT_APP_UPLOAD_PRESET)
                 .field('file', file[i]);
 
             upload.end((err, response) => {
