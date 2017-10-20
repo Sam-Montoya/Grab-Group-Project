@@ -42,12 +42,6 @@ app.get('/api/getUserFavorites/:user_id', (request, response) => {
 	let db = app.get('db');
 	getController.getUserFavorites(db, request, response);
 });
-app.get('/api/getUserListings', (request, response) => {
-	let db = app.get('db');
-	//Temp
-	getController.getProducts(db, response);
-});
-// The Real Deal
 app.get('/api/getUserListings/:auth_id', (request, response) => {
 	let db = app.get('db');
 	getController.getUserListings(db, request, response);
@@ -56,13 +50,17 @@ app.get('/api/getUserChats/:auth_id', (request, response) => {
 	let db = app.get('db');
 	getController.getUserChats(db, request, response);
 });
+app.get('/api/getAllListings', (request, response) => {
+	let db = app.get('db');
+	getController.getAllListings(db, response);
+});
 
 // -- Post Requests
 app.post('/api/addListing', (request, response) => {
 	let db = app.get('db');
 	postController.addListing(db, request, response);
 });
-app.post('/api/addFavorite/:user_id/:listing_id', (request, response) => {
+app.post('/api/addFavorite', (request, response) => {
 	let db = app.get('db');
 	postController.addFavorite(db, request, response);
 });
@@ -87,6 +85,10 @@ app.put('/api/updateUserInfo', (request, response) => {
 app.put('/api/checkUserName/:username', (request, response) => {
 	let db = app.get('db');
 	putController.checkUserName(db, request, response);
+});
+app.put('/api/updateImages', (request, response) => {
+	let db = app.get('db');
+	putController.updateImages(db, request, response);
 });
 
 // -- Delete Requests

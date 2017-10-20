@@ -23,7 +23,7 @@
 }
 
 .search {
-	width: 50vw;
+	width: 35vw;
 	position: relative;
 }
 
@@ -74,6 +74,17 @@
 	}
 }
 
-.navtoolbar div button {
+.Logo{
+	color: white;
+	font-size: 1.75rem;
+	padding-left: 10px;
+}
+
+.logoicon{
+	width:40px;
+	height: 40px;
+}
+
+.navtoolbar div button:nth-child(2) {
   color: white;
 }

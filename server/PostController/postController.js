@@ -52,7 +52,8 @@ module.exports = {
 
 	// Adds the listing to the favorites
 	addFavorite(DB, request, response) {
-		DB.add_favorite([ request.params.listing_id, request.params.user_id ])
+		let { listing_id, user_id } = request.body;
+		DB.add_favorite([ listing_id, user_id ])
 			.then((res) => {
 				response.status(200).send('Favorite has been added!');
 			})
