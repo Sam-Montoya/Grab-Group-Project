@@ -69,7 +69,6 @@ class ListingInfo extends Component {
 			});
 	}
 
-
 	removeFavorite() {
 		if (this.props.user) {
 			axios.delete(`/api/removeFavorite/${this.state.listingInfo.listing_id}/${this.props.user.user_id}`)
@@ -98,12 +97,10 @@ class ListingInfo extends Component {
 				<div className="sidebar">
 					<div className="leftBar">
 						<div className="topMenuThing">
-							<div style={{ backgroundColor: 'white', width: '100%', height: '80px' }}>
-								<Link to="/">
-									<Avatar style={{ backgroundColor: '#607D8B' }}>
-										<Back />
-									</Avatar>
-								</Link>
+							<div style={{ backgroundColor: 'white', width: '100%', height: '80px' }} className='button_cursor' onClick={() => { window.history.back() }}>
+								<Avatar style={{ backgroundColor: '#607D8B' }}>
+									<Back />
+								</Avatar>
 							</div>
 							<div style={{ backgroundColor: '#EF9A9A', width: '100%', height: '80px' }}>
 								<Avatar style={{ backgroundColor: '#C62828' }}>
@@ -115,7 +112,7 @@ class ListingInfo extends Component {
 									<Inbox />
 								</Avatar>
 							</div>
-							<div className="favorite_button">
+							<div className="button_cursor">
 								<div style={{ backgroundColor: '#FF9800', width: '100%', height: '80px' }}>
 
 									<this.favoriteIcon />

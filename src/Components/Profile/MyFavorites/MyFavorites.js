@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import './MyFavorites.css';
 import Inbox from 'material-ui-icons/Message';
 import Pageview from 'material-ui-icons/Pageview';
@@ -42,30 +44,32 @@ class MyFavorites extends Component {
 		let color2 = 'rgba(46, 29, 138, 0.5';
 		let color3 = 'rgba(46, 138, 138, .5)';
 
-		let listings = this.state.listings.map((elem, i) => {
-			console.log(elem);
-			var x = Math.floor(Math.random() * 3 + 1);
-			if (elem.image)
+		let myFavorites = this.props.favorites.map((favorite, i) => {
+			if (favorite.images)
 				return (
 					<div>
-						<a href="http://localhost:3000/#/listinginfo">
+						<Link
+							to={{
+								pathname: '/listingInfo/' + favorite.listing_id,
+								query: favorite
+							}}>
 							<Paper
 								elevation={4}
 								className="item_container"
 								style={{
-									background: `url(${elem.image}) no-repeat center center`,
+									background: `url(${favorite.images[0]}) no-repeat center center`,
 									backgroundSize: 'cover'
 								}}>
 								<div
 									className="item_description"
 									style={{ backgroundColor: 'rgba(53, 138, 255, 0.68)' }}>
-									<h1 className="title">Product Title</h1>
+									<h1 className="title">{favorite.title}</h1>
 									<hr />
-									<h2 className="descriptionText">Sandy, Utah</h2>
-									<h3 className="descriptionText">$400</h3>
+									<h2 className="descriptionText">{favorite.city}, {favorite.state}</h2>
+									<h3 className="descriptionText">{favorite.price}</h3>
 								</div>
 							</Paper>
-						</a>
+						</Link>
 					</div>
 				);
 		});
@@ -104,10 +108,10 @@ class MyFavorites extends Component {
 					{/* 
 						</div>
 					</div> */}
-					
+
 					<div className="MainContentFavorites">
 						<h1 className="FavoritesPageHeading">My Favorites Page</h1>
-						<div className="FavoriteListingsContainer">{listings}</div>
+						<div className="FavoriteListingsContainer">{myFavorites}</div>
 					</div>
 
 					<div className="Chat">
@@ -186,4 +190,8 @@ class MyFavorites extends Component {
 	}
 }
 
-export default MyFavorites;
+function mapStateToProps(state) {
+	return state;
+}
+
+export default connect(mapStateToProps)(MyFavorites);
