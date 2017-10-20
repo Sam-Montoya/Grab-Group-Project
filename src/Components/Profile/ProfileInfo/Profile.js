@@ -13,6 +13,7 @@ import Paper from 'material-ui/Paper';
 import { getUserInfo } from '../../../Redux/reducer';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
+import CategoriesBar from '../../SharedComponents/CategoriesBar';
 
 class Profile extends Component {
 	constructor() {
@@ -59,7 +60,6 @@ class Profile extends Component {
 	};
 
 	render() {
-		console.log(this.state.listings);
 		let listings;
 		if (this.state.listings.length) {
 			listings = this.state.listings.map((elem, i) => {
@@ -100,10 +100,11 @@ class Profile extends Component {
 				<div className="ProfilePageContainer">
 					<div className="rightNavFavorites">
 						{/* Search Categories Function */}
-						<this.searchCategories />
+						{CategoriesBar('electronics', 'home', 'sports', 'parts', 'free')}
 					</div>
 					<div className="MainContentProfile">
 						<div className="CoverPhoto">
+							{/* Cover Photo JSX */}
 							<this.coverPhotoInfo />
 						</div>
 
