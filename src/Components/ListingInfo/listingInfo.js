@@ -7,6 +7,7 @@ import Star from 'material-ui-icons/Star';
 import Person from 'material-ui-icons/Person';
 import Back from 'material-ui-icons/KeyboardBackspace';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 class ListingInfo extends Component {
@@ -73,9 +74,11 @@ class ListingInfo extends Component {
 					<div className="leftBar">
 						<div className="topMenuThing">
 							<div style={{ backgroundColor: 'white', width: '100%', height: '80px' }}>
-								<Avatar style={{ backgroundColor: '#607D8B' }}>
-									<Back />
-								</Avatar>
+								<Link to="/">
+									<Avatar style={{ backgroundColor: '#607D8B' }}>
+										<Back />
+									</Avatar>
+								</Link>
 							</div>
 							<div style={{ backgroundColor: '#EF9A9A', width: '100%', height: '80px' }}>
 								<Avatar style={{ backgroundColor: '#C62828' }}>
