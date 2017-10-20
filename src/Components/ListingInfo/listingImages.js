@@ -31,7 +31,9 @@ class TextMobileStepper extends React.Component {
 	}
 	state = {
 		activeStep: 0,
-		picture: ''
+		picture: '',
+		newWidth1: 2,
+		numer: 200
 	};
 
 	handleNext = () => {
@@ -51,7 +53,7 @@ class TextMobileStepper extends React.Component {
 	test() {
 		switch (this.state.activeStep) {
 			case 0:
-			console.log('hit')
+				console.log('hit');
 				this.setState({
 					pictures: (
 						<div className="imgContainer">
@@ -91,9 +93,26 @@ class TextMobileStepper extends React.Component {
 		console.log(nextProps);
 	}
 
+	componentDidMount(){
+		let height, width, newWidth1;
+
+		let img = new Image();
+		img.src = this.props.images[0];
+		img.onload = () => {
+			height = img.height;
+			width = img.width;
+			newWidth1 = height / width * 150;
+			this.setState({
+				newWidth1: newWidth1
+			})
+		};
+	}
+
 	render() {
 		const classes = this.props.classes;
-		console.log('PICTURE ', this.state.picture)
+		console.log('PICTURE ', this.state.picture);
+		
+
 		return (
 			<div className={classes.root}>
 				<Paper square elevation={0} className={classes.header}>
@@ -102,7 +121,27 @@ class TextMobileStepper extends React.Component {
 					</Typography>
 				</Paper>
 
-				{this.state.picture}
+				{this.state.activeStep === 0 ? (
+					<div className="imgContainer">
+						<img src={this.props.images[0]} style={{ maxHeight: '300px', width:this.state.newWidth1 }} />
+					</div>
+				) : this.state.activeStep === 1 ? (
+					<div className="imgContainer">
+						<img src={this.props.images[1]} />
+					</div>
+				) : this.state.activeStep === 3 ? (
+					<div className="imgContainer">
+						<img src={this.props.images[2]} />
+					</div>
+				) : this.state.activeStep === 4 ? (
+					<div className="imgContainer">
+						<img src={this.props.images[3]} />
+					</div>
+				) : (
+					<div className="imgContainer">
+						<img src={this.props.images[4]} />
+					</div>
+				)}
 
 				<MobileStepper
 					type="dots"
@@ -150,25 +189,3 @@ export default withStyles(styles)(TextMobileStepper);
 // 		<img src="http://www.omarimc.com/wp-content/uploads/2017/06/video-games-893225_960_720.jpg" />
 // 	</div>
 // )}
-
-// {this.state.activeStep === 0 ? (
-// 					<div className="imgContainer">
-// 						<img src={this.props.images[0]} />
-// 					</div>
-// 				) : this.state.activeStep === 1 ? (
-// 					<div className="imgContainer">
-// 						<img src={this.props.images[1]} />
-// 					</div>
-// 				) : this.state.activeStep === 3 ? (
-// 					<div className="imgContainer">
-// 						<img src={this.props.images[2]} />
-// 					</div>
-// 				) : this.state.activeStep === 4 ? (
-// 					<div className="imgContainer">
-// 						<img src={this.props.images[3]} />
-// 					</div>
-// 				) : (
-// 					<div className="imgContainer">
-// 						<img src={this.props.images[4]} />
-// 					</div>
-// 				)}
