@@ -101,6 +101,11 @@ app.delete('/api/deleteChat', (request, response) => {
 	deleteController.deleteChat(db, request, response);
 });
 
+app.delete('/api/removeFavorite/:listing_id/:user_id', (request, response) => {
+	let db = app.get('db');
+	deleteController.removeFromFavorites(db, request, response);
+})
+
 /**
  * Endpoints End
  */

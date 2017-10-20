@@ -26,12 +26,11 @@ class ButtonAppBar extends Component {
 
 	componentDidMount() {
 		this.props.getUserInfo();
-		if (this.props.user) {
-			console.log('IM BEING HIT')
-			setTimeout(() => {
+		setTimeout(() => {
+			if (this.props.user) {
 				this.props.getUserFavorites(this.props.user.user_id);
-			}, 2000);
-		}
+			}
+		}, 500)
 	}
 
 	componentWillReceiveProps(nextProps) {
