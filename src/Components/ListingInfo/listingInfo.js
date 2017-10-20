@@ -35,8 +35,10 @@ class ListingInfo extends Component {
 			},
 			twitter: require('../../images/TwitterLogo2.png'),
 			gmail: require('../../images/mailLogo.png'),
-			faceboook: require('../../images/fbLogo.png')
+			faceboook: require('../../images/fbLogo.png'),
+			isFavorite: false
 		};
+		this.favoriteIcon = this.favoriteIcon.bind(this);
 	}
 
 	componentDidMount() {
@@ -58,26 +60,24 @@ class ListingInfo extends Component {
 	}
 
 	addListingToFavorites() {
-		if (this.props.user) {
-			const config = { listing_id: this.state.listingInfo.listing_id, user_id: this.props.user.user_id }
-
-			axios.post('/api/addFavorite', config)
-				.then((response) => {
-					alert('Added to Favorites!');
-				});
-			this.props.getUserFavorites(this.props.user.user_id);
-		} else {
-			alert('Please log in to favorite listings!');
-		}
+		const config = { listing_id: this.state.listingInfo.listing_id, user_id: this.props.user.user_id }
+		axios.post('/api/addFavorite', config)
+			.then((response) => {
+				this.props.getUserFavorites(this.props.user.user_id);
+				this.favoriteIcon();
+				alert('Added to Favorites!');
+			});
 	}
+
 
 	removeFavorite() {
 		if (this.props.user) {
 			axios.delete(`/api/removeFavorite/${this.state.listingInfo.listing_id}/${this.props.user.user_id}`)
 				.then((response) => {
+					this.props.getUserFavorites(this.props.user.user_id);
+					this.favoriteIcon();
 					alert('Listing has been removed from your favorites!');
 				})
-			this.props.getUserFavorites(this.props.user.user_id);
 		}
 	}
 
@@ -93,14 +93,6 @@ class ListingInfo extends Component {
 	}
 
 	render() {
-		let isFavorite = false;
-
-		for (let i = 0; i < this.props.favorites.length; i++) {
-			if (this.props.favorites[i] === this.state.listingInfo.listing_id) {
-				isFavorite = true;
-				break;
-			}
-		}
 		return (
 			<div className="ListingPage">
 				<div className="sidebar">
@@ -125,19 +117,8 @@ class ListingInfo extends Component {
 							</div>
 							<div className="favorite_button">
 								<div style={{ backgroundColor: '#FF9800', width: '100%', height: '80px' }}>
-									<Avatar style={{ backgroundColor: '#E65100' }}>
-										{
-											isFavorite
-												?
-												<Star style={{ color: '#FFFF00' }}
-													onClick={() => { this.removeFavorite() }}
-												/>
-												:
-												<Star
-													onClick={() => { this.addListingToFavorites() }}
-												/>
-										}
-									</Avatar>
+
+									<this.favoriteIcon />
 								</div>
 							</div>
 						</div>
@@ -190,6 +171,40 @@ class ListingInfo extends Component {
 				</div>
 			</div>
 		);
+	}
+
+	favoriteIcon() {
+		let favoriteIcon = (
+			<Avatar style={{ backgroundColor: 'white' }}>
+				<Star style={{ color: '#FFFF00' }}
+					onClick={() => { alert('Please Log In') }}
+				/>
+			</Avatar>
+		);
+
+		if (this.props.user) {
+			for (let j = 0; j < this.props.favorites.length; j++) {
+				if (this.props.favorites[j].listing_id === this.state.listingInfo.listing_id) {
+					favoriteIcon = (
+						<Avatar style={{ backgroundColor: 'white' }}>
+							<Star style={{ color: '#FFFF00' }}
+								onClick={() => { this.removeFavorite() }}
+							/>
+						</Avatar>
+					)
+					break;
+				} else {
+					favoriteIcon = (
+						<Avatar style={{ backgroundColor: 'black' }}>
+							<Star style={{ color: 'black' }}
+								onClick={() => { this.addListingToFavorites() }}
+							/>
+						</Avatar>
+					)
+				}
+			}
+		}
+		return favoriteIcon;
 	}
 }
 

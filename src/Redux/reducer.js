@@ -12,6 +12,7 @@ const GET_USER_FAVORITES = 'GET_USER_FAVORITES';
 //ACTION CREATORS
 export function getUserInfo() {
 	let userInfo = axios.get('/auth/me').then((userData) => {
+		getUserFavorites(userData.data[0].user_id);
 		if (userData.data !== 'User not found') {
 			return userData.data[0];
 		}
