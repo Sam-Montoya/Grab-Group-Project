@@ -10,7 +10,7 @@ import MenuIcon from 'material-ui-icons/Menu';
 import Drawer from './Drawer';
 import './nav.css';
 import { connect } from 'react-redux';
-import { getUserInfo } from '../Redux/reducer';
+import { getUserInfo, getUserFavorites } from '../Redux/reducer';
 import { Link } from 'react-router-dom';
 import Paper from 'material-ui/Paper';
 import Search from 'material-ui-icons/Search';
@@ -26,18 +26,20 @@ class ButtonAppBar extends Component {
 
 	componentDidMount() {
 		this.props.getUserInfo();
-		console.log(this.props)
+		if (this.props.user) {
+			console.log('IM BEING HIT')
+			setTimeout(() => {
+				this.props.getUserFavorites(this.props.user.user_id);
+			}, 2000);
+		}
 	}
 
 	componentWillReceiveProps(nextProps) {
-		console.log(nextProps.user)
 		if (nextProps.user) {
-			console.log(nextProps.user.profile_pic)
 			this.setState({
 				profile_pic: nextProps.user.profile_pic
 			})
 		}
-
 	}
 
 	render() {
@@ -104,4 +106,4 @@ function mapStateToProps(state) {
 	return state;
 }
 
-export default connect(mapStateToProps, { getUserInfo })(ButtonAppBar);
+export default connect(mapStateToProps, { getUserInfo, getUserFavorites })(ButtonAppBar);

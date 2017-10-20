@@ -47,15 +47,17 @@ class ListingInfo extends Component {
 				listingInfo: this.props.location.query
 			});
 		}
+		console.log(this.props.favorites);
+		console.log(this.props.favorites.indexOf(this.state.listingInfo.listing_id));
 	}
 
 	addListingToFavorites() {
-		if(this.props.user) {
-		const config = { listing_id: this.state.listingInfo.listing_id, user_id: this.props.user.user_id }
-		axios.post('/api/addFavorite', config)
-			.then((response) => {
-				alert('Added to Favorites!');
-			});
+		if (this.props.user) {
+			const config = { listing_id: this.state.listingInfo.listing_id, user_id: this.props.user.user_id }
+			axios.post('/api/addFavorite', config)
+				.then((response) => {
+					alert('Added to Favorites!');
+				});
 		} else {
 			alert('Please log in to favorite listings!');
 		}
@@ -92,9 +94,17 @@ class ListingInfo extends Component {
 							<div className='favorite_button'>
 								<div style={{ backgroundColor: '#FF9800', width: '100%', height: '80px' }}>
 									<Avatar style={{ backgroundColor: '#E65100' }}>
-										<Star 
-											onClick={() => { this.addListingToFavorites() }} 
-										/>
+										{
+											this.props.favorites.indexOf(this.state.listingInfo.listing_id) === -1
+												?
+												<Star
+													onClick={() => { this.addListingToFavorites() }}
+												/>
+												:
+												<Star style={{ color: '#FFFF00' }}
+
+												/>
+										}
 									</Avatar>
 								</div>
 							</div>
