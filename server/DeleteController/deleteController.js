@@ -26,7 +26,8 @@ module.exports = {
 
 	// Removes the listing from your favorites
 	removeFromFavorites(DB, request, response) {
-		DB.remove_favorite(request.params.auth_id).then((res) => {
+		console.log(request.params);
+		DB.remove_favorite([ request.params.listing_id, request.params.user_id ]).then((res) => {
 			response.status(200).send('Favorite has been deleted');
 		});
 	},

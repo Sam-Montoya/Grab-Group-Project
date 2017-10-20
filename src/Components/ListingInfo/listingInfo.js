@@ -9,6 +9,7 @@ import Back from 'material-ui-icons/KeyboardBackspace';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { getUserFavorites } from '../../Redux/reducer';
 
 class ListingInfo extends Component {
 	constructor() {
@@ -54,23 +55,52 @@ class ListingInfo extends Component {
 				});
 			});
 		}
-		console.log(this.props.favorites);
-		console.log(this.props.favorites.indexOf(this.state.listingInfo.listing_id));
 	}
 
 	addListingToFavorites() {
 		if (this.props.user) {
 			const config = { listing_id: this.state.listingInfo.listing_id, user_id: this.props.user.user_id }
+
 			axios.post('/api/addFavorite', config)
 				.then((response) => {
 					alert('Added to Favorites!');
 				});
+			this.props.getUserFavorites(this.props.user.user_id);
 		} else {
 			alert('Please log in to favorite listings!');
 		}
 	}
 
+	removeFavorite() {
+		if (this.props.user) {
+			axios.delete(`/api/removeFavorite/${this.state.listingInfo.listing_id}/${this.props.user.user_id}`)
+				.then((response) => {
+					alert('Listing has been removed from your favorites!');
+				})
+			this.props.getUserFavorites(this.props.user.user_id);
+		}
+	}
+
+	checkFavorites() {
+		let existing = this.props.favorites.filter((listing, i) => {
+			return listing.listing_id === this.state.listingInfo.listing_id;
+		})
+		if (existing.length) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	render() {
+		let isFavorite = false;
+
+		for (let i = 0; i < this.props.favorites.length; i++) {
+			if (this.props.favorites[i] === this.state.listingInfo.listing_id) {
+				isFavorite = true;
+				break;
+			}
+		}
 		return (
 			<div className="ListingPage">
 				<div className="sidebar">
@@ -97,14 +127,14 @@ class ListingInfo extends Component {
 								<div style={{ backgroundColor: '#FF9800', width: '100%', height: '80px' }}>
 									<Avatar style={{ backgroundColor: '#E65100' }}>
 										{
-											this.props.favorites.indexOf(this.state.listingInfo.listing_id) === -1
+											isFavorite
 												?
-												<Star
-													onClick={() => { this.addListingToFavorites() }}
+												<Star style={{ color: '#FFFF00' }}
+													onClick={() => { this.removeFavorite() }}
 												/>
 												:
-												<Star style={{ color: '#FFFF00' }}
-
+												<Star
+													onClick={() => { this.addListingToFavorites() }}
 												/>
 										}
 									</Avatar>
@@ -139,8 +169,8 @@ class ListingInfo extends Component {
 						{this.state.listingInfo.images.length !== 0 ? (
 							<ListingImages images={this.state.listingInfo.images} />
 						) : (
-							<div>No Images</div>
-						)}
+								<div>No Images</div>
+							)}
 					</Paper>
 					<Paper className="half">
 						<h3>{this.state.listingInfo.title}</h3>
@@ -167,4 +197,4 @@ function mapStateToProps(state) {
 	return state;
 }
 
-export default connect(mapStateToProps)(ListingInfo);
+export default connect(mapStateToProps, { getUserFavorites })(ListingInfo);
