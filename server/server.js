@@ -54,6 +54,10 @@ app.get('/api/getAllListings', (request, response) => {
 	let db = app.get('db');
 	getController.getAllListings(db, response);
 });
+app.get('/api/getListing/:listing_id', (request, response) => {
+	let db = app.get('db');
+	getController.getListing(db, request, response);
+});
 
 // -- Post Requests
 app.post('/api/addListing', (request, response) => {
