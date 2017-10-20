@@ -41,6 +41,13 @@ module.exports = {
 		});
 	},
 
+	getListing(DB, request, response) {
+		DB.get_listing(request.params.listing_id).then((listingData) => {
+			console.log(listingData);
+			response.status(200).send(listingData[0]);
+		});
+	},
+
 	getUserListings(DB, request, response) {
 		DB.find_user(request.params.auth_id).then((user) => {
 			if (user[0]) {

@@ -2,10 +2,7 @@ import React, { Component } from 'react';
 import ListingImages from './listingImages';
 import Paper from 'material-ui/Paper';
 import Avatar from 'material-ui/Avatar';
-import Button from 'material-ui/Button';
-import List, { ListItem, ListItemText } from 'material-ui/List';
 import Inbox from 'material-ui-icons/Message';
-import Pageview from 'material-ui-icons/Pageview';
 import Star from 'material-ui-icons/Star';
 import Person from 'material-ui-icons/Person';
 import Back from 'material-ui-icons/KeyboardBackspace';
@@ -38,22 +35,30 @@ class ListingInfo extends Component {
 			gmail: require('../../images/mailLogo.png'),
 			faceboook: require('../../images/fbLogo.png')
 		};
-
 	}
 
 	componentDidMount() {
+		let listingNumber = this.props.location.pathname;
+		listingNumber = listingNumber.split('/');
+		listingNumber = listingNumber[2];
+
 		if (this.props.location.query) {
 			this.setState({
 				listingInfo: this.props.location.query
+			});
+		} else {
+			axios.get('/api/getListing/' + listingNumber).then((listingData) => {
+				this.setState({
+					listingInfo: listingData.data
+				});
 			});
 		}
 	}
 
 	addListingToFavorites() {
-		if(this.props.user) {
-		const config = { listing_id: this.state.listingInfo.listing_id, user_id: this.props.user.user_id }
-		axios.post('/api/addFavorite', config)
-			.then((response) => {
+		if (this.props.user) {
+			const config = { listing_id: this.state.listingInfo.listing_id, user_id: this.props.user.user_id };
+			axios.post('/api/addFavorite', config).then((response) => {
 				alert('Added to Favorites!');
 			});
 		} else {
@@ -62,38 +67,33 @@ class ListingInfo extends Component {
 	}
 
 	render() {
-		console.log(this.state.listingInfo);
 		return (
 			<div className="ListingPage">
 				<div className="sidebar">
 					<div className="leftBar">
 						<div className="topMenuThing">
-							<a href="#">
-								<div style={{ backgroundColor: 'white', width: '100%', height: '80px' }}>
-									<Avatar style={{ backgroundColor: '#607D8B' }}>
-										<Back />
-									</Avatar>
-								</div>
-							</a>
-							<a href="#">
-								<div style={{ backgroundColor: '#EF9A9A', width: '100%', height: '80px' }}>
-									<Avatar style={{ backgroundColor: '#C62828' }}>
-										<Person />
-									</Avatar>
-								</div>
-							</a>
-							<a href="#">
-								<div style={{ backgroundColor: 'lightblue', width: '100%', height: '80px' }}>
-									<Avatar style={{ backgroundColor: 'navy' }}>
-										<Inbox />
-									</Avatar>
-								</div>
-							</a>
-							<div className='favorite_button'>
+							<div style={{ backgroundColor: 'white', width: '100%', height: '80px' }}>
+								<Avatar style={{ backgroundColor: '#607D8B' }}>
+									<Back />
+								</Avatar>
+							</div>
+							<div style={{ backgroundColor: '#EF9A9A', width: '100%', height: '80px' }}>
+								<Avatar style={{ backgroundColor: '#C62828' }}>
+									<Person />
+								</Avatar>
+							</div>
+							<div style={{ backgroundColor: 'lightblue', width: '100%', height: '80px' }}>
+								<Avatar style={{ backgroundColor: 'navy' }}>
+									<Inbox />
+								</Avatar>
+							</div>
+							<div className="favorite_button">
 								<div style={{ backgroundColor: '#FF9800', width: '100%', height: '80px' }}>
 									<Avatar style={{ backgroundColor: '#E65100' }}>
-										<Star 
-											onClick={() => { this.addListingToFavorites() }} 
+										<Star
+											onClick={() => {
+												this.addListingToFavorites();
+											}}
 										/>
 									</Avatar>
 								</div>
@@ -106,16 +106,16 @@ class ListingInfo extends Component {
 						<h3>{this.state.listingInfo.phone_number}</h3>
 						<h3>{this.state.listingInfo.contact_status}</h3>
 						<div className="logos">
-							<img src={this.state.faceboook} />
-							<img src={this.state.twitter} />
-							<img src={this.state.gmail} />
+							<img src={this.state.faceboook} alt="facebook" />
+							<img src={this.state.twitter} alt="twitter" />
+							<img src={this.state.gmail} alt="gmail" />
 						</div>
 						<hr />
 						<div>
 							<div className="moreFromThisSellerContainer">
 								<h3>More from this seller</h3>
 								<div className="moreFromThisSeller">
-									<img src="" />
+									{/* <img src="" /> */}
 									<caption>Xbox 360</caption>
 								</div>
 							</div>
@@ -127,8 +127,8 @@ class ListingInfo extends Component {
 						{this.state.listingInfo.images.length !== 0 ? (
 							<ListingImages images={this.state.listingInfo.images} />
 						) : (
-								<div>No Images</div>
-							)}
+							<div>No Images</div>
+						)}
 					</Paper>
 					<Paper className="half">
 						<h3>{this.state.listingInfo.title}</h3>
