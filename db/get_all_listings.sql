@@ -1,3 +1,6 @@
 --GETS ALL LISTINGS
 SELECT *
-FROM listings;
+FROM listings
+ORDER BY
+listing_id
+DESC;
