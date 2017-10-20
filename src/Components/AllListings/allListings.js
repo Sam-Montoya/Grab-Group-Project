@@ -66,7 +66,6 @@ class allListings extends Component {
 	};
 
 	render() {
-		console.log(this.state.listings);
 		let listings = this.state.listings.map((listing, i) => {
 			let imageTest;
 			if (listing.images !== null) imageTest = listing.images[0];
