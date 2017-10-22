@@ -57,34 +57,47 @@ class TextMobileStepper extends React.Component {
 				this.setState({
 					pictures: (
 						<div className="imgContainer">
-							<img src={this.props.images[0]} />
+							<img src={this.props.images[0]} alt="" />
 						</div>
 					)
 				});
+				break;
 			case 1:
 				this.setState({
 					pictures: (
 						<div className="imgContainer">
-							<img src={this.props.images[1]} />
+							<img src={this.props.images[1]} alt="" />
 						</div>
 					)
 				});
+				break;
 			case 2:
 				this.setState({
 					pictures: (
 						<div className="imgContainer">
-							<img src={this.props.images[2]} />
+							<img src={this.props.images[2]} alt="" />
 						</div>
 					)
 				});
+				break;
 			case 3:
 				this.setState({
 					pictures: (
 						<div className="imgContainer">
-							<img src={this.props.images[3]} />
+							<img src={this.props.images[3]} alt="" />
 						</div>
 					)
 				});
+				break;
+			default:
+				this.setState({
+					pictures: (
+						<div className="imgContainer">
+							<img src={this.props.images[0]} alt="" />
+						</div>
+					)
+				});
+				break;
 		}
 	}
 
@@ -93,7 +106,7 @@ class TextMobileStepper extends React.Component {
 		console.log(nextProps);
 	}
 
-	componentDidMount(){
+	componentDidMount() {
 		let height, width, newWidth1;
 
 		let img = new Image();
@@ -104,14 +117,13 @@ class TextMobileStepper extends React.Component {
 			newWidth1 = height / width * 150;
 			this.setState({
 				newWidth1: newWidth1
-			})
+			});
 		};
 	}
 
 	render() {
 		const classes = this.props.classes;
 		console.log('PICTURE ', this.state.picture);
-		
 
 		return (
 			<div className={classes.root}>
@@ -121,25 +133,30 @@ class TextMobileStepper extends React.Component {
 					</Typography>
 				</Paper>
 
+				{this.state.picture}
 				{this.state.activeStep === 0 ? (
 					<div className="imgContainer">
-						<img src={this.props.images[0]} style={{ maxHeight: '300px', width:this.state.newWidth1 }} />
+						<img
+							src={this.props.images[0]}
+							style={{ maxHeight: '300px', width: this.state.newWidth1 }}
+							alt=""
+						/>
 					</div>
 				) : this.state.activeStep === 1 ? (
 					<div className="imgContainer">
-						<img src={this.props.images[1]} />
+						<img src={this.props.images[1]} alt="" />
 					</div>
 				) : this.state.activeStep === 3 ? (
 					<div className="imgContainer">
-						<img src={this.props.images[2]} />
+						<img src={this.props.images[2]} alt="" />
 					</div>
 				) : this.state.activeStep === 4 ? (
 					<div className="imgContainer">
-						<img src={this.props.images[3]} />
+						<img src={this.props.images[3]} alt="" />
 					</div>
 				) : (
 					<div className="imgContainer">
-						<img src={this.props.images[4]} />
+						<img src={this.props.images[4]} alt="" />
 					</div>
 				)}
 

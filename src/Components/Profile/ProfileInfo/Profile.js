@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import './profile.css';
+import './Profile.css';
 import Inbox from 'material-ui-icons/Message';
-import Pageview from 'material-ui-icons/Pageview';
-import Star from 'material-ui-icons/Star';
-import Person from 'material-ui-icons/Person';
-import Back from 'material-ui-icons/KeyboardBackspace';
 import Avatar from 'material-ui/Avatar';
-import { FormGroup, FormControlLabel } from 'material-ui/Form';
+import { FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 import axios from 'axios';
 import Paper from 'material-ui/Paper';
@@ -62,7 +58,7 @@ class Profile extends Component {
 	render() {
 		let listings;
 		if (this.state.listings.length) {
-			listings = this.state.listings.map((elem, i) => {
+			this.state.listings.map((elem, i) => {
 				if (elem.images)
 					return (
 						<div>
@@ -92,6 +88,8 @@ class Profile extends Component {
 							</Link>
 						</div>
 					);
+					//If the listings break, remove this
+				return this;
 			});
 		}
 

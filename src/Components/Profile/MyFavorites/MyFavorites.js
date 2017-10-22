@@ -3,13 +3,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './MyFavorites.css';
 import Inbox from 'material-ui-icons/Message';
-import Pageview from 'material-ui-icons/Pageview';
-import Star from 'material-ui-icons/Star';
-import Person from 'material-ui-icons/Person';
-import Back from 'material-ui-icons/KeyboardBackspace';
 import Avatar from 'material-ui/Avatar';
-
-import { FormGroup, FormControlLabel } from 'material-ui/Form';
+import { FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 import axios from 'axios';
 import Paper from 'material-ui/Paper';
@@ -40,10 +35,6 @@ class MyFavorites extends Component {
 	};
 
 	render() {
-		let color1 = 'rgba(0, 137, 54, 0.5';
-		let color2 = 'rgba(46, 29, 138, 0.5';
-		let color3 = 'rgba(46, 138, 138, .5)';
-
 		let myFavorites = this.props.favorites.map((favorite, i) => {
 			if (favorite.images)
 				return (
@@ -72,6 +63,7 @@ class MyFavorites extends Component {
 						</Link>
 					</div>
 				);
+				return this;
 		});
 
 

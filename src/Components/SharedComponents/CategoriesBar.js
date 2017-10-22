@@ -1,11 +1,4 @@
 import React from 'react';
-import List, { ListItem, ListItemText } from 'material-ui/List';
-import MenuItem from 'material-ui/Menu/MenuItem';
-import TextField from 'material-ui/TextField';
-import Star from 'material-ui-icons/Star';
-import Pageview from 'material-ui-icons/List';
-import Input from 'material-ui/Input';
-import profile from '../../images/benMt.1866739e.jpg';
 import { FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 

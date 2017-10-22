@@ -117,6 +117,7 @@ class allListings extends Component {
 						</Link>
 					</div>
 				);
+				return this;
 		});
 
 		return (

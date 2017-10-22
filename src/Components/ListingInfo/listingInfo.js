@@ -7,7 +7,6 @@ import Star from 'material-ui-icons/Star';
 import Person from 'material-ui-icons/Person';
 import Back from 'material-ui-icons/KeyboardBackspace';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { getUserFavorites } from '../../Redux/reducer';
 
