@@ -18,7 +18,7 @@ let app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-massive(process.env.CONNECTIONSTRING)
+massive('')
 	.then((db) => {
 		app.set('db', db);
 		console.log('Connected successfully.');
@@ -104,7 +104,7 @@ app.delete('/api/deleteChat', (request, response) => {
 app.delete('/api/removeFavorite/:listing_id/:user_id', (request, response) => {
 	let db = app.get('db');
 	deleteController.removeFromFavorites(db, request, response);
-})
+});
 
 /**
  * Endpoints End
@@ -134,26 +134,30 @@ passport.use(
 			callbackURL: process.env.AUTH_CALLBACK
 		},
 		function(accessToken, refreshToken, extraParams, profile, done) {
-			app.get('db').find_user(profile.id).then((user) => {
-				if (user[0]) {
-					return done(null, user);
-				} else {
-					console.log(profile);
-					app
-						.get('db')
-						.create_user([
-							profile.id,
-							profile.displayName,
-							profile._json.name,
-							profile.picture,
-							profile.emails[0].value,
-							new Date(Date.now())
-						])
-						.then((newUser) => {
-							return done(null, newUser[0]);
-						});
-				}
-			});
+			try {
+				app.get('db').find_user(profile.id).then((user) => {
+					if (user[0]) {
+						return done(null, user);
+					} else {
+						console.log(profile);
+						app
+							.get('db')
+							.create_user([
+								profile.id,
+								profile.displayName,
+								profile._json.name,
+								profile.picture,
+								profile.emails[0].value,
+								new Date(Date.now())
+							])
+							.then((newUser) => {
+								return done(null, newUser[0]);
+							});
+					}
+				});
+			} catch (err) {
+				return done(null, profile);
+			}
 		}
 	)
 );
@@ -186,7 +190,7 @@ app.get('/auth/me', (req, res, next) => {
 
 app.get('/auth/logout', (req, res) => {
 	req.logOut();
-	res.redirect(302, 'http://localhost:3000/#/');
+	res.redirect(302, '/');
 });
 
 /**

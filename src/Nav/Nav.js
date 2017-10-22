@@ -25,19 +25,20 @@ class ButtonAppBar extends Component {
 	}
 
 	componentDidMount() {
-		this.props.getUserInfo();
-		setTimeout(() => {
-			if (this.props.user) {
-				this.props.getUserFavorites(this.props.user.user_id);
-			}
-		}, 500)
+		// this.props.getUserInfo();
+		// setTimeout(() => {
+		// 	if (this.props.user) {
+		// 		this.props.getUserFavorites(this.props.user.user_id);
+		// 	}
+		// }, 500);
+		console.log(this.props.user);
 	}
 
 	componentWillReceiveProps(nextProps) {
 		if (nextProps.user) {
 			this.setState({
 				profile_pic: nextProps.user.profile_pic
-			})
+			});
 		}
 	}
 
@@ -53,21 +54,20 @@ class ButtonAppBar extends Component {
 						<div className="navtoolbar">
 							<Drawer />
 							<div className="navtoolbar">
-								<img src={logo1} className="logoicon" />
 								<Typography type="title" color="inherit">
 									<Link to="/" className="Logo">
 										Grab
-								</Link>
+									</Link>
 								</Typography>
 							</div>
 						</div>
 
 						<div className="wrap">
 							<div className="search">
-								<input type="text" className="searchTerm" placeholder="What are you looking for?" />
+								<input type="text" className="search_input" placeholder="What are you looking for?" />
 								<button type="submit" className="searchButton">
 									<IconButton>
-										<Search style={{ marginRight: '20px', marginBottom: '18px' }} />
+										<Search className='search_icon'/>
 									</IconButton>
 								</button>
 							</div>
@@ -88,12 +88,12 @@ class ButtonAppBar extends Component {
 								</a>
 							</div>
 						) : (
-								<a href={process.env.REACT_APP_LOGIN}>
-									<Button color="contrast" style={{ color: 'white' }}>
-										Login
+							<a href={process.env.REACT_APP_LOGIN}>
+								<Button color="contrast" style={{ color: 'white' }}>
+									Login
 								</Button>
-								</a>
-							)}
+							</a>
+						)}
 					</Toolbar>
 				</AppBar>
 			</div>
