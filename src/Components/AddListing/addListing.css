@@ -2,24 +2,55 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   justify-content: center;
+    overflow: hidden;  
+  /* width:100% */
 }
+
+.halfFirstInput{
+    margin:30px 15px 15px 30px;
+    padding:20px;
+    text-align: center;
+    min-height: 100px;
+    display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: stretch;
+	align-content: center;
+} 
+
+  .halfSecondInput{
+    margin:30px 30px 15px 15px;
+    padding:20px;
+    text-align: center;
+    min-height: 100px;
+     display: flex;
+	flex-direction: column;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: stretch;
+	align-content: center;
+}  
 
  .halfFirst{
     margin:30px 15px 15px 30px;
     padding:20px;
-    text-align: center
+    text-align: center;
+    min-height: 200px
 } 
 
   .halfSecond{
     margin:30px 30px 15px 15px;
     padding:20px;
-    text-align: center
+    text-align: center;
+    min-height: 200px
 }  
 
 .FullRow{
     margin:15px 30px;
     grid-column: 1/3;
-    padding: 20px
+    padding: 20px;
+    min-height: 200px;
 }
 
 .AddListingHeading{
@@ -77,6 +108,106 @@
     padding:10px;
 }
 
+.uploadButton{
+    position: relative;
+    bottom: 0px;
+    width:25%;
+}
+
+.categoryButtons{
+    display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	align-items: stretch;
+    align-content: center;
+    margin: 50px 10px;
+}
+
+/* .categoryButtons Button{
+    color:white;
+} */
+
+.createListing_Electronics{
+	background-color: #B3E5FC !important;
+}
+
+.createListing_Home {
+	background-color: #E1BEE7 !important;
+}
+
+.createListing_Sports{
+	background-color: #B2DFDB !important;
+}
+
+.createListing_Parts{
+	background-color: #EEEEEE !important;
+}
+
+.createListing_Free {
+	background-color: #FFAB91!important;
+}
+
+.createListing_Electronics_Clicked{
+    background-color: #0277BD !important;
+    color:white !important
+}
+
+.createListing_Home_Clicked {
+    background-color: #6A1B9A !important;
+        color:white !important
+
+}
+
+.createListing_Sports_Clicked{
+    background-color: #00695C !important;
+        color:white !important
+
+}
+
+.createListing_Parts_Clicked{
+    background-color: #424242 !important;
+        color:white !important
+
+}
+
+.createListing_Free_Clicked {
+    background-color: #D84315 !important;
+        color:white !important
+
+}
+
+.createButton{
+    background-color: #4fc3f7 !important;
+    color:white !important;
+    width:30px !important;
+    margin:auto !important;
+     /* margin-bottom: 20px !important;      */
+}
+
+.Details_addListing{
+    display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	align-items: flex-start;
+    align-content: flex-start;
+    margin:10px; 
+}
+
+.Details_addListing p{
+    margin:10px;
+}
+
+.InputsInDiv{
+     display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: space-around;
+	align-items: flex-start;
+    align-content: flex-start;
+    margin:10px; 
+}
 
 @media screen and (max-width: 900px) { 
 		.AddListingContainer{

@@ -19,6 +19,46 @@ import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';
 // import AddIcon from 'material-ui-icons/AddCircle';
 import Button from 'material-ui/Button';
+import MaskedInput from 'react-text-mask';
+import NumberFormat from 'react-number-format';
+import Input from 'material-ui/Input';
+import { MenuItem } from 'material-ui/Menu';
+import { FormControl, FormHelperText } from 'material-ui/Form';
+import Select from 'material-ui/Select';
+import { getUserInfo } from '../../Redux/reducer';
+import { connect } from 'react-redux';
+import States from './StatesInput'
+
+
+
+function TextMaskCustom(props) {
+	return (
+		<MaskedInput
+			{...props}
+			mask={['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
+			placeholderChar={'\u2000'}
+			showMask
+		/>
+	);
+}
+
+function NumberFormatCustom(props) {
+	return (
+		<NumberFormat
+			{...props}
+			onChange={(event, values) => {
+				props.onChange({
+					target: {
+						value: values.value,
+					},
+				});
+			}}
+			thousandSeparator
+			prefix="$"
+		/>
+	);
+}
+
 class AddListing extends Component {
 	constructor() {
 		super();
@@ -28,8 +68,51 @@ class AddListing extends Component {
 			pros: [],
 			cons: [],
 			prosInput: '',
-			consInput: ''
+			consInput: '',
+			textmask: '',
+			numberformat: '1320',
+			price: '',
+			category: '',
+			description: '',
+			user_id: '',
+			auth_id: '',
+			title: '',
+			state: '',
+			city: ''
 		};
+	}
+
+	componentDidMount() {
+		this.props.getUserInfo();
+		if (this.props.user) {
+			this.setState({
+				user_id: this.props.user.user_id,
+				auth_id: this.props.user.auth_id
+			})
+		}
+	}
+
+	handleCreate = () => {
+		console.log('CLICKED')
+		let listingObj = {
+			price: this.state.price,
+			category: this.state.category,
+			description: this.state.description,
+			phone_number: this.state.textmask,
+			pros: this.state.pros,
+			cons: this.state.cons,
+			user_id: this.state.user_id,
+			auth_id: this.state.auth_id,
+			title: this.state.title,
+			images: this.state.uploadedFileCloudinaryUrl,
+			state: this.state.state,
+			city: this.state.city,
+			time_submitted: Date()
+		}
+		console.log(listingObj)
+		axios.post('http://localhost:3060/api/addListing', listingObj).then((res) => {
+			console.log(res)
+		})
 	}
 
 	onImageDrop(files) {
@@ -55,7 +138,7 @@ class AddListing extends Component {
 				if (response.body.secure_url !== '') {
 					console.log(response.body.secure_url);
 					this.setState({
-						uploadedFileCloudinaryUrl: [ ...this.state.uploadedFileCloudinaryUrl, response.body.secure_url ]
+						uploadedFileCloudinaryUrl: [...this.state.uploadedFileCloudinaryUrl, response.body.secure_url]
 					});
 				}
 			});
@@ -138,11 +221,69 @@ class AddListing extends Component {
 		});
 	};
 
+	handleChange = name => event => {
+		this.setState({ [name]: event.target.value });
+	};
+
+	handleInputCategory = name => event => {
+		this.setState({ [name]: event.target.value });
+	};
+
+	changePrice = (price) => {
+		console.log(price)
+		if (isNaN(price)) {
+			alert('Must be a number')
+		}
+		let formatter = new Intl.NumberFormat('en-US', {
+			style: 'currency',
+			currency: 'USD',
+			minimumFractionDigits: 2,
+			// the default value for minimumFractionDigits depends on the currency
+			// and is usually already 2
+		});
+		console.log(formatter.format(price))
+		let formatedPrice = formatter.format(price)
+		this.setState({
+			price: formatedPrice
+		})
+	}
+
+	updateCategory = (category) => {
+		this.setState({
+			category: category
+		})
+	}
+
+	handleDescription = (description) => {
+		this.setState({
+			description: description
+		})
+	}
+
+	handleTitle = (title) => {
+		this.setState({
+			title: title
+		})
+	}
+
+	getStateInput = (state) => {
+		console.log(state)
+		this.setState({
+			state: state
+		})
+	}
+
+	handleCity = (city) => {
+		this.setState({
+			city: city
+		})
+	}
+
 	render() {
 		let mappedImages = this.state.uploadedFileCloudinaryUrl.map((image, i) => {
 			return (
 				<div key={i}>
-					<img src={image} alt="" />
+					<img src={image} alt="" className="uploadedImage" />
 				</div>
 			);
 		});
@@ -176,10 +317,107 @@ class AddListing extends Component {
 			);
 		});
 		return (
-			<div>
+			<div
+			/* style={
+				(this.state.category === 'Electronics')
+					?
+					{ backgroundColor: "#B3E5FC" }
+					:
+					(this.state.category === 'Home')
+						?
+						{ backgroundColor: "#E1BEE7" }
+						:
+						(this.state.category === 'Sports')
+							?
+							{ backgroundColor: "#B2DFDB" }
+							:
+							(this.state.category === 'Parts')
+								?
+								{ backgroundColor: "#EEEEEE" }
+								:
+								(this.state.category === "Free")
+									?
+									{ backgroundColor: "#FFAB91" }
+									:
+									{ backgroundColor: '#f5f5f5' }
+			} */
+			>
 				<h1 className="AddListingHeading">Create Listing</h1>
 
+				<div className="categoryButtons">
+					<Button raised className={(this.state.category === 'Electronics') ? 'createListing_Electronics_Clicked' : 'createListing_Electronics'} onClick={() => { this.updateCategory('Electronics') }}>
+						Electronics
+     				</Button>
+					<Button raised className={(this.state.category === 'Home') ? 'createListing_Home_Clicked' : 'createListing_Home'} onClick={() => { this.updateCategory('Home') }}>
+						Home
+     				</Button>
+					<Button raised className={(this.state.category === 'Sports') ? 'createListing_Sports_Clicked' : 'createListing_Sports'} onClick={() => { this.updateCategory('Sports') }}>
+						Sports
+     				</Button>
+					<Button raised className={(this.state.category === 'Parts') ? 'createListing_Parts_Clicked' : 'createListing_Parts'} onClick={() => { this.updateCategory('Parts') }}>
+						Parts
+     				</Button>
+					<Button raised className={(this.state.category === 'Free') ? 'createListing_Free_Clicked' : 'createListing_Free'} onClick={() => { this.updateCategory('Free') }}>
+						Free
+     				</Button>
+				</div>
+
+
+
+				{/* <FormControl >
+					<Select
+						value='bla'
+						onChange={this.handleChange('age')}
+						displayEmpty
+					>
+						<MenuItem value="test">
+							<em>None</em>
+						</MenuItem>
+						<MenuItem value={10}>Ten</MenuItem>
+						<MenuItem value={20}>Twenty</MenuItem>
+						<MenuItem value={30}>Thirty</MenuItem>
+					</Select>
+					<FormHelperText>Without label</FormHelperText>
+				</FormControl> */}
+
 				<div className="AddListingContainer">
+					<Paper className="halfFirstInput">
+						<h1>Basic Info</h1>
+						<div className="InputsInDiv">
+							<Input
+								/* value={this.state.textmask} */
+								/* inputComponent={TextMaskCustom} */
+								onChange={this.handleChange('textmask')}
+								inputProps={{
+									'aria-label': 'Description',
+								}}
+								placeholder="Phone"
+							/>
+							<Input
+								placeholder="Price"
+								inputProps={{
+									'aria-label': 'Description',
+								}}
+								onChange={(e) => { this.changePrice(e.target.value) }}
+							/>
+						</div>
+
+					</Paper>
+					<Paper className="halfSecondInput">
+						<h1>Location</h1>
+
+						<div className="InputsInDiv">
+							<States
+								getStateInput={this.getStateInput}
+							/>
+							<Input
+								placeholder="City"
+								inputProps={{
+									'aria-label': 'Description',
+								}}
+							/>
+						</div>
+					</Paper>
 					<Paper className="halfFirst">
 						<h1>Add Image</h1>
 						<div className="PictureUploadContainer">
@@ -188,27 +426,37 @@ class AddListing extends Component {
 									<p>Drop an image or click to select a file to upload.</p>
 								</Dropzone>
 							</div>
-							<div>{this.state.uploadedFileCloudinaryUrl === '' ? null : mappedImages}</div>
-							<button onClick={() => this.upload()}>Upload</button>
+
+							<Button raised onClick={() => this.upload()} className="uploadButton" style={{ backgroundColor: '#4fc3f7', color: 'white' }}>
+								Upload
+     						 </Button>
 						</div>
 					</Paper>
 					<Paper className="halfSecond">
-						<h3>Description</h3>
-						<TextField
-							/* id="multiline-static" */
-							label="Description"
-							multiline
-							/* rows="4" */
-							/* defaultValue="Default Value" */
-							/* className={} */
-							margin="normal"
-							style={{ width: '90%', height: '90%' }}
-						/>
+						<h3>Details</h3>
+						<div className="Details_addListing">
+							<p>Phone: {this.state.textmask}</p>
+							<p>Price: {this.state.price}</p>
+							<p>Category: {this.state.category}</p>
+						</div>
+
+						<div className="mappedImages">{this.state.uploadedFileCloudinaryUrl === '' ? null : mappedImages}</div>
 					</Paper>
 					<Paper className="FullRow">
 						<h3>Description</h3>
 						<TextField
 							/* id="multiline-static" */
+							label="Title"
+							multiline
+							/* rows="4" */
+							/* defaultValue="Default Value" */
+							/* className={} */
+							margin="normal"
+							style={{ width: '45%', height: '90%' }}
+							onChange={(e) => { this.handleTitle(e.target.value) }}
+						/>
+						<TextField
+							/* id="multiline-static" */
 							label="Description"
 							multiline
 							/* rows="4" */
@@ -216,6 +464,7 @@ class AddListing extends Component {
 							/* className={} */
 							margin="normal"
 							style={{ width: '90%', height: '90%' }}
+							onChange={(e) => { this.handleDescription(e.target.value) }}
 						/>
 					</Paper>
 					<Paper className="halfFirst">
@@ -265,10 +514,22 @@ class AddListing extends Component {
 						</div>
 						<div>{cons}</div>
 					</Paper>
+					<Button raised className="createButton" onClick={this.handleCreate}>
+						Create
+      				</Button>
+					<Button raised className="createButton">
+						Draft
+      				</Button>
 				</div>
 			</div>
 		);
 	}
 }
 
-export default AddListing;
+function mapStateToProps(state) {
+	return {
+		user: state.user
+	};
+}
+
+export default connect(mapStateToProps, { getUserInfo })(AddListing);
