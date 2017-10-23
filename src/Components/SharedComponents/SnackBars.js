@@ -13,7 +13,7 @@ export default class SnackBars extends React.Component {
 		this.setState({
 			open: nextProps.is_open,
 			message: nextProps.message
-		})
+		});
 	}
 
 	handleClick = (state) => () => {
@@ -25,7 +25,13 @@ export default class SnackBars extends React.Component {
 	};
 
 	render() {
-        console.log(this.props)
+		if (this.state.open) {
+			setTimeout(() => {
+				this.setState({
+					open: false
+				});
+			}, 1500);
+		}
 		const { vertical, horizontal, open } = this.state;
 		return (
 			<div>
