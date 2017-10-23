@@ -143,6 +143,7 @@ class ListingInfo extends Component {
 								<h3>{this.state.newPrice}</h3>
 							</section>
 						</section>
+
 						<section className="listing_favorites_container">
 							<div>
 								<Star className="listing_favorites_star" />
@@ -169,16 +170,6 @@ class ListingInfo extends Component {
 							<img src={this.state.twitter} alt="twitter" />
 							<img src={this.state.gmail} alt="gmail" />
 						</div>
-						{/* <hr /> */}
-					</div>
-					<div>
-						<div className="moreFromThisSellerContainer">
-							<h3>More from this seller</h3>
-							<div className="moreFromThisSeller">
-								{/* <img src="" /> */}
-								<caption>Xbox 360</caption>
-							</div>
-						</div>
 					</div>
 				</div>
 				<section className="listing_header">
@@ -190,11 +181,9 @@ class ListingInfo extends Component {
 					<Paper className="half1">
 						<ListingImages images={this.state.listingInfo.images} />
 					</Paper>
-					<Paper className="half">
-						<h3>{this.state.listingInfo.title}</h3>
-					</Paper>
-					<Paper className="full">
-						<h3>Description</h3>
+					<Paper className="half listing_description">
+						<h3 style={{fontWeight: 'bold', fontSize: '22px'}}>{this.state.listingInfo.title} Description</h3>
+						<br/>
 						<p>{this.state.listingInfo.description}</p>
 					</Paper>
 					<Paper className="half1">
