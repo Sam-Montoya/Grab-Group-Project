@@ -1,37 +1,36 @@
-.imgContainer img{
-    /* height:330px; */
-    width:100%;
-    margin: auto 
+.imgContainer img {
+	/* height:330px; */
+	width: 100%;
+	margin: auto;
 }
 
-.imgContainer{
-    max-width: 475px;
-    overflow: hidden;
-    margin:auto
+.imgContainer {
+	max-width: 475px;
+	overflow: hidden;
+	margin: auto;
 }
 
-
-.leftBar{
-    position: fixed;
-    top: 0;
-    width: 200px;
-    height:100vh;
-    margin-top:65px;
-    background-color:white;
-    text-align: center;
+.leftBar {
+	position: fixed;
+	top: 0;
+	width: 200px;
+	height: 100vh;
+	margin-top: 65px;
+	background-color: white;
+	text-align: center;
 }
 
-.leftBar Button{
-    width:100%;
-    background-color: white;
-    margin: 0px 0;
+.leftBar Button {
+	width: 100%;
+	background-color: white;
+	margin: 0px 0;
 }
 
-.ListingInfoContainer{
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  justify-content: center;
-  margin-left:200px;
+.ListingInfoContainer {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	justify-content: center;
+	margin-left: 200px;
 }
 
 /* .ListingInfoContainer > *{
@@ -39,33 +38,33 @@
     padding:20px;
     text-align: center
 } */
- .half1{
-    margin:30px 15px 15px 30px;
-    padding:20px;
-    text-align: center
-} 
-
-  .half{
-    margin:30px 30px 15px 15px;
-    padding:20px;
-    text-align: center
-}  
-
-.full{
-    margin:15px 30px;
-    grid-column: 1/3;
-    padding: 20px
+.half1 {
+	margin: 30px 15px 15px 30px;
+	padding: 20px;
+	text-align: center;
 }
 
-.topMenuThing{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    justify-content: center;
-    width:100%
+.half {
+	margin: 30px 30px 15px 15px;
+	padding: 20px;
+	text-align: center;
 }
 
-.topMenuThing div{
-     display: flex; 
+.full {
+	margin: 15px 30px;
+	grid-column: 1/3;
+	padding: 20px;
+}
+
+.topMenuThing {
+	display: grid;
+	grid-template-columns: repeat(2, 1fr);
+	justify-content: center;
+	width: 100%;
+}
+
+.topMenuThing div {
+	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
 	justify-content: center;
@@ -73,8 +72,8 @@
 	align-content: stretch;
 }
 
-.logos{
-     display: flex; 
+.logos {
+	display: flex;
 	flex-direction: row;
 	flex-wrap: nowrap;
 	justify-content: space-around;
@@ -82,51 +81,49 @@
 	align-content: center;
 }
 
-.logos img{
-    width:30px;
-    height:30px
+.logos img {
+	width: 30px;
+	height: 30px;
 }
 
-.moreFromThisSellerContainer{
-    background-color: white;
-    padding-top: 10px;
+.moreFromThisSellerContainer {
+	background-color: white;
+	padding-top: 10px;
 }
 
-.moreFromThisSeller{
-    width: 100%;
-    text-align: center;
-    background-color: white;
+.moreFromThisSeller {
+	width: 100%;
+	text-align: center;
+	background-color: white;
 }
-.moreFromThisSeller img{
-    width:90%;
-    margin: 10px 0;
-}
-
-.moreFromThisSeller caption{
-    text-align: center;
-    width: 200px
+.moreFromThisSeller img {
+	width: 90%;
+	margin: 10px 0;
 }
 
-.favorite_button {
-    cursor: pointer;
+.moreFromThisSeller caption {
+	text-align: center;
+	width: 200px;
 }
 
-@media screen and (max-width: 900px) { 
-		.ListingInfoContainer{
-             grid-template-columns: repeat(1, 1fr);
- 
-        }
-        .half{
-              margin:10px ;
-                grid-column: 1/3;
-            } 
-            .half1{
-               margin:10px ;
-                grid-column: 1/3; 
-            }
-            .full{
-                margin:10px ;
-                grid-column: 1/3;
-            }
+.button_cursor {
+	cursor: pointer;
+}
+
+@media screen and (max-width: 900px) {
+	.ListingInfoContainer {
+		grid-template-columns: repeat(1, 1fr);
 	}
- 
+	.half {
+		margin: 10px;
+		grid-column: 1/3;
+	}
+	.half1 {
+		margin: 10px;
+		grid-column: 1/3;
+	}
+	.full {
+		margin: 10px;
+		grid-column: 1/3;
+	}
+}

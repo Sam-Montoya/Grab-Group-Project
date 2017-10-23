@@ -1,22 +1,17 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import Paper from 'material-ui/Paper';
-import Typography from 'material-ui/Typography';
 import './allListings.css';
 import axios from 'axios';
 import Avatar from 'material-ui/Avatar';
-import Button from 'material-ui/Button';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import MenuItem from 'material-ui/Menu/MenuItem';
 import TextField from 'material-ui/TextField';
-import Inbox from 'material-ui-icons/Inbox';
 import Star from 'material-ui-icons/Star';
 import Pageview from 'material-ui-icons/List';
 import Input from 'material-ui/Input';
 import profile from '../../images/benMt.1866739e.jpg';
-import { FormGroup, FormControlLabel } from 'material-ui/Form';
+import { FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
-import green from 'material-ui/colors/green';
 import { Link } from 'react-router-dom';
 import { getUserInfo } from '../../Redux/reducer';
 import { connect } from 'react-redux';
@@ -67,7 +62,29 @@ class allListings extends Component {
 
 	render() {
 		let listings = this.state.listings.map((listing, i) => {
+			let backgroundColor;
 			let imageTest;
+			switch (listing.category) {
+				case 'Electronics':
+					backgroundColor = 'rgba(53, 138, 255, 0.68)';
+					break;
+				case 'Home':
+					backgroundColor = 'rgba(147, 74, 255, 0.68)';
+					break;
+				case 'Sports':
+					backgroundColor = 'rgba(104, 208, 52, 0.68)';
+					break;
+				case 'Parts':
+					backgroundColor = 'rgba(151, 151, 151, 0.68)';
+					break;
+				case 'Free':
+					backgroundColor = 'rgba(255, 127, 127, 0.68)';
+					break;
+				default:
+					backgroundColor = 'rgba(0, 255, 255, 0.68)';
+					break;
+			}
+
 			if (listing.images !== null) imageTest = listing.images[0];
 			if (this.state.listings.length)
 				return (
@@ -84,9 +101,7 @@ class allListings extends Component {
 									background: `url(${imageTest}) no-repeat center center`,
 									backgroundSize: 'cover'
 								}}>
-								<div
-									className="item_description"
-									style={{ backgroundColor: 'rgba(53, 138, 255, 0.68)' }}>
+								<div className="item_description" style={{ backgroundColor: backgroundColor }}>
 									<h1 className="title">{listing.title}</h1>
 									<hr />
 									<h2 className="descriptionText">
@@ -102,6 +117,7 @@ class allListings extends Component {
 						</Link>
 					</div>
 				);
+				return this;
 		});
 
 		return (

@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import './MyListings.css';
 import Inbox from 'material-ui-icons/Message';
-import Pageview from 'material-ui-icons/Pageview';
 import Star from 'material-ui-icons/Star';
 import Person from 'material-ui-icons/Person';
 import Back from 'material-ui-icons/KeyboardBackspace';
 import Avatar from 'material-ui/Avatar';
-import { FormGroup, FormControlLabel } from 'material-ui/Form';
+import { FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 import axios from 'axios';
 import Paper from 'material-ui/Paper';
@@ -38,13 +37,7 @@ class MyListings extends Component {
 	};
 
 	render() {
-		let color1 = 'rgba(0, 137, 54, 0.5';
-		let color2 = 'rgba(46, 29, 138, 0.5';
-		let color3 = 'rgba(46, 138, 138, .5)';
-
 		let listings = this.state.listings.map((elem, i) => {
-			console.log(elem);
-			var x = Math.floor(Math.random() * 3 + 1);
 			if (elem.image)
 				return (
 					<div>
@@ -55,7 +48,6 @@ class MyListings extends Component {
 								style={{
 									width: '200px',
 									height: '200px',
-									margin: 'auto',
 									margin: '20px',
 									background: `url(${elem.image}) no-repeat center center`,
 									backgroundSize: 'cover'
@@ -74,9 +66,7 @@ class MyListings extends Component {
 										-
 									</div>
 								</Avatar>
-								<div
-									className="description"
-									style={{ backgroundColor: x === 1 ? color1 : x === 2 ? color2 : color3 }}>
+								<div className="description">
 									<p className="title">{elem.title}</p>
 									<p className="descriptionText"> {elem.desc}</p>
 								</div>
@@ -84,6 +74,7 @@ class MyListings extends Component {
 						</a>
 					</div>
 				);
+				return this;
 		});
 
 		return (
