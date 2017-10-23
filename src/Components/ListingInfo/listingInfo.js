@@ -123,17 +123,7 @@ class ListingInfo extends Component {
 								<Back />
 							</Avatar>
 						</div>
-						<div>
-							<Link
-								to={{
-									pathname: '/ownerProfile/' + this.state.listingInfo.user_id,
-									auth_id: this.state.listingInfo.auth_id
-								}}>
-								<Avatar className="listing_avatar listing_profile">
-									<Person />
-								</Avatar>
-							</Link>
-						</div>
+						<div>{this.userProfileChecker()}</div>
 						<div>
 							<Avatar className="listing_avatar listing_message">
 								<Inbox />
@@ -189,7 +179,9 @@ class ListingInfo extends Component {
 						<ListingImages images={this.state.listingInfo.images} />
 					</Paper>
 					<Paper className="half listing_description">
-						<h3 style={{ fontWeight: 'bold', fontSize: '22px' }}>{this.state.listingInfo.title} Description</h3>
+						<h3 style={{ fontWeight: 'bold', fontSize: '22px' }}>
+							{this.state.listingInfo.title} Description
+						</h3>
 						<br />
 						<p>{this.state.listingInfo.description}</p>
 					</Paper>
@@ -204,6 +196,38 @@ class ListingInfo extends Component {
 				</div>
 			</div>
 		);
+	}
+
+	userProfileChecker() {
+		let myProfileIcon = (
+			<Link to="/profile">
+				<Avatar className="listing_avatar listing_profile">
+					<Person />
+				</Avatar>
+			</Link>
+		);
+
+		let posterProfileIcon = (
+			<Link
+				to={{
+					pathname: '/ownerProfile/' + this.state.listingInfo.user_id,
+					auth_id: this.state.listingInfo.auth_id
+				}}>
+				<Avatar className="listing_avatar listing_profile">
+					<Person />
+				</Avatar>
+			</Link>
+		);
+
+		if (this.props.user) {
+			if (this.props.user.auth_id === this.state.listingInfo.auth_id) {
+				return myProfileIcon;
+			} else {
+				return posterProfileIcon;
+			}
+		} else {
+			return posterProfileIcon;
+		}
 	}
 
 	favoriteIcon() {
