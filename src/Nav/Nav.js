@@ -7,10 +7,11 @@ import IconButton from 'material-ui/IconButton';
 import Drawer from './Drawer';
 import './Nav.css';
 import { connect } from 'react-redux';
-import { getUserInfo, getUserFavorites } from '../Redux/reducer';
+import { getUserInfo, getUserFavorites, updateSearchTerm } from '../Redux/reducer';
 import { Link } from 'react-router-dom';
 import Search from 'material-ui-icons/Search';
 import Avatar from 'material-ui/Avatar';
+import axios from 'axios';
 
 class ButtonAppBar extends Component {
 	constructor() {
@@ -37,6 +38,12 @@ class ButtonAppBar extends Component {
 		}
 	}
 
+	search(input){
+		let timeout = null;
+		clearTimeout(timeout);
+		this.props.updateSearchTerm(input);
+	}
+
 	render() {
 		return (
 			<div className="nav">
@@ -55,7 +62,9 @@ class ButtonAppBar extends Component {
 
 						<div className="wrap">
 							<div className="search">
-								<input type="text" className="search_input" placeholder="What are you looking for?" />
+								<input type="text" className="search_input" placeholder="What are you looking for?"
+									onChange={(e) => this.search(e.target.value)}
+								/>
 								<button type="submit" className="searchButton">
 									<IconButton>
 										<Search className="search_icon" />
@@ -88,4 +97,4 @@ function mapStateToProps(state) {
 	return state;
 }
 
-export default connect(mapStateToProps, { getUserInfo, getUserFavorites })(ButtonAppBar);
+export default connect(mapStateToProps, { getUserInfo, getUserFavorites, updateSearchTerm })(ButtonAppBar);

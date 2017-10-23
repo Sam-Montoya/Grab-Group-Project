@@ -87,5 +87,11 @@ module.exports = {
 			console.log('HIT');
 			respone.status(404).send(err);
 		}
+	},
+
+	search(DB, request, response) {
+		DB.search_database(request.params.search_term).then((results) => {
+			response.status(200).send(results);
+		});
 	}
 };

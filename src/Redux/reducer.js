@@ -2,12 +2,14 @@ import axios from 'axios';
 
 const initialState = {
 	user: {},
-	favorites: []
+	favorites: [],
+	search_term: ''
 };
 
 //ACTION TYPES
 const GET_USER_INFO = 'GET_USER_INFO';
 const GET_USER_FAVORITES = 'GET_USER_FAVORITES';
+const UPDATE_SEARCH_TERM = 'UPDATE_SEARCH_TERM';
 
 //ACTION CREATORS
 export function getUserInfo() {
@@ -41,6 +43,13 @@ export function getUserFavorites(user_id) {
 	}
 }
 
+export function updateSearchTerm(word){
+	return {
+		type: UPDATE_SEARCH_TERM,
+		payload: word
+	}
+}
+
 //REDUCER FUNCTION
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
@@ -48,6 +57,8 @@ export default function reducer(state = initialState, action) {
 			return Object.assign({}, state, { user: action.payload });
 		case GET_USER_FAVORITES + '_FULFILLED':
 			return Object.assign({}, state, { favorites: action.payload });
+		case UPDATE_SEARCH_TERM:
+			return Object.assign({}, state, { search_term: action.payload });
 		default:
 			return state;
 	}
