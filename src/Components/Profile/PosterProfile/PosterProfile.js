@@ -32,7 +32,7 @@ class PosterProfile extends Component {
     componentDidMount() {
         this.props.getUserInfo();
             axios.get(`/api/getUserListings/${this.props.location.query}`).then((userListings) => {
-                console.log('listings ', git userListings)
+                console.log('listings ', userListings)
                 if (Array.isArray(userListings.data)) {
                     this.setState({
                         listings: userListings.data
