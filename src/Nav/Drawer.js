@@ -4,11 +4,8 @@ import { withStyles } from 'material-ui/styles';
 import Drawer from 'material-ui/Drawer';
 import Button from 'material-ui/Button';
 import List, { ListItem, ListItemText } from 'material-ui/List';
-import Divider from 'material-ui/Divider';
-import ImageIcon from 'material-ui-icons/Image';
 import Home from 'material-ui-icons/Home';
 import Settings from 'material-ui-icons/Settings';
-import Search from 'material-ui-icons/Search';
 import Create from 'material-ui-icons/Create';
 import ViewList from 'material-ui-icons/ViewList';
 import MenuIcon from 'material-ui-icons/Menu';
@@ -22,8 +19,6 @@ import Slide from 'material-ui/transitions/Slide';
 
 import Avatar from 'material-ui/Avatar';
 
-import './nav.css';
-
 const styles = {
 	list: {
 		width: 250,
@@ -34,14 +29,6 @@ const styles = {
 		flex: 'initial'
 	}
 };
-
-const styles2 = (theme) => ({
-	root: {
-		width: '100%',
-		maxWidth: '360px',
-		background: theme.palette.background.paper
-	}
-});
 
 class TemporaryDrawer extends React.Component {
 	constructor() {
@@ -94,9 +81,8 @@ class TemporaryDrawer extends React.Component {
 		axios.get(`/auth/me`).then((res) => {
 			//Before the page loads it hits this endpoint to check if there is a user on req.user.
 			console.log('AUTH', res.data);
-			if (!res.data.id) {
-				//If there is not a user.
-			} else {
+			if (res.data.user_name) {
+				//If there is a user.
 				this.setState({
 					loggedin: true
 				});
@@ -181,12 +167,8 @@ class TemporaryDrawer extends React.Component {
 
 		return (
 			<div>
-				<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
-				<IconButton
-					className={classes.menuButton}
-					color="black"
-					aria-label="Menu"
-					onClick={this.handleLeftOpen}>
+				{console.log(this.state)}
+				<IconButton style={{ color: 'white' }} aria-label="Menu" onClick={this.handleLeftOpen}>
 					<MenuIcon />
 				</IconButton>
 

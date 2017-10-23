@@ -2,5 +2,4 @@
 SELECT *
 FROM favorites
 JOIN listings ON listings.listing_id = favorites.listing_id
-JOIN users ON users.user_id = favorites.user_id
 WHERE favorites.user_id = $1;
