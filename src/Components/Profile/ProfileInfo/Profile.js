@@ -58,7 +58,7 @@ class Profile extends Component {
 	render() {
 		let listings;
 		if (this.state.listings.length) {
-			this.state.listings.map((elem, i) => {
+			listings = this.state.listings.map((elem, i) => {
 				if (elem.images)
 					return (
 						<div>
@@ -88,10 +88,10 @@ class Profile extends Component {
 							</Link>
 						</div>
 					);
-					//If the listings break, remove this
-				return this;
 			});
 		}
+		console.log(listings)
+		console.log(this.state.listings)
 
 		return (
 			<div>
