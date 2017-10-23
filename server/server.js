@@ -190,7 +190,7 @@ app.get('/auth/me', (req, res, next) => {
 
 app.get('/auth/logout', (req, res) => {
 	req.logOut();
-	res.redirect(302, '/');
+	res.redirect(302, 'http://localhost:3000/#/');
 });
 
 /**
