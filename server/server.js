@@ -18,7 +18,7 @@ let app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
-massive('')
+massive(process.env.CONNECTIONSTRING)
 	.then((db) => {
 		app.set('db', db);
 		console.log('Connected successfully.');
