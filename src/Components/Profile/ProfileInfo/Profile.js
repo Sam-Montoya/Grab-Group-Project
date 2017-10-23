@@ -219,7 +219,7 @@ class Profile extends Component {
 									{this.props.user.city}, {this.props.user.state}
 								</p>
 							) : (
-								<p>You haven't filled out your information yet!</p>
+								<p>You havent filled out your information yet!</p>
 							)}
 						</div>
 					</div>
