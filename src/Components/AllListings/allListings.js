@@ -21,6 +21,7 @@ class allListings extends Component {
 		super();
 		this.state = {
 			listings: [],
+			filteredListings: [],
 			checkedA: false,
 			checkedB: false,
 			checkedC: false,
@@ -42,7 +43,6 @@ class allListings extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
-		console.log(this.props.search_term);
 		if (nextProps.user) {
 			this.setState({
 				profile_pic: nextProps.user.profile_pic,
@@ -50,17 +50,17 @@ class allListings extends Component {
 			});
 		}
 		setTimeout(() => {
-			if(this.props.search_term === ''){
-				axios.get('/api/getAllListings').then((listings) => {
+			console.log(this.props.search_term);
+			if (this.props.search_term !== '') {
+				console.log('Slammed');
+				axios.get('/api/search/' + this.props.search_term).then((results) => {
 					this.setState({
-						listings: listings.data
+						filteredListings: results.data
 					});
 				});
 			} else {
-				axios.get('/api/search/' + this.props.search_term).then((results) => {
-					this.setState({
-						listings: results.data
-					})
+				this.setState({
+					filteredListings: []
 				});
 			}
 		}, 1000);
@@ -77,66 +77,6 @@ class allListings extends Component {
 	};
 
 	render() {
-		let listings = this.state.listings.map((listing, i) => {
-			let backgroundColor;
-			let imageTest;
-			switch (listing.category) {
-				case 'Electronics':
-					backgroundColor = 'rgba(53, 138, 255, 0.68)';
-					break;
-				case 'Home':
-					backgroundColor = 'rgba(147, 74, 255, 0.68)';
-					break;
-				case 'Sports':
-					backgroundColor = 'rgba(104, 208, 52, 0.68)';
-					break;
-				case 'Parts':
-					backgroundColor = 'rgba(151, 151, 151, 0.68)';
-					break;
-				case 'Free':
-					backgroundColor = 'rgba(255, 127, 127, 0.68)';
-					break;
-				default:
-					backgroundColor = 'rgba(0, 255, 255, 0.68)';
-					break;
-			}
-
-			if (listing.images !== null) imageTest = listing.images[0];
-			if (this.state.listings.length)
-				return (
-					<div key={i}>
-						<Link
-							to={{
-								pathname: '/listingInfo/' + listing.listing_id,
-								query: listing
-							}}>
-							<Paper
-								elevation={4}
-								className="item_container"
-								style={{
-									background: `url(${imageTest}) no-repeat center center`,
-									backgroundSize: 'cover'
-								}}>
-								<div className="item_description" style={{ backgroundColor: backgroundColor }}>
-									<h1 className="title">{listing.title}</h1>
-									<hr />
-									<h2 className="descriptionText">
-										{listing.city}, {listing.state}
-									</h2>
-									{listing.price === '$0.00' ? (
-										<h3 className="descriptionText">Free</h3>
-									) : (
-										<h3 className="descriptionText">{listing.price}</h3>
-									)}
-								</div>
-							</Paper>
-						</Link>
-					</div>
-				);
-				return this;
-		});
-
-		
 		return (
 			<div className="sidebar">
 				<div className="leftBarOnSearch">
@@ -274,9 +214,73 @@ class allListings extends Component {
 						</TextField>
 					</section>
 				</div>
-				<div className="SearchContainer">{listings}</div>
+				<div className="SearchContainer">
+					{this.state.filteredListings.length ? (
+						this.listingsMap(this.state.filteredListings)
+					) : (
+						this.listingsMap(this.state.listings)
+					)}
+				</div>
 			</div>
 		);
+	}
+
+	listingsMap(listings) {
+		console.log(listings);
+		return listings.map((listing, i) => {
+			let backgroundColor;
+			switch (listing.category) {
+				case 'Electronics':
+					backgroundColor = 'rgba(53, 138, 255, 0.68)';
+					break;
+				case 'Home':
+					backgroundColor = 'rgba(147, 74, 255, 0.68)';
+					break;
+				case 'Sports':
+					backgroundColor = 'rgba(104, 208, 52, 0.68)';
+					break;
+				case 'Parts':
+					backgroundColor = 'rgba(151, 151, 151, 0.68)';
+					break;
+				case 'Free':
+					backgroundColor = 'rgba(255, 127, 127, 0.68)';
+					break;
+				default:
+					backgroundColor = 'rgba(0, 255, 255, 0.68)';
+					break;
+			}
+
+			return (
+				<div key={i}>
+					<Link
+						to={{
+							pathname: '/listingInfo/' + listing.listing_id,
+							query: listing
+						}}>
+						<Paper
+							elevation={4}
+							className="item_container"
+							style={{
+								background: `url(${listing.images[0]}) no-repeat center`,
+								backgroundSize: 'cover'
+							}}>
+							<div className="item_description" style={{ backgroundColor: backgroundColor }}>
+								<h1 className="title">{listing.title}</h1>
+								<hr />
+								<h2 className="descriptionText">
+									{listing.city}, {listing.state}
+								</h2>
+								{listing.price === '$0.00' ? (
+									<h3 className="descriptionText">Free</h3>
+								) : (
+									<h3 className="descriptionText">{listing.price}</h3>
+								)}
+							</div>
+						</Paper>
+					</Link>
+				</div>
+			);
+		});
 	}
 }
 

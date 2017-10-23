@@ -5,10 +5,12 @@
 	width: 210px;
 	height: 210px;
 	margin: 10px;
+	background-size: cover !important;
 }
 
 .MuiTypography-subheading-145 {
 	color: rgb(63, 63, 63) !important;
+	background-size: cover !important;
 }
 
 .item_description {

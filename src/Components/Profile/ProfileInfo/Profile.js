@@ -20,17 +20,13 @@ class Profile extends Component {
 			checkedB: false,
 			checkedC: false,
 			checkedD: false,
-			checkedE: false,
-			profile_pic: '',
-			username: ''
+			checkedE: false
 		};
 
-		this.searchCategories = this.searchCategories.bind(this);
 		this.coverPhotoInfo = this.coverPhotoInfo.bind(this);
 	}
 
 	componentDidMount() {
-		this.props.getUserInfo();
 		if (this.props.user) {
 			axios.get(`/api/getUserListings/${this.props.user.auth_id}`).then((userListings) => {
 				if (Array.isArray(userListings.data)) {
@@ -38,15 +34,6 @@ class Profile extends Component {
 						listings: userListings.data
 					});
 				}
-			});
-		}
-	}
-
-	componentWillReceiveProps(nextProps) {
-		if (nextProps.user) {
-			this.setState({
-				profile_pic: nextProps.user.profile_pic,
-				username: nextProps.user.username
 			});
 		}
 	}
@@ -90,8 +77,6 @@ class Profile extends Component {
 					);
 			});
 		}
-		console.log(listings)
-		console.log(this.state.listings)
 
 		return (
 			<div>
@@ -108,7 +93,7 @@ class Profile extends Component {
 
 						{this.state.listings.length ? (
 							<div>
-								<h1 className="ProfileHeading">My Listings</h1>
+								<h1 className="ProfileHeading">My Listings ({this.state.listings.length})</h1>
 								<div className="FavoriteListingsContainer">{listings}</div>
 							</div>
 						) : (
@@ -132,73 +117,6 @@ class Profile extends Component {
 		);
 	}
 
-	searchCategories = function() {
-		return (
-			<div className="categories">
-				<p>Categories</p>
-				<div>
-					<FormControlLabel
-						control={
-							<Checkbox
-								checked={this.state.checkedA}
-								onChange={this.handleChangeInput('checkedA')}
-								value="checkedA"
-								style={{ color: 'red' }}
-							/>
-						}
-						label="Electronics"
-					/>
-				</div>
-				<div>
-					<FormControlLabel
-						control={
-							<Checkbox
-								checked={this.state.checkedB}
-								onChange={this.handleChangeInput('checkedB')}
-								value="checkedB"
-								style={{ color: 'Purple' }}
-							/>
-						}
-						label="Home"
-					/>
-				</div>
-				<FormControlLabel
-					control={
-						<Checkbox
-							checked={this.state.checkedC}
-							onChange={this.handleChangeInput('checkedC')}
-							value="checkedC"
-							style={{ color: 'green' }}
-						/>
-					}
-					label="Sports"
-				/>
-				<FormControlLabel
-					control={
-						<Checkbox
-							checked={this.state.checkedD}
-							onChange={this.handleChangeInput('checkedD')}
-							value="checkedD"
-							style={{ color: 'grey' }}
-						/>
-					}
-					label="Parts"
-				/>
-				<FormControlLabel
-					control={
-						<Checkbox
-							checked={this.state.checkedE}
-							onChange={this.handleChangeInput('checkedE')}
-							value="checkedE"
-							style={{ color: 'green' }}
-						/>
-					}
-					label="Free"
-				/>
-			</div>
-		);
-	};
-
 	coverPhotoInfo() {
 		if (this.props.user) {
 			return (
@@ -206,12 +124,12 @@ class Profile extends Component {
 					<div>
 						<Avatar
 							alt="Me"
-							src={this.state.profile_pic}
+							src={this.props.user.profile_pic}
 							style={{ width: '120px', height: '120px', marginRight: '40px' }}
 						/>
 					</div>
 					<div>
-						<p style={{ fontSize: '30px' }}>{this.state.username}</p>
+						<p style={{ fontSize: '30px' }}>{this.props.user.username}</p>
 						<div class="locationProfile">
 							<i class="material-icons">location_on</i>
 							{this.props.user.city && this.props.user.state ? (

@@ -16,8 +16,6 @@ export function getUserInfo() {
 	let userInfo = axios.get('/auth/me').then((userData) => {
 		if (userData.data[0].hasOwnProperty('profile_pic')) {
 			return userData.data[0];
-		} else if(userData.data[0].hasOwnProperty('nickname')) {
-			alert('Something happened with the login. Please try again later.');
 		}
 	});
 	return {
