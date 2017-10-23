@@ -61,7 +61,10 @@ module.exports = {
 			})
 			.catch((_) => {
 				response.status(400).send('Failed to add favorites.');
-			});
+			})
+			.then((increment) => {
+				DB.increment_favorites( listing_id );
+			})
 	},
 
 	// Adds a message to the chat of that listing

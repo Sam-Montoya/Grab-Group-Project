@@ -42,12 +42,28 @@ class allListings extends Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
+		console.log(this.props.search_term);
 		if (nextProps.user) {
 			this.setState({
 				profile_pic: nextProps.user.profile_pic,
 				isLoggedIn: true
 			});
 		}
+		setTimeout(() => {
+			if(this.props.search_term === ''){
+				axios.get('/api/getAllListings').then((listings) => {
+					this.setState({
+						listings: listings.data
+					});
+				});
+			} else {
+				axios.get('/api/search/' + this.props.search_term).then((results) => {
+					this.setState({
+						listings: results.data
+					})
+				});
+			}
+		}, 1000);
 	}
 
 	handleChangeInput = (name) => (event) => {
@@ -120,6 +136,7 @@ class allListings extends Component {
 				return this;
 		});
 
+		
 		return (
 			<div className="sidebar">
 				<div className="leftBarOnSearch">
@@ -265,7 +282,8 @@ class allListings extends Component {
 
 function mapStateToProps(state) {
 	return {
-		user: state.user
+		user: state.user,
+		search_term: state.search_term
 	};
 }
 

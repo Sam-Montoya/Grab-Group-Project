@@ -29,7 +29,9 @@ module.exports = {
 		console.log(request.params);
 		DB.remove_favorite([ request.params.listing_id, request.params.user_id ]).then((res) => {
 			response.status(200).send('Favorite has been deleted');
-		});
+		}).then((decrement) => {
+			DB.decrement_favorites(request.params.listing_id);
+		})
 	},
 	// Removes a listing from the DB
 	removeListing(DB, request, response) {
