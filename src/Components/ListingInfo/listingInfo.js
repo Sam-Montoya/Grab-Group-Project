@@ -131,7 +131,7 @@ class ListingInfo extends Component {
 							<this.favoriteIcon />
 						</div>
 					</div>
-					<div className='listing_user_info'>
+					<div className="listing_user_info">
 						<section className="listing_price_container">
 							<div>$</div>
 							<section className="listing_price_info">
@@ -152,7 +152,7 @@ class ListingInfo extends Component {
 								<Contact className="listing_contact_icon" />
 							</div>
 							<section className="listing_contact_info">
-								<h3>{this.state.listingInfo.contact_status}</h3>
+								<h3 style={{ fontWeight: 'bold' }}>{this.state.listingInfo.contact_status}</h3>
 								{this.state.listingInfo.phone_number ? (
 									<h3>{this.state.listingInfo.phone_number}</h3>
 								) : null}
