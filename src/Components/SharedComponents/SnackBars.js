@@ -35,9 +35,6 @@ export default class SnackBars extends React.Component {
 		const { vertical, horizontal, open } = this.state;
 		return (
 			<div>
-				{/* <Button onClick={this.handleClick({ vertical: 'top', horizontal: 'center' })}>
-          Top-Center
-        </Button> */}
 				<Snackbar
 					anchorOrigin={{ vertical, horizontal }}
 					open={open}
