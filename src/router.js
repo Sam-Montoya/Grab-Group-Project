@@ -7,6 +7,7 @@ import ListingInfo from './Components/ListingInfo/listingInfo';
 import MyFavorites from './Components/Profile/MyFavorites/MyFavorites';
 import Settings from './Components/Settings/Settings';
 import Profile from './Components/Profile/ProfileInfo/Profile';
+import ProsterProfile from './Components/Profile/PosterProfile/PosterProfile';
 
 export default (
     <Switch>
@@ -16,5 +17,6 @@ export default (
         <Route path="/settings" component={Settings}></Route>
         <Route path="/myfavorites" component={MyFavorites}></Route>
         <Route path="/profile" component={Profile}></Route>
+        <Route path="/ownerProfile" component={ProsterProfile}></Route>
     </Switch>
 )

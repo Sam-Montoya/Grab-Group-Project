@@ -9,6 +9,7 @@ import Back from 'material-ui-icons/KeyboardBackspace';
 import Contact from 'material-ui-icons/ContactPhone';
 import axios from 'axios';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import { getUserFavorites } from '../../Redux/reducer';
 import SnackBars from '../SharedComponents/SnackBars';
 
@@ -123,9 +124,15 @@ class ListingInfo extends Component {
 							</Avatar>
 						</div>
 						<div>
-							<Avatar className="listing_avatar listing_profile">
-								<Person />
-							</Avatar>
+							<Link
+								to={{
+									pathname: '/ownerProfile/' + this.state.listingInfo.user_id,
+									query: this.state.listingInfo.auth_id
+								}}>
+								<Avatar className="listing_avatar listing_profile">
+									<Person />
+								</Avatar>
+							</Link>
 						</div>
 						<div>
 							<Avatar className="listing_avatar listing_message">
@@ -182,8 +189,8 @@ class ListingInfo extends Component {
 						<ListingImages images={this.state.listingInfo.images} />
 					</Paper>
 					<Paper className="half listing_description">
-						<h3 style={{fontWeight: 'bold', fontSize: '22px'}}>{this.state.listingInfo.title} Description</h3>
-						<br/>
+						<h3 style={{ fontWeight: 'bold', fontSize: '22px' }}>{this.state.listingInfo.title} Description</h3>
+						<br />
 						<p>{this.state.listingInfo.description}</p>
 					</Paper>
 					<Paper className="half1">
