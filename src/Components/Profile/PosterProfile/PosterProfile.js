@@ -10,11 +10,31 @@ import { getUserInfo } from '../../../Redux/reducer';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import CategoriesBar from '../../SharedComponents/CategoriesBar';
+import Moment from 'react-moment';
+import 'moment-timezone';
 
 class PosterProfile extends Component {
     constructor() {
         super();
         this.state = {
+            listingUserInfo: {
+                auth_id: '',
+                category: '',
+                city: '',
+                cons: '',
+                contact_status: '',
+                description: '',
+                images: [],
+                listing_id: null,
+                phone_number: '',
+                price: '',
+                pros: '',
+                state: '',
+                time_submitted: '',
+                title: '',
+                user_id: 0,
+                zip: 0
+            },
             listings: [],
             checkedA: false,
             checkedB: false,
@@ -30,15 +50,23 @@ class PosterProfile extends Component {
     }
 
     componentDidMount() {
-        this.props.getUserInfo();
-            axios.get(`/api/getUserListings/${this.props.location.query}`).then((userListings) => {
-                console.log('listings ', userListings)
-                if (Array.isArray(userListings.data)) {
-                    this.setState({
-                        listings: userListings.data
-                    });
-                }
+        this.getUserInfo();
+        axios.get(`/api/getUserListings/${this.props.location.auth_id}`).then((userListings) => {
+            if (Array.isArray(userListings.data)) {
+                this.setState({
+                    listings: userListings.data
+                });
+            }
+        });
+    }
+
+    getUserInfo(auth_id) {
+        axios.get('/api/getUserInfo/' + this.props.location.auth_id).then((userData) => {
+            console.log('USER DATA ', userData)
+            this.setState({
+                listingUserInfo: userData.data
             });
+        });
     }
 
     handleChangeInput = (name) => (event) => {
@@ -96,7 +124,7 @@ class PosterProfile extends Component {
 
                         {this.state.listings.length ? (
                             <div>
-                                <h1 className="ProfileHeading">My Listings</h1>
+                                <h1 className="ProfileHeading">{this.state.listingUserInfo.username + "'s "}Listings ({this.state.listings.length})</h1>
                                 <div className="FavoriteListingsContainer">{listings}</div>
                             </div>
                         ) : (
@@ -188,6 +216,7 @@ class PosterProfile extends Component {
     };
 
     coverPhotoInfo() {
+        const dateToFormat = new Date(this.state.listingUserInfo.date_created);
         if (this.props.user) {
             return (
                 <div className="CoverPhotoStuff">
@@ -216,7 +245,16 @@ class PosterProfile extends Component {
         } else {
             return (
                 <div className="CoverPhotoStuff">
-                    <h1 style={{ fontSize: '30px' }}>Something went wrong. Please log in!</h1>
+                    <Avatar
+                        alt="Me"
+                        src={this.state.listingUserInfo.profile_pic}
+                        style={{ width: '120px', height: '120px', marginRight: '40px' }}
+                    />
+                    <div className="memberInfo">
+                        <h1>{this.state.listingUserInfo.username}</h1>
+                        <br />
+                        <h1>Member Since: <Moment format='MMM Do YYYY' date={dateToFormat} /></h1>
+                    </div>
                 </div>
             );
         }
@@ -224,9 +262,7 @@ class PosterProfile extends Component {
 }
 
 function mapStateToProps(state) {
-    return {
-        user: state.user
-    };
+    return state;
 }
 
 export default connect(mapStateToProps, { getUserInfo })(PosterProfile);

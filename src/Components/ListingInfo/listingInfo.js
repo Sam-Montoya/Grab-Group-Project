@@ -127,7 +127,7 @@ class ListingInfo extends Component {
 							<Link
 								to={{
 									pathname: '/ownerProfile/' + this.state.listingInfo.user_id,
-									query: this.state.listingInfo.auth_id
+									auth_id: this.state.listingInfo.auth_id
 								}}>
 								<Avatar className="listing_avatar listing_profile">
 									<Person />
