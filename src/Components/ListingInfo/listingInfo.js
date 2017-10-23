@@ -212,32 +212,32 @@ class ListingInfo extends Component {
 
 	favoriteIcon() {
 		let favoriteIcon_Login = (
-			<Avatar className="listing_avatar favorite_icon_add">
-				<Star
-					onClick={() => {
-						alert('Please Log In');
-					}}
-				/>
+			<Avatar
+				className="listing_avatar favorite_icon_add"
+				onClick={() => {
+					alert('Please Log In');
+				}}>
+				<Star />
 			</Avatar>
 		);
 
 		let favoriteIcon_Remove = (
-			<Avatar className="listing_avatar favorite_icon_remove">
-				<Star
-					onClick={() => {
-						this.removeFavorite();
-					}}
-				/>
+			<Avatar
+				className="listing_avatar favorite_icon_remove"
+				onClick={() => {
+					this.removeFavorite();
+				}}>
+				<Star />
 			</Avatar>
 		);
 
 		let favoriteIcon_Add = (
-			<Avatar className="listing_avatar favorite_icon_add">
-				<Star
-					onClick={() => {
-						this.addListingToFavorites();
-					}}
-				/>
+			<Avatar
+				className="listing_avatar favorite_icon_add"
+				onClick={() => {
+					this.addListingToFavorites();
+				}}>
+				<Star />
 			</Avatar>
 		);
 
