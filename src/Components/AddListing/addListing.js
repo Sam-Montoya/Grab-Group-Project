@@ -141,8 +141,8 @@ class AddListing extends Component {
 
     render() {
         let mappedImages = this.state.uploadedFileCloudinaryUrl.map((image, i) => {
-            return <div key={i}>
-                <img src={image} />
+            return <div key={i} >
+                <img src={image} className="uploadedImage"/>
             </div>
         })
 
@@ -185,14 +185,7 @@ class AddListing extends Component {
                                     <p>Drop an image or click to select a file to upload.</p>
                                 </Dropzone>
                             </div>
-                            <div>
-                                {this.state.uploadedFileCloudinaryUrl === ''
-                                    ?
-                                    null
-                                    :
-                                    mappedImages
-                                }
-                            </div>
+                            
                             <button onClick={() => this.upload()}>Upload</button>
                         </div>
 
@@ -200,17 +193,15 @@ class AddListing extends Component {
                     <Paper
                         className="halfSecond"
                     >
-                        <h3>Description</h3>
-                        <TextField
-                            /* id="multiline-static" */
-                            label="Description"
-                            multiline
-                            /* rows="4" */
-                            /* defaultValue="Default Value" */
-                            /* className={} */
-                            margin="normal"
-                            style={{ width: '90%', height: '90%' }}
-                        />
+                        <h3>Images</h3>
+                        <div className="mappedImages">
+                                {this.state.uploadedFileCloudinaryUrl === ''
+                                    ?
+                                    null
+                                    :
+                                    mappedImages
+                                }
+                            </div>
                     </Paper>
                     <Paper className="FullRow">
                         <h3>Description</h3>

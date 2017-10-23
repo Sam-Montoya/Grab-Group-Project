@@ -57,6 +57,26 @@
 	align-content: stretch;
 }
 
+.uploadedImage{
+    width:100px;
+    height:100px;
+}
+
+.mappedImages{
+    max-width: 100%;
+    height:100%;
+    display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	justify-content: center;
+	align-items: center;
+    align-content: stretch;
+}
+
+.mappedImages img{
+    padding:10px;
+}
+
 
 @media screen and (max-width: 900px) { 
 		.AddListingContainer{
