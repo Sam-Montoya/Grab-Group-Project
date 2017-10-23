@@ -41,7 +41,8 @@ class ListingInfo extends Component {
 			faceboook: require('../../images/fbLogo.png'),
 			isFavorite: false,
 			isOpen: false,
-			snackbar_message: ''
+			snackbar_message: '',
+			favorites_count: 0
 		};
 		this.favoriteIcon = this.favoriteIcon.bind(this);
 	}
@@ -54,14 +55,16 @@ class ListingInfo extends Component {
 		if (this.props.location.query) {
 			this.setState({
 				listingInfo: this.props.location.query,
-				newPrice: this.props.location.query.price.slice(1, this.props.location.query.length)
+				newPrice: this.props.location.query.price.slice(1, this.props.location.query.length),
+				favorites_count: this.props.location.query.favorites_count
 			});
 			this.getUserInfo(this.props.location.query.auth_id);
 		} else {
 			axios.get('/api/getListing/' + listingNumber).then((listingData) => {
 				this.setState({
 					listingInfo: listingData.data,
-					newPrice: listingData.data.price.slice(1, listingData.data.price.length)
+					newPrice: listingData.data.price.slice(1, listingData.data.price.length),
+					favorites_count: listingData.data.favorites_count
 				});
 				this.getUserInfo(listingData.data.auth_id);
 			});
@@ -83,7 +86,8 @@ class ListingInfo extends Component {
 			this.favoriteIcon();
 			this.setState({
 				isOpen: true,
-				snackbar_message: 'Listing has been added to your favorites!'
+				snackbar_message: 'Listing has been added to your favorites!',
+				favorites_count: this.state.favorites_count + 1
 			});
 		});
 	}
@@ -97,7 +101,8 @@ class ListingInfo extends Component {
 					this.favoriteIcon();
 					this.setState({
 						isOpen: true,
-						snackbar_message: 'Listing has been removed from your favorites!'
+						snackbar_message: 'Listing has been removed from your favorites!',
+						favorites_count: this.state.favorites_count - 1
 					});
 				});
 		}
@@ -143,7 +148,7 @@ class ListingInfo extends Component {
 								<Star className="listing_favorites_star" />
 							</div>
 							<section className="listing_favorites_info">
-								<h3>{this.state.listingInfo.favorites_count}</h3>
+								<h3>{this.state.favorites_count}</h3>
 							</section>
 						</section>
 
