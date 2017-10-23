@@ -45,7 +45,6 @@ class PosterProfile extends Component {
             username: ''
         };
 
-        this.searchCategories = this.searchCategories.bind(this);
         this.coverPhotoInfo = this.coverPhotoInfo.bind(this);
     }
 
@@ -62,7 +61,6 @@ class PosterProfile extends Component {
 
     getUserInfo(auth_id) {
         axios.get('/api/getUserInfo/' + this.props.location.auth_id).then((userData) => {
-            console.log('USER DATA ', userData)
             this.setState({
                 listingUserInfo: userData.data
             });
@@ -148,116 +146,22 @@ class PosterProfile extends Component {
         );
     }
 
-    searchCategories = function () {
-        return (
-            <div className="categories">
-                <p>Categories</p>
-                <div>
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={this.state.checkedA}
-                                onChange={this.handleChangeInput('checkedA')}
-                                value="checkedA"
-                                style={{ color: 'red' }}
-                            />
-                        }
-                        label="Electronics"
-                    />
-                </div>
-                <div>
-                    <FormControlLabel
-                        control={
-                            <Checkbox
-                                checked={this.state.checkedB}
-                                onChange={this.handleChangeInput('checkedB')}
-                                value="checkedB"
-                                style={{ color: 'Purple' }}
-                            />
-                        }
-                        label="Home"
-                    />
-                </div>
-                <FormControlLabel
-                    control={
-                        <Checkbox
-                            checked={this.state.checkedC}
-                            onChange={this.handleChangeInput('checkedC')}
-                            value="checkedC"
-                            style={{ color: 'green' }}
-                        />
-                    }
-                    label="Sports"
-                />
-                <FormControlLabel
-                    control={
-                        <Checkbox
-                            checked={this.state.checkedD}
-                            onChange={this.handleChangeInput('checkedD')}
-                            value="checkedD"
-                            style={{ color: 'grey' }}
-                        />
-                    }
-                    label="Parts"
-                />
-                <FormControlLabel
-                    control={
-                        <Checkbox
-                            checked={this.state.checkedE}
-                            onChange={this.handleChangeInput('checkedE')}
-                            value="checkedE"
-                            style={{ color: 'green' }}
-                        />
-                    }
-                    label="Free"
-                />
-            </div>
-        );
-    };
-
     coverPhotoInfo() {
         const dateToFormat = new Date(this.state.listingUserInfo.date_created);
-        if (this.props.user) {
-            return (
-                <div className="CoverPhotoStuff">
-                    <div>
-                        <Avatar
-                            alt="Me"
-                            src={this.state.profile_pic}
-                            style={{ width: '120px', height: '120px', marginRight: '40px' }}
-                        />
-                    </div>
-                    <div>
-                        <p style={{ fontSize: '30px' }}>{this.state.username}</p>
-                        <div class="locationProfile">
-                            <i class="material-icons">location_on</i>
-                            {this.props.user.city && this.props.user.state ? (
-                                <p>
-                                    {this.props.user.city}, {this.props.user.state}
-                                </p>
-                            ) : (
-                                    <p>You havent filled out your information yet!</p>
-                                )}
-                        </div>
-                    </div>
+        return (
+            <div className="CoverPhotoStuff">
+                <Avatar
+                    alt="Me"
+                    src={this.state.listingUserInfo.profile_pic}
+                    style={{ width: '120px', height: '120px', marginRight: '40px' }}
+                />
+                <div className="memberInfo">
+                    <h1>{this.state.listingUserInfo.username}</h1>
+                    <br />
+                    <h1>Member Since: <Moment format='MMM Do YYYY' date={dateToFormat} /></h1>
                 </div>
-            );
-        } else {
-            return (
-                <div className="CoverPhotoStuff">
-                    <Avatar
-                        alt="Me"
-                        src={this.state.listingUserInfo.profile_pic}
-                        style={{ width: '120px', height: '120px', marginRight: '40px' }}
-                    />
-                    <div className="memberInfo">
-                        <h1>{this.state.listingUserInfo.username}</h1>
-                        <br />
-                        <h1>Member Since: <Moment format='MMM Do YYYY' date={dateToFormat} /></h1>
-                    </div>
-                </div>
-            );
-        }
+            </div>
+        );
     }
 }
 
