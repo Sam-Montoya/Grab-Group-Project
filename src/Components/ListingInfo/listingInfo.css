@@ -127,3 +127,21 @@
 		grid-column: 1/3;
 	}
 }
+
+.listing_header {
+	margin-left: 228px;
+	padding-top: 30px;
+	display: flex;
+	width: 80%;
+	border-bottom: 1px solid rgb(167, 167, 167);
+	margin-top: 10px;
+}
+.listing_header h1 {
+	font-size: 1.8vw;
+	width: 50%;
+}
+.listing_header h2, .listing_header h3 {
+	font-size: 1.3vw;
+	width: 25%;
+	margin-top: 10px;
+}

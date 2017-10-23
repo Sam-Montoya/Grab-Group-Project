@@ -9,6 +9,7 @@ import Back from 'material-ui-icons/KeyboardBackspace';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { getUserFavorites } from '../../Redux/reducer';
+import SnackBars from '../SharedComponents/SnackBars';
 
 class ListingInfo extends Component {
 	constructor() {
@@ -32,10 +33,13 @@ class ListingInfo extends Component {
 				user_id: 0,
 				zip: 0
 			},
+			listingUserInfo: {},
 			twitter: require('../../images/TwitterLogo2.png'),
 			gmail: require('../../images/mailLogo.png'),
 			faceboook: require('../../images/fbLogo.png'),
-			isFavorite: false
+			isFavorite: false,
+			isOpen: false,
+			snackbar_message: ''
 		};
 		this.favoriteIcon = this.favoriteIcon.bind(this);
 	}
@@ -49,13 +53,24 @@ class ListingInfo extends Component {
 			this.setState({
 				listingInfo: this.props.location.query
 			});
+			this.getUserInfo(this.props.location.query.auth_id);
 		} else {
 			axios.get('/api/getListing/' + listingNumber).then((listingData) => {
 				this.setState({
 					listingInfo: listingData.data
 				});
+				this.getUserInfo(listingData.data.auth_id);
 			});
 		}
+	}
+
+	getUserInfo(auth_id) {
+		console.log('slammed');
+		axios.get('/api/getUserInfo/' + auth_id).then((userData) => {
+			this.setState({
+				listingUserInfo: userData.data
+			});
+		});
 	}
 
 	addListingToFavorites() {
@@ -63,7 +78,10 @@ class ListingInfo extends Component {
 		axios.post('/api/addFavorite', config).then((response) => {
 			this.props.getUserFavorites(this.props.user.user_id);
 			this.favoriteIcon();
-			alert('Added to Favorites!');
+			this.setState({
+				isOpen: true,
+				snackbar_message: 'Listing has been added to your favorites!'
+			});
 		});
 	}
 
@@ -74,25 +92,18 @@ class ListingInfo extends Component {
 				.then((response) => {
 					this.props.getUserFavorites(this.props.user.user_id);
 					this.favoriteIcon();
-					alert('Listing has been removed from your favorites!');
+					this.setState({
+						isOpen: true,
+						snackbar_message: 'Listing has been removed from your favorites!'
+					});
 				});
-		}
-	}
-
-	checkFavorites() {
-		let existing = this.props.favorites.filter((listing, i) => {
-			return listing.listing_id === this.state.listingInfo.listing_id;
-		});
-		if (existing.length) {
-			return true;
-		} else {
-			return false;
 		}
 	}
 
 	render() {
 		return (
 			<div className="ListingPage">
+				<SnackBars is_open={this.state.isOpen} message={this.state.snackbar_message} />
 				<div className="sidebar">
 					<div className="leftBar">
 						<div className="topMenuThing">
@@ -124,7 +135,7 @@ class ListingInfo extends Component {
 						</div>
 						<h3>Price: {this.state.listingInfo.price}</h3>
 						<hr />
-						<h3>Favorited: COMING SOON</h3>
+						<h3>Favorited: {this.state.listingInfo.favorites_count}</h3>
 						<hr />
 						<h3>{this.state.listingInfo.phone_number}</h3>
 						<h3>{this.state.listingInfo.contact_status}</h3>
@@ -145,6 +156,11 @@ class ListingInfo extends Component {
 						</div>
 					</div>
 				</div>
+				<section className="listing_header">
+					<h1>{this.state.listingInfo.title}</h1>
+					<h2>By: {this.state.listingUserInfo.username}</h2>
+					<h3>Posted: 10 years ago</h3>
+				</section>
 				<div className="ListingInfoContainer">
 					<Paper className="half1">
 						{this.state.listingInfo.images.length !== 0 ? (
@@ -187,8 +203,8 @@ class ListingInfo extends Component {
 
 		if (this.props.user) {
 			if (this.props.favorites.length) {
-				for (let j = 0; j < this.props.favorites.length; j++) {
-					if (this.props.favorites[j].listing_id === this.state.listingInfo.listing_id) {
+				for (let index = 0; index < this.props.favorites.length; index++) {
+					if (this.props.favorites[index].listing_id === this.state.listingInfo.listing_id) {
 						favoriteIcon = (
 							<Avatar style={{ backgroundColor: 'white' }}>
 								<Star

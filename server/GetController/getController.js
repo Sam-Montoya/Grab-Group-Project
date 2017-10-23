@@ -17,7 +17,7 @@ module.exports = {
 	getUserInfo(DB, request, response) {
 		try {
 			DB.get_user_info(request.params.auth_id).then((userData) => {
-				if (userData[0]) response.status(200).send(userData);
+				if (userData[0]) response.status(200).send(userData[0]);
 				else response.status(404).send('User Not Found...');
 			});
 		} catch (err) {
