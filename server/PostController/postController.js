@@ -5,7 +5,9 @@
 module.exports = {
 	// Adds a listing into the database
 	addListing(DB, request, response) {
+		// console.log(request)
 		DB.find_user(request.body.auth_id).then((userData) => {
+			console.log(userData)
 			if (userData[0]) {
 				let {
 					auth_id,
