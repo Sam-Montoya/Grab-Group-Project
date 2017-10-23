@@ -13,7 +13,6 @@ const GET_USER_FAVORITES = 'GET_USER_FAVORITES';
 export function getUserInfo() {
 	let userInfo = axios.get('/auth/me').then((userData) => {
 		if (userData.data[0].hasOwnProperty('profile_pic')) {
-			getUserFavorites(userData.data[0].user_id);
 			return userData.data[0];
 		} else if(userData.data[0].hasOwnProperty('nickname')) {
 			alert('Something happened with the login. Please try again later.');
