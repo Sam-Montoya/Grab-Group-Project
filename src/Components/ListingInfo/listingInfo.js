@@ -70,6 +70,7 @@ class ListingInfo extends Component {
 				this.getUserInfo(listingData.data.auth_id);
 			});
 		}
+		if (this.props.user) this.props.getUserFavorites(this.props.user.user_id);
 	}
 
 	getUserInfo(auth_id) {
@@ -82,6 +83,7 @@ class ListingInfo extends Component {
 
 	addListingToFavorites() {
 		const config = { listing_id: this.state.listingInfo.listing_id, user_id: this.props.user.user_id };
+		console.log(config.listing_id);
 		axios.post('/api/addFavorite', config).then((response) => {
 			this.props.getUserFavorites(this.props.user.user_id);
 			this.favoriteIcon();
@@ -110,6 +112,7 @@ class ListingInfo extends Component {
 	}
 
 	render() {
+		console.log(this.props.favorites);
 		return (
 			<div className="ListingPage">
 				<SnackBars is_open={this.state.isOpen} message={this.state.snackbar_message} />
@@ -261,21 +264,27 @@ class ListingInfo extends Component {
 			</Avatar>
 		);
 
+		let favoriteIcon = favoriteIcon_Login;
 		if (this.props.user) {
 			if (this.props.favorites.length) {
 				for (let index = 0; index < this.props.favorites.length; index++) {
+					console.log(
+						this.props.favorites[index].listing_id,
+						' SHOULD === ',
+						this.state.listingInfo.listing_id
+					);
 					if (this.props.favorites[index].listing_id === this.state.listingInfo.listing_id) {
-						return favoriteIcon_Remove;
+						favoriteIcon = favoriteIcon_Remove;
 						break;
 					} else {
-						return favoriteIcon_Add;
+						favoriteIcon = favoriteIcon_Add;
 					}
 				}
 			} else {
-				return favoriteIcon_Add;
+				favoriteIcon = favoriteIcon_Add;
 			}
 		}
-		return favoriteIcon_Login;
+		return favoriteIcon;
 	}
 }
 
