@@ -110,6 +110,11 @@ app.delete('/api/removeFavorite/:listing_id/:user_id', (request, response) => {
 	deleteController.removeFromFavorites(db, request, response);
 });
 
+app.delete('/api/removeListing/:listing_id', (request, response) => {
+	let db = app.get('db');
+	deleteController.removeListing(db, request, response);
+});
+
 /**
  * Endpoints End
  */
