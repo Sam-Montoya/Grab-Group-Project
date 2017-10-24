@@ -22,34 +22,6 @@ import States from './StatesInput';
 import { FormGroup, FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 
-function TextMaskCustom(props) {
-	return (
-		<MaskedInput
-			{...props}
-			mask={['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-			placeholderChar={'\u2000'}
-			showMask
-		/>
-	);
-}
-
-function NumberFormatCustom(props) {
-	return (
-		<NumberFormat
-			{...props}
-			onChange={(event, values) => {
-				props.onChange({
-					target: {
-						value: values.value,
-					},
-				});
-			}}
-			thousandSeparator
-			prefix="$"
-		/>
-	);
-}
-
 class AddListing extends Component {
 	constructor() {
 		super();
