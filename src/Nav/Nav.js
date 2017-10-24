@@ -27,7 +27,6 @@ class ButtonAppBar extends Component {
 				this.props.getUserFavorites(this.props.user.user_id);
 			}
 		})
-		console.log(this.props.user);
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -38,7 +37,7 @@ class ButtonAppBar extends Component {
 		}
 	}
 
-	search(input){
+	search(input) {
 		let timeout = null;
 		clearTimeout(timeout);
 		this.props.updateSearchTerm(input);
@@ -82,10 +81,10 @@ class ButtonAppBar extends Component {
 								</a>
 							</div>
 						) : (
-							<a className="login nav_button" href={process.env.REACT_APP_LOGIN}>
-								<Button>Login</Button>
-							</a>
-						)}
+								<a className="login nav_button" href={process.env.REACT_APP_LOGIN}>
+									<Button>Login</Button>
+								</a>
+							)}
 					</Toolbar>
 				</AppBar>
 			</div>
