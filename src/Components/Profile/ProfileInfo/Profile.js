@@ -100,7 +100,7 @@ class Profile extends Component {
 							<div className="add_listing_container">
 								<h1 className="ProfileHeading">You have no listings... :(</h1>
 								<Link to="/addListing">
-									<section className="add_listing_button">+</section>
+									<div className="add_listing_button">+</div>
 								</Link>
 							</div>
 						)}

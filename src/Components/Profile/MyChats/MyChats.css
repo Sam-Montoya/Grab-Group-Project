@@ -1,0 +1,101 @@
+.chats_container {
+	max-width: 1000px;
+	display: grid;
+	grid-template-columns: repeat(12, 1fr);
+	justify-content: center;
+	margin: auto;
+	height: 89.9vh;
+}
+
+.chats_listings {
+	grid-column: 1/3;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.chats_messages_container {
+	grid-column: 3/10;
+	display: flex;
+	flex-direction: column;
+	margin-top: 20px;
+}
+
+.chats_profile_container {
+	grid-column: 10/13;
+	background-color: lightcoral;
+}
+
+.listings_chat_avatar {
+	width: 100px !important;
+	height: 100px !important;
+	margin: 15px;
+}
+
+.left_comment_container {
+	width: 100%;
+	height: 100px;
+	display: flex;
+    justify-content: flex-end;
+    margin-bottom: 10px;
+}
+
+.left_message {
+	min-width: 50%;
+	height: 100%;
+	display: flex;
+	background-color: lightslategray;
+}
+
+.left_message h1 {
+	padding: 10px;
+}
+
+.right_comment_container {
+	width: 100%;
+	height: 100px;
+	display: flex;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+}
+
+.right_message {
+	min-width: 50%;
+	height: 100%;
+	display: flex;
+	background-color: lightcoral;
+}
+
+.right_message h1 {
+	padding: 10px;
+}
+
+.profile_pic {
+    width: 100px;
+    height: 100px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+/* @media screen and (max-width: 900px) {
+	.chats_container {
+		grid-template-columns: repeat(1, 1fr);
+    }
+
+    .chats_listings {
+        grid-column: 1/2;
+        height: 100vh;
+        background-color: lightsalmon;
+    }
+    
+    .chats_messages_container {
+        grid-column: 1/2;
+        background-color: lightseagreen;
+    }
+    
+    .chats_profile_container {
+        grid-column: 1/2;
+        background-color: lightcoral;
+    }
+    
+} */

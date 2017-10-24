@@ -98,7 +98,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 20%;
+	margin-left: 10px;
 	height: 44px;
 	font-size: 30px;
 }
@@ -106,7 +106,6 @@
 	display: flex;
 	align-items: center;
 	font-size: 20px;
-	width: 80%;
 	height: 50px;
 }
 
@@ -125,7 +124,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 20%;
+	margin-left: 10px;
 	height: 44px;
 	font-size: 30px;
 }
@@ -134,7 +133,6 @@
 	display: flex;
 	align-items: center;
 	font-size: 20px;
-	width: 80%;
 	height: 50px;
 }
 
@@ -153,8 +151,8 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: 20%;
 	height: 44px;
+	margin-left: 10px;
 }
 
 .listing_contact_info {

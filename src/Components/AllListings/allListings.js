@@ -80,7 +80,7 @@ class allListings extends Component {
 				<div className="leftBarOnSearch">
 					{this.state.isLoggedIn ? (
 						<div>
-							<section className="profile_pic_nav_container">
+							<div className="profile_pic_nav_container">
 								<Link to="/profile">
 									<Avatar
 										className="profile_pic_nav"
@@ -88,7 +88,7 @@ class allListings extends Component {
 										src={this.state.profile_pic ? this.state.profile_pic : profile}
 									/>
 								</Link>
-							</section>
+							</div>
 
 							<List className="user_options">
 								<Link to="/myChats">
@@ -191,13 +191,13 @@ class allListings extends Component {
 						</div>
 					</div>
 
-					<section className="search_inputs">
+					<div className="search_inputs">
 						<p style={{ fontWeight: 'bold' }}>Distance</p>
 						<Input type="number" placeholder="Zip" />
 						<Input type="number" placeholder="Miles Away" />
-					</section>
+					</div>
 
-					<section className="pricing_container">
+					<div className="pricing_container">
 						<h1 style={{ fontWeight: 'bold' }}>Pricing</h1>
 						<Input type="number" placeholder="Lowest" />
 						<Input type="number" placeholder="Highest" />
@@ -210,7 +210,7 @@ class allListings extends Component {
 							<MenuItem value="lowest_to_highest">Lowest to Highest</MenuItem>
 							<MenuItem value="highest_to_lowest">Highest to Lowest</MenuItem>
 						</TextField>
-					</section>
+					</div>
 				</div>
 				<div className="SearchContainer">
 					{this.state.filteredListings.length ? (

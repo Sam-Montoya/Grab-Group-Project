@@ -137,33 +137,33 @@ class ListingInfo extends Component {
 						</div>
 					</div>
 					<div className="listing_user_info">
-						<section className="listing_price_container">
+						<div className="listing_price_container">
 							<div>$</div>
-							<section className="listing_price_info">
+							<div className="listing_price_info">
 								<h3>{this.state.newPrice}</h3>
-							</section>
-						</section>
+							</div>
+						</div>
 
-						<section className="listing_favorites_container">
+						<div className="listing_favorites_container">
 							<div>
 								<Star className="listing_favorites_star" />
 							</div>
-							<section className="listing_favorites_info">
+							<div className="listing_favorites_info">
 								<h3>{this.state.favorites_count}</h3>
-							</section>
-						</section>
+							</div>
+						</div>
 
-						<section className="listing_contact_container">
+						<div className="listing_contact_container">
 							<div>
 								<Contact className="listing_contact_icon" />
 							</div>
-							<section className="listing_contact_info">
+							<div className="listing_contact_info">
 								<h3 style={{ fontWeight: 'bold' }}>{this.state.listingInfo.contact_status}</h3>
 								{this.state.listingInfo.phone_number ? (
 									<h3>{this.state.listingInfo.phone_number}</h3>
 								) : null}
-							</section>
-						</section>
+							</div>
+						</div>
 
 						<div className="logos">
 							<img src={this.state.faceboook} alt="facebook" />
@@ -172,11 +172,11 @@ class ListingInfo extends Component {
 						</div>
 					</div>
 				</div>
-				<section className="listing_header">
+				<div className="listing_header">
 					<h1>{this.state.listingInfo.title.charAt(0).toUpperCase() + this.state.listingInfo.title.slice(1)}</h1>
 					<h2>By: {this.state.listingUserInfo.username}</h2>
 					<h3>Posted: 10 years ago</h3>
-				</section>
+				</div>
 				<div className="ListingInfoContainer">
 					<Paper className="half1">
 						<ListingImages images={this.state.listingInfo.images} />
