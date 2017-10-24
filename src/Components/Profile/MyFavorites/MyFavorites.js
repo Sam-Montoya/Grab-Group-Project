@@ -38,6 +38,7 @@ class MyFavorites extends Component {
 	removeFavorite = (listing_id) => {
 		axios.delete(`/api/removeFavorite/${listing_id}/${this.props.user.user_id}`)
 			.then((response) => {
+				alert('Listing has been removed from your favorites');
 				this.props.getUserFavorites(this.props.user.user_id);
 			})
 	}

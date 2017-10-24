@@ -42,6 +42,20 @@ class Profile extends Component {
 		this.setState({ [name]: event.target.checked });
 	};
 
+	removeListing = (listing_id) => {
+		axios.delete(`/api/removeListing/${listing_id}`)
+			.then((response) => {
+				alert('Listing has been removed');
+				axios.get(`/api/getUserListings/${this.props.user.auth_id}`).then((userListings) => {
+					if (Array.isArray(userListings.data)) {
+						this.setState({
+							listings: userListings.data
+						});
+					}
+				});
+			})
+	}
+
 	render() {
 		let listings;
 		if (this.state.listings.length) {
@@ -49,6 +63,7 @@ class Profile extends Component {
 				if (elem.images)
 					return (
 						<div>
+							<div className="removeIcon" onClick={() => this.removeListing(elem.listing_id)} style={{ backgroundColor: 'red', width: '25px', height: '25px' }}><hr className="deleteLine"></hr></div>
 							<Link
 								to={{
 									pathname: '/listingInfo/' + i,
@@ -97,13 +112,13 @@ class Profile extends Component {
 								<div className="FavoriteListingsContainer">{listings}</div>
 							</div>
 						) : (
-							<div className="add_listing_container">
-								<h1 className="ProfileHeading">You have no listings... :(</h1>
-								<Link to="/addListing">
-									<section className="add_listing_button">+</section>
-								</Link>
-							</div>
-						)}
+								<div className="add_listing_container">
+									<h1 className="ProfileHeading">You have no listings... :(</h1>
+									<Link to="/addListing">
+										<section className="add_listing_button">+</section>
+									</Link>
+								</div>
+							)}
 
 						<div className="Chat">
 							<div className="ChatNotification" />
@@ -137,8 +152,8 @@ class Profile extends Component {
 									{this.props.user.city}, {this.props.user.state}
 								</p>
 							) : (
-								<p>You havent filled out your information yet!</p>
-							)}
+									<p>You havent filled out your information yet!</p>
+								)}
 						</div>
 					</div>
 				</div>
