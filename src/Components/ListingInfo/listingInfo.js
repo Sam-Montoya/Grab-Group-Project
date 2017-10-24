@@ -12,6 +12,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getUserFavorites } from '../../Redux/reducer';
 import SnackBars from '../SharedComponents/SnackBars';
+import moment from 'moment';
+import 'moment-timezone';
 
 class ListingInfo extends Component {
 	constructor() {
@@ -123,7 +125,7 @@ class ListingInfo extends Component {
 	}
 
 	render() {
-		console.log('PRO ', this.state.listingInfo.pros)
+		let datePosted = new Date(this.state.listingInfo.time_submitted);
 		return (
 			<div className="ListingPage">
 				<SnackBars is_open={this.state.isOpen} message={this.state.snackbar_message} />
@@ -186,7 +188,7 @@ class ListingInfo extends Component {
 				<div className="listing_header">
 					<h1>{this.state.listingInfo.title.charAt(0).toUpperCase() + this.state.listingInfo.title.slice(1)}</h1>
 					<h2>By: {this.state.listingUserInfo.username}</h2>
-					<h3>Posted: 10 years ago</h3>
+					  <h3>Posted: {moment(datePosted).fromNow()}</h3>  
 				</div>
 				<div className="ListingInfoContainer">
 					<Paper className="half1">
