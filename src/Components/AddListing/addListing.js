@@ -81,6 +81,7 @@ class AddListing extends Component {
 			title: '',
 			state: '',
 			city: '',
+			zip: '',
 			checkedA: false,
 			checkedB: false,
 		};
@@ -111,7 +112,9 @@ class AddListing extends Component {
 			images: this.state.uploadedFileCloudinaryUrl,
 			state: this.state.state,
 			city: this.state.city,
-			time_submitted: Date()
+			time_submitted: Date(),
+			contact_status: (this.state.checkedA && this.state.checkedB) ? 'Call and Text' : (this.state.checkedA) ? 'Call Only' : 'Text Only',
+			zip: this.state.zip
 		}
 		console.log(listingObj)
 		axios.post('http://localhost:3060/api/addListing', listingObj).then((res) => {
@@ -283,6 +286,12 @@ class AddListing extends Component {
 		})
 	}
 
+	handleZip = (zip) => {
+		this.setState({
+			zip: zip
+		})
+	}
+
 	handleCheck = name => event => {
     this.setState({ [name]: event.target.checked });
   };
@@ -437,16 +446,24 @@ class AddListing extends Component {
 						<h1>Location</h1>
 
 						<div className="InputsInDiv">
-							<States
-								getStateInput={this.getStateInput}
-							/>
 							<Input
 								placeholder="City"
 								inputProps={{
 									'aria-label': 'Description',
 								}}
+								onChange={(e) => {this.handleCity(e.target.value)}}
+							/>
+							<Input
+								placeholder="Zip"
+								inputProps={{
+									'aria-label': 'Description',
+								}}
+								onChange={(e) => {this.handleZip(e.target.value)}}
 							/>
 						</div>
+						<States
+								getStateInput={this.getStateInput}
+							/>
 					</Paper>
 					<Paper className="halfFirst">
 						<h1>Add Image</h1>
