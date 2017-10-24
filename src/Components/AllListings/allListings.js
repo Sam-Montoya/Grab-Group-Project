@@ -50,9 +50,7 @@ class allListings extends Component {
 			});
 		}
 		setTimeout(() => {
-			console.log(this.props.search_term);
 			if (this.props.search_term !== '') {
-				console.log('Slammed');
 				axios.get('/api/search/' + this.props.search_term).then((results) => {
 					this.setState({
 						filteredListings: results.data
@@ -119,8 +117,8 @@ class allListings extends Component {
 							</List>
 						</div>
 					) : (
-						<div />
-					)}
+							<div />
+						)}
 
 					<h1 className="search_header">Search Filters</h1>
 
@@ -218,15 +216,14 @@ class allListings extends Component {
 					{this.state.filteredListings.length ? (
 						this.listingsMap(this.state.filteredListings)
 					) : (
-						this.listingsMap(this.state.listings)
-					)}
+							this.listingsMap(this.state.listings)
+						)}
 				</div>
 			</div>
 		);
 	}
 
 	listingsMap(listings) {
-		console.log(listings);
 		return listings.map((listing, i) => {
 			let backgroundColor;
 			switch (listing.category) {
@@ -273,8 +270,8 @@ class allListings extends Component {
 								{listing.price === '$0.00' ? (
 									<h3 className="descriptionText">Free</h3>
 								) : (
-									<h3 className="descriptionText">{listing.price}</h3>
-								)}
+										<h3 className="descriptionText">{listing.price}</h3>
+									)}
 							</div>
 						</Paper>
 					</Link>

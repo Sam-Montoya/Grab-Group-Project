@@ -23,7 +23,7 @@ class MyFavorites extends Component {
 	}
 
 	componentDidMount() {
-		axios.get('http://localhost:3060/api/getUserListings').then((res) => {
+		axios.get('/api/getUserListings/' + this.props.user.user_id).then((res) => {
 			this.setState({
 				listings: res.data
 			});
