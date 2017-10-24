@@ -173,7 +173,7 @@ class ListingInfo extends Component {
 					</div>
 				</div>
 				<section className="listing_header">
-					<h1>{this.state.listingInfo.title}</h1>
+					<h1>{this.state.listingInfo.title.charAt(0).toUpperCase() + this.state.listingInfo.title.slice(1)}</h1>
 					<h2>By: {this.state.listingUserInfo.username}</h2>
 					<h3>Posted: 10 years ago</h3>
 				</section>

@@ -262,10 +262,10 @@ class allListings extends Component {
 								backgroundSize: 'cover'
 							}}>
 							<div className="item_description" style={{ backgroundColor: backgroundColor }}>
-								<h1 className="title">{listing.title}</h1>
+								<h1 className="title">{listing.title.charAt(0).toUpperCase() + listing.title.slice(1)}</h1>
 								<hr />
 								<h2 className="descriptionText">
-									{listing.city}, {listing.state}
+									{listing.city.charAt(0).toUpperCase() + listing.city.slice(1)}, {listing.state.charAt(0).toUpperCase() + listing.state.slice(1)}
 								</h2>
 								{listing.price === '$0.00' ? (
 									<h3 className="descriptionText">Free</h3>
