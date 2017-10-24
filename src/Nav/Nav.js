@@ -49,7 +49,13 @@ class ButtonAppBar extends Component {
 				<AppBar>
 					<Toolbar className="navtoolbar">
 						<div className="navtoolbar">
-							<Drawer />
+							{
+								this.props.user
+								?
+								<Drawer />
+								:
+								null
+							}
 							<div className="navtoolbar">
 								<Typography type="title" color="inherit">
 									<Link to="/" className="Logo">

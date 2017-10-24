@@ -6,18 +6,8 @@ import './test.css';
 import Paper from 'material-ui/Paper';
 import './addListing.css';
 import TextField from 'material-ui/TextField';
-// import Grid from 'material-ui/Grid';
-// import Typography from 'material-ui/Typography';
-// import List, {
-//     ListItem,
-//     ListItemAvatar,
-//     ListItemIcon,
-//     ListItemSecondaryAction,
-//     ListItemText,
-// } from 'material-ui/List';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';
-// import AddIcon from 'material-ui-icons/AddCircle';
 import Button from 'material-ui/Button';
 import MaskedInput from 'react-text-mask';
 import NumberFormat from 'react-number-format';
@@ -27,39 +17,10 @@ import { FormControl, FormHelperText } from 'material-ui/Form';
 import Select from 'material-ui/Select';
 import { getUserInfo } from '../../Redux/reducer';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import States from './StatesInput';
 import { FormGroup, FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
-
-
-
-function TextMaskCustom(props) {
-	return (
-		<MaskedInput
-			{...props}
-			mask={['(', /[1-9]/, /\d/, /\d/, ')', ' ', /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/]}
-			placeholderChar={'\u2000'}
-			showMask
-		/>
-	);
-}
-
-function NumberFormatCustom(props) {
-	return (
-		<NumberFormat
-			{...props}
-			onChange={(event, values) => {
-				props.onChange({
-					target: {
-						value: values.value,
-					},
-				});
-			}}
-			thousandSeparator
-			prefix="$"
-		/>
-	);
-}
 
 class AddListing extends Component {
 	constructor() {
@@ -98,14 +59,13 @@ class AddListing extends Component {
 	}
 
 	handleCreate = () => {
-		console.log('CLICKED')
 		let listingObj = {
 			price: this.state.price,
 			category: this.state.category,
 			description: this.state.description,
-			phone_number: this.state.textmask,
-			pros: this.state.pros,
-			cons: this.state.cons,
+			phone_number: this.formatPhoneNumber(this.state.textmask),
+			pros: this.state.pros.toString(),
+			cons: this.state.cons.toString(),
 			user_id: this.state.user_id,
 			auth_id: this.state.auth_id,
 			title: this.state.title,
@@ -116,10 +76,12 @@ class AddListing extends Component {
 			contact_status: (this.state.checkedA && this.state.checkedB) ? 'Call and Text' : (this.state.checkedA) ? 'Call Only' : 'Text Only',
 			zip: this.state.zip
 		}
-		console.log(listingObj)
 		axios.post('http://localhost:3060/api/addListing', listingObj).then((res) => {
-			console.log(res)
-		})
+			if (res.status === 200) {
+				alert('Listing has been created');
+				this.props.history.push('/');
+			}
+		});
 	}
 
 	onImageDrop(files) {
@@ -139,11 +101,9 @@ class AddListing extends Component {
 
 			upload.end((err, response) => {
 				if (err) {
-					console.error(err);
 				}
 
 				if (response.body.secure_url !== '') {
-					console.log(response.body.secure_url);
 					this.setState({
 						uploadedFileCloudinaryUrl: [...this.state.uploadedFileCloudinaryUrl, response.body.secure_url]
 					});
@@ -158,45 +118,20 @@ class AddListing extends Component {
 			listing_id: 38
 		};
 		axios.put('/api/updateImages', test).then((res) => {
-			console.log(res);
 			if (res.data === 'Added') {
 				this.setState({
 					uploadedFileCloudinaryUrl: []
 				});
 			}
 		});
-
-		// let addTest = {
-		//     auth_id: 'google-oauth2|111891641192346730945',
-		//     user_id: 21,
-		//     title: 'Test',
-		//     price: 300,
-		//     images: this.state.uploadedFileCloudinaryUrl,
-		//     city: 'Provo',
-		//     state: 'Utah',
-		//     zip: 84084,
-		//     description: 'This is a test that Twan and I are trying to see if we can insert a new Listing into the db',
-		//     pros: 'It could work',
-		//     cons: 'None, because it worked',
-		//     phone_number: '801-885-5466',
-		//     contact_status: 'Call Only',
-		//     time_submitted: new Date(Date.now()),
-		//     category: 'Electronics'
-		// }
-		// axios.post('/api/addListing', addTest).then((res) => {
-		//     if(res.data === "Listing has been added"){
-		//         this.setState({
-		//             uploadedFileCloudinaryUrl: []
-		//         })
-		//     }
-		// })
 	}
 
 	handleKeyPressPro = (e) => {
 		let newPros = this.state.pros;
 		newPros.push(this.state.prosInput);
 		this.setState({
-			pros: newPros
+			pros: newPros,
+			prosInput: ''
 		});
 	};
 
@@ -204,12 +139,12 @@ class AddListing extends Component {
 		let newCons = this.state.cons;
 		newCons.push(this.state.consInput);
 		this.setState({
-			cons: newCons
+			cons: newCons,
+			consInput: ''
 		});
 	};
 
 	deletePro = (i) => {
-		console.log(i);
 		let newPros = this.state.pros;
 		newPros.splice(i, 1);
 		this.setState({
@@ -219,7 +154,6 @@ class AddListing extends Component {
 	};
 
 	deleteCon = (i) => {
-		console.log(i);
 		let newCons = this.state.cons;
 		newCons.splice(i, 1);
 		this.setState({
@@ -237,7 +171,6 @@ class AddListing extends Component {
 	};
 
 	changePrice = (price) => {
-		console.log(price)
 		if (isNaN(price)) {
 			alert('Must be a number')
 		}
@@ -248,7 +181,6 @@ class AddListing extends Component {
 			// the default value for minimumFractionDigits depends on the currency
 			// and is usually already 2
 		});
-		console.log(formatter.format(price))
 		let formatedPrice = formatter.format(price)
 		this.setState({
 			price: formatedPrice
@@ -274,7 +206,6 @@ class AddListing extends Component {
 	}
 
 	getStateInput = (state) => {
-		console.log(state)
 		this.setState({
 			state: state
 		})
@@ -293,8 +224,18 @@ class AddListing extends Component {
 	}
 
 	handleCheck = name => event => {
-    this.setState({ [name]: event.target.checked });
-  };
+		this.setState({ [name]: event.target.checked });
+	};
+
+	formatPhoneNumber = (textmask) => {
+		if (textmask.length === 10 || textmask.length === 12) {
+			let phoneNumber = textmask.replace(/[^0-9]/g, '')
+			return phoneNumber.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+		} else if (textmask.length === 11 || textmask.length === 14) {
+			let phoneNumber = textmask.replace(/[^0-9]/g, '')
+			return phoneNumber.replace(/^1?([2-9]..)([2-9]..)(....)$/, "1-$1-$2-$3")
+		}
+	}
 
 	render() {
 		let mappedImages = this.state.uploadedFileCloudinaryUrl.map((image, i) => {
@@ -334,33 +275,8 @@ class AddListing extends Component {
 			);
 		});
 		return (
-			<div
-			/* style={
-				(this.state.category === 'Electronics')
-					?
-					{ backgroundColor: "#B3E5FC" }
-					:
-					(this.state.category === 'Home')
-						?
-						{ backgroundColor: "#E1BEE7" }
-						:
-						(this.state.category === 'Sports')
-							?
-							{ backgroundColor: "#B2DFDB" }
-							:
-							(this.state.category === 'Parts')
-								?
-								{ backgroundColor: "#EEEEEE" }
-								:
-								(this.state.category === "Free")
-									?
-									{ backgroundColor: "#FFAB91" }
-									:
-									{ backgroundColor: '#f5f5f5' }
-			} */
-			>
+			<div>
 				<h1 className="AddListingHeading">Create Listing</h1>
-
 				<div className="categoryButtons">
 					<Button raised className={(this.state.category === 'Electronics') ? 'createListing_Electronics_Clicked' : 'createListing_Electronics'} onClick={() => { this.updateCategory('Electronics') }}>
 						Electronics
@@ -379,28 +295,10 @@ class AddListing extends Component {
      				</Button>
 				</div>
 
-
-
-				{/* <FormControl >
-					<Select
-						value='bla'
-						onChange={this.handleChange('age')}
-						displayEmpty
-					>
-						<MenuItem value="test">
-							<em>None</em>
-						</MenuItem>
-						<MenuItem value={10}>Ten</MenuItem>
-						<MenuItem value={20}>Twenty</MenuItem>
-						<MenuItem value={30}>Thirty</MenuItem>
-					</Select>
-					<FormHelperText>Without label</FormHelperText>
-				</FormControl> */}
-
 				<div className="AddListingContainer">
 					<Paper className="halfFirstInput">
 						<h1>Basic Info</h1>
-						<FormGroup row style={(this.state.textmask) ? {display:'block'} : {display:'none'}}>
+						<FormGroup row style={(this.state.textmask) ? { display: 'block' } : { display: 'none' }}>
 							<FormControlLabel
 								control={
 									<Checkbox
@@ -424,8 +322,6 @@ class AddListing extends Component {
 						</FormGroup>
 						<div className="InputsInDiv">
 							<Input
-								/* value={this.state.textmask} */
-								/* inputComponent={TextMaskCustom} */
 								onChange={this.handleChange('textmask')}
 								inputProps={{
 									'aria-label': 'Description',
@@ -451,19 +347,19 @@ class AddListing extends Component {
 								inputProps={{
 									'aria-label': 'Description',
 								}}
-								onChange={(e) => {this.handleCity(e.target.value)}}
+								onChange={(e) => { this.handleCity(e.target.value) }}
 							/>
 							<Input
 								placeholder="Zip"
 								inputProps={{
 									'aria-label': 'Description',
 								}}
-								onChange={(e) => {this.handleZip(e.target.value)}}
+								onChange={(e) => { this.handleZip(e.target.value) }}
 							/>
 						</div>
 						<States
-								getStateInput={this.getStateInput}
-							/>
+							getStateInput={this.getStateInput}
+						/>
 					</Paper>
 					<Paper className="halfFirst">
 						<h1>Add Image</h1>
@@ -473,16 +369,12 @@ class AddListing extends Component {
 									<p>Drop an image or click to select a file to upload.</p>
 								</Dropzone>
 							</div>
-
-							<Button raised onClick={() => this.upload()} className="uploadButton" style={{ backgroundColor: '#4fc3f7', color: 'white' }}>
-								Upload
-     						 </Button>
 						</div>
 					</Paper>
 					<Paper className="halfSecond">
 						<h3>Details</h3>
 						<div className="Details_addListing">
-							<p>Phone: {this.state.textmask}</p>
+							<p>Phone: {this.formatPhoneNumber(this.state.textmask)}</p>
 							<p>Price: {this.state.price}</p>
 							<p>Category: {this.state.category}</p>
 						</div>
@@ -492,23 +384,15 @@ class AddListing extends Component {
 					<Paper className="FullRow">
 						<h3>Description</h3>
 						<TextField
-							/* id="multiline-static" */
 							label="Title"
 							multiline
-							/* rows="4" */
-							/* defaultValue="Default Value" */
-							/* className={} */
 							margin="normal"
 							style={{ width: '45%', height: '90%' }}
 							onChange={(e) => { this.handleTitle(e.target.value) }}
 						/>
 						<TextField
-							/* id="multiline-static" */
 							label="Description"
 							multiline
-							/* rows="4" */
-							/* defaultValue="Default Value" */
-							/* className={} */
 							margin="normal"
 							style={{ width: '90%', height: '90%' }}
 							onChange={(e) => { this.handleDescription(e.target.value) }}
@@ -519,6 +403,7 @@ class AddListing extends Component {
 							<h3>Pros</h3>
 							<div className="InputandButton">
 								<TextField
+									value={this.state.prosInput}
 									label="Type Pros Here"
 									multiline
 									margin="normal"
@@ -545,7 +430,8 @@ class AddListing extends Component {
 						<h3>Cons</h3>
 						<div className="InputandButton">
 							<TextField
-								label="Type Pros Here"
+								value={this.state.consInput}
+								label="Type Cons Here"
 								multiline
 								margin="normal"
 								style={{ width: '90%', height: '90%' }}

@@ -14,7 +14,9 @@ const UPDATE_SEARCH_TERM = 'UPDATE_SEARCH_TERM';
 //ACTION CREATORS
 export function getUserInfo() {
 	let userInfo = axios.get('/auth/me').then((userData) => {
-		if (userData.data[0].hasOwnProperty('profile_pic')) {
+		if (userData.data.hasOwnProperty('profile_pic')) {
+			return userData.data;
+		} else if (userData.data[0].hasOwnProperty('profile_pic')) {
 			return userData.data[0];
 		}
 	});

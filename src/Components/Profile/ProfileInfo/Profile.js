@@ -42,6 +42,19 @@ class Profile extends Component {
 		this.setState({ [name]: event.target.checked });
 	};
 
+	removeListing = (listing_id) => {
+		axios.delete(`/api/removeListing/${listing_id}`).then((response) => {
+			alert('Listing has been removed');
+			axios.get(`/api/getUserListings/${this.props.user.auth_id}`).then((userListings) => {
+				if (Array.isArray(userListings.data)) {
+					this.setState({
+						listings: userListings.data
+					});
+				}
+			});
+		});
+	};
+
 	render() {
 		let listings;
 		if (this.state.listings.length) {
@@ -49,6 +62,12 @@ class Profile extends Component {
 				if (elem.images)
 					return (
 						<div>
+							<div
+								className="removeIcon"
+								onClick={() => this.removeListing(elem.listing_id)}
+								style={{ backgroundColor: 'red', width: '25px', height: '25px' }}>
+								<hr className="deleteLine" />
+							</div>
 							<Link
 								to={{
 									pathname: '/listingInfo/' + i,
@@ -100,7 +119,7 @@ class Profile extends Component {
 							<div className="add_listing_container">
 								<h1 className="ProfileHeading">You have no listings... :(</h1>
 								<Link to="/addListing">
-									<div className="add_listing_button">+</div>
+									<section className="add_listing_button">+</section>
 								</Link>
 							</div>
 						)}

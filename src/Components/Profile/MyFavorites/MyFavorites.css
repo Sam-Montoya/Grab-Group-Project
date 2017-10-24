@@ -57,7 +57,8 @@
     position: relative;
     top:22px;
     right:-205px;
-    border-radius: 50%
+    border-radius: 50%;
+    cursor: pointer;
 }
 
 .locationProfile{
