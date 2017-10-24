@@ -39,6 +39,8 @@ class MyFavorites extends Component {
 			if (favorite.images)
 				return (
 					<div>
+						<div className="removeIcon" style={{ backgroundColor: 'red', width: '25px', height: '25px'}}><hr className="deleteLine"></hr></div>
+
 						<Link
 							to={{
 								pathname: '/listingInfo/' + favorite.listing_id,
@@ -63,7 +65,7 @@ class MyFavorites extends Component {
 						</Link>
 					</div>
 				);
-				return this;
+			return this;
 		});
 
 
