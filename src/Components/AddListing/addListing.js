@@ -27,7 +27,9 @@ import { FormControl, FormHelperText } from 'material-ui/Form';
 import Select from 'material-ui/Select';
 import { getUserInfo } from '../../Redux/reducer';
 import { connect } from 'react-redux';
-import States from './StatesInput'
+import States from './StatesInput';
+import { FormGroup, FormControlLabel } from 'material-ui/Form';
+import Checkbox from 'material-ui/Checkbox';
 
 
 
@@ -78,7 +80,9 @@ class AddListing extends Component {
 			auth_id: '',
 			title: '',
 			state: '',
-			city: ''
+			city: '',
+			checkedA: false,
+			checkedB: false,
 		};
 	}
 
@@ -279,6 +283,10 @@ class AddListing extends Component {
 		})
 	}
 
+	handleCheck = name => event => {
+    this.setState({ [name]: event.target.checked });
+  };
+
 	render() {
 		let mappedImages = this.state.uploadedFileCloudinaryUrl.map((image, i) => {
 			return (
@@ -383,6 +391,28 @@ class AddListing extends Component {
 				<div className="AddListingContainer">
 					<Paper className="halfFirstInput">
 						<h1>Basic Info</h1>
+						<FormGroup row style={(this.state.textmask) ? {display:'block'} : {display:'none'}}>
+							<FormControlLabel
+								control={
+									<Checkbox
+										checked={this.state.checkedA}
+										onChange={this.handleCheck('checkedA')}
+										value="checkedA"
+									/>
+								}
+								label="Call"
+							/>
+							<FormControlLabel
+								control={
+									<Checkbox
+										checked={this.state.checkedB}
+										onChange={this.handleCheck('checkedB')}
+										value="checkedB"
+									/>
+								}
+								label="Text"
+							/>
+						</FormGroup>
 						<div className="InputsInDiv">
 							<Input
 								/* value={this.state.textmask} */
@@ -391,7 +421,7 @@ class AddListing extends Component {
 								inputProps={{
 									'aria-label': 'Description',
 								}}
-								placeholder="Phone"
+								placeholder="Phone (optional)"
 							/>
 							<Input
 								placeholder="Price"

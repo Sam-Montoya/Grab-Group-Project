@@ -69,7 +69,7 @@ function renderInput(inputProps) {
 
     return (
         <TextField
-            autoFocus={autoFocus}
+            autoFocus='false'
             className={classes.textField}
             value={value}
             inputRef={ref}

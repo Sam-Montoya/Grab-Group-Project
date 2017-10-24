@@ -2,7 +2,7 @@
 	display: grid;
 	grid-template-columns: repeat(2, 1fr);
 	justify-content: center;
-	overflow: hidden;
+	 overflow: hidden; 
 	/* width:100% */
 }
 
