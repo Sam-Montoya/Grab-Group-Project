@@ -83,7 +83,6 @@ class ListingInfo extends Component {
 
 	addListingToFavorites() {
 		const config = { listing_id: this.state.listingInfo.listing_id, user_id: this.props.user.user_id };
-		console.log(config.listing_id);
 		axios.post('/api/addFavorite', config).then((response) => {
 			this.props.getUserFavorites(this.props.user.user_id);
 			this.favoriteIcon();
@@ -111,8 +110,20 @@ class ListingInfo extends Component {
 		}
 	}
 
+	list(items) {
+		let orderedList = items.split(',');
+		let list = orderedList.map((item, i) => {
+			return (
+				<div key={i} className="list">
+					<li>{item}</li>
+				</div>
+			)
+		})
+		return list;
+	}
+
 	render() {
-		console.log(this.props.favorites);
+		console.log('PRO ', this.state.listingInfo.pros)
 		return (
 			<div className="ListingPage">
 				<SnackBars is_open={this.state.isOpen} message={this.state.snackbar_message} />
@@ -189,12 +200,12 @@ class ListingInfo extends Component {
 						<p>{this.state.listingInfo.description}</p>
 					</Paper>
 					<Paper className="half1">
-						<h3>Pros</h3>
-						<h3>{this.state.listingInfo.pros}</h3>
+						<h3 style={{fontWeight: 'bold', fontSize: '20px'}}>Pros</h3>
+						<section className='list_container'>{this.list(this.state.listingInfo.pros)}</section>
 					</Paper>
 					<Paper className="half">
-						<h3>Cons</h3>
-						<h3>{this.state.listingInfo.cons}</h3>
+						<h3 style={{fontWeight: 'bold', fontSize: '20px'}}>Cons</h3>
+						<section className='list_container'>{this.list(this.state.listingInfo.cons)}</section>
 					</Paper>
 				</div>
 			</div>
@@ -268,11 +279,6 @@ class ListingInfo extends Component {
 		if (this.props.user) {
 			if (this.props.favorites.length) {
 				for (let index = 0; index < this.props.favorites.length; index++) {
-					console.log(
-						this.props.favorites[index].listing_id,
-						' SHOULD === ',
-						this.state.listingInfo.listing_id
-					);
 					if (this.props.favorites[index].listing_id === this.state.listingInfo.listing_id) {
 						favoriteIcon = favoriteIcon_Remove;
 						break;

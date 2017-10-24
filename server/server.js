@@ -148,7 +148,6 @@ passport.use(
 					if (user[0]) {
 						return done(null, user);
 					} else {
-						console.log(profile);
 						app
 							.get('db')
 							.create_user([
