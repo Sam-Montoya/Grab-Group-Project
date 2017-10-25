@@ -242,3 +242,17 @@
 .listing_description {
 	font-size: 18px;
 }
+
+.list_container {
+	display: flex;
+	flex-direction: column;
+	margin: auto;
+}
+.list {
+	display: flex;
+	justify-content: flex-start;
+}
+
+.list li {
+	text-align: left;
+}

@@ -28,7 +28,16 @@ class allListings extends Component {
 			checkedE: false,
 			profile_pic: '',
 			priceSorting: 'lowest_to_highest',
-			isLoggedIn: false
+			isLoggedIn: false,
+			lowest: 0,
+			highest: 999999999999,
+			filters: {
+				checkedA: '',
+				checkedB: '',
+				checkedC: '',
+				checkedD: '',
+				checkedE: ''
+			}
 		};
 	}
 
@@ -64,14 +73,73 @@ class allListings extends Component {
 	}
 
 	handleChangeInput = (name) => (event) => {
-		this.setState({ [name]: event.target.checked });
+		if(event.target.checked){
+			this.setState({
+				[name]: event.target.checked,
+				filters: Object.assign({}, this.state.filters, {[name]: event.target.value})
+		   });
+		} else {
+			this.setState({
+				[name]: event.target.checked,
+				filters: Object.assign({}, this.state.filters, {[name]: ''})
+		   });
+		}
 	};
 
 	handleInputChange = (name) => (event) => {
 		this.setState({
-			[name]: event.target.value
+			[name]: event.target
 		});
 	};
+
+	checkLowest(input){
+		if(input == ''){
+			this.setState({
+				lowest: 0
+			});
+		} else {
+			this.setState({
+				lowest: input
+			})
+		}
+	}
+
+	checkHighest(input){
+		if(input == ''){
+			this.setState({
+				highest: 999999999999
+			});
+		} else {
+			this.setState({
+				highest: input
+			})
+		}
+	}
+
+	filter(listings){
+		if(this.state.lowest && this.state.highest || this.state.lowest || this.state.highest){
+			listings = listings.filter(listing => {
+				let price = listing.price.split('$');
+				if(parseInt(price[1]) >= parseInt(this.state.lowest) && parseInt(price[1]) <= parseInt(this.state.highest)){
+					return listing;
+				}
+			});
+		}
+
+
+		for(let prop in this.state.filters){
+			if(this.state.filters[prop] !== ''){
+				listings = listings.filter(listing => {
+					for(let prop in this.state.filters){
+						if(listing.category === this.state.filters[prop]){
+							return listing;
+						}
+					}
+				});
+			}
+		}
+		return listings;
+	}
 
 	render() {
 		return (
@@ -129,7 +197,7 @@ class allListings extends Component {
 									<Checkbox
 										checked={this.state.checkedA}
 										onChange={this.handleChangeInput('checkedA')}
-										value="checkedA"
+										value={'Electronics'}
 									/>
 								}
 								label="Electronics"
@@ -141,7 +209,7 @@ class allListings extends Component {
 									<Checkbox
 										checked={this.state.checkedB}
 										onChange={this.handleChangeInput('checkedB')}
-										value="checkedB"
+										value={'Home'}
 									/>
 								}
 								label="Home"
@@ -153,7 +221,7 @@ class allListings extends Component {
 									<Checkbox
 										checked={this.state.checkedC}
 										onChange={this.handleChangeInput('checkedC')}
-										value="checkedC"
+										value={'Sports'}
 										style={{ color: 'green' }}
 									/>
 								}
@@ -167,7 +235,7 @@ class allListings extends Component {
 									<Checkbox
 										checked={this.state.checkedD}
 										onChange={this.handleChangeInput('checkedD')}
-										value="checkedD"
+										value={'Parts'}
 										style={{ color: 'grey' }}
 									/>
 								}
@@ -181,7 +249,7 @@ class allListings extends Component {
 									<Checkbox
 										checked={this.state.checkedE}
 										onChange={this.handleChangeInput('checkedE')}
-										value="checkedE"
+										value={'Free'}
 										style={{ color: 'green' }}
 									/>
 								}
@@ -198,8 +266,8 @@ class allListings extends Component {
 
 					<div className="pricing_container">
 						<h1 style={{ fontWeight: 'bold' }}>Pricing</h1>
-						<Input type="number" placeholder="Lowest" />
-						<Input type="number" placeholder="Highest" />
+						<Input type="number" placeholder="Lowest" onChange={(e) => {this.checkLowest(e.target.value)}}/>
+						<Input type="number" placeholder="Highest" onChange={(e) => {this.checkHighest(e.target.value)}} />
 						<TextField
 							className="pricing_select"
 							select
@@ -213,9 +281,9 @@ class allListings extends Component {
 				</div>
 				<div className="SearchContainer">
 					{this.state.filteredListings.length ? (
-						this.listingsMap(this.state.filteredListings)
+						this.listingsMap(this.filter(this.state.filteredListings))
 					) : (
-							this.listingsMap(this.state.listings)
+							this.listingsMap(this.filter(this.state.listings))
 						)}
 				</div>
 			</div>

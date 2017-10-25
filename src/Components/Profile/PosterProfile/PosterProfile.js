@@ -10,7 +10,7 @@ import { getUserInfo } from '../../../Redux/reducer';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import CategoriesBar from '../../SharedComponents/CategoriesBar';
-import Moment from 'react-moment';
+import moment from 'moment';
 import 'moment-timezone';
 
 class PosterProfile extends Component {
@@ -147,7 +147,7 @@ class PosterProfile extends Component {
     }
 
     coverPhotoInfo() {
-        const dateToFormat = new Date(this.state.listingUserInfo.date_created);
+        const memberSince = new Date(this.state.listingUserInfo.date_created);
         return (
             <div className="CoverPhotoStuff">
                 <Avatar
@@ -158,7 +158,7 @@ class PosterProfile extends Component {
                 <div className="memberInfo">
                     <h1>{this.state.listingUserInfo.username}</h1>
                     <br />
-                    <h1>Member Since: <Moment format='MMM Do YYYY' date={dateToFormat} /></h1>
+                    <h1>Member Since: { moment(memberSince).format('MMMM Do YYYY') }</h1>
                 </div>
             </div>
         );

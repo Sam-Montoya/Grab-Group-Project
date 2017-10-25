@@ -12,6 +12,8 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getUserFavorites } from '../../Redux/reducer';
 import SnackBars from '../SharedComponents/SnackBars';
+import moment from 'moment';
+import 'moment-timezone';
 
 class ListingInfo extends Component {
 	constructor() {
@@ -83,7 +85,6 @@ class ListingInfo extends Component {
 
 	addListingToFavorites() {
 		const config = { listing_id: this.state.listingInfo.listing_id, user_id: this.props.user.user_id };
-		console.log(config.listing_id);
 		axios.post('/api/addFavorite', config).then((response) => {
 			this.props.getUserFavorites(this.props.user.user_id);
 			this.favoriteIcon();
@@ -111,8 +112,20 @@ class ListingInfo extends Component {
 		}
 	}
 
+	list(items) {
+		let orderedList = items.split(',');
+		let list = orderedList.map((item, i) => {
+			return (
+				<div key={i} className="list">
+					<li>{item}</li>
+				</div>
+			)
+		})
+		return list;
+	}
+
 	render() {
-		console.log(this.props.favorites);
+		let datePosted = new Date(this.state.listingInfo.time_submitted);
 		return (
 			<div className="ListingPage">
 				<SnackBars is_open={this.state.isOpen} message={this.state.snackbar_message} />
@@ -175,7 +188,7 @@ class ListingInfo extends Component {
 				<div className="listing_header">
 					<h1>{this.state.listingInfo.title.charAt(0).toUpperCase() + this.state.listingInfo.title.slice(1)}</h1>
 					<h2>By: {this.state.listingUserInfo.username}</h2>
-					<h3>Posted: 10 years ago</h3>
+					  <h3>Posted: {moment(datePosted).fromNow()}</h3>  
 				</div>
 				<div className="ListingInfoContainer">
 					<Paper className="half1">
@@ -189,12 +202,12 @@ class ListingInfo extends Component {
 						<p>{this.state.listingInfo.description}</p>
 					</Paper>
 					<Paper className="half1">
-						<h3>Pros</h3>
-						<h3>{this.state.listingInfo.pros}</h3>
+						<h3 style={{fontWeight: 'bold', fontSize: '20px'}}>Pros</h3>
+						<section className='list_container'>{this.list(this.state.listingInfo.pros)}</section>
 					</Paper>
 					<Paper className="half">
-						<h3>Cons</h3>
-						<h3>{this.state.listingInfo.cons}</h3>
+						<h3 style={{fontWeight: 'bold', fontSize: '20px'}}>Cons</h3>
+						<section className='list_container'>{this.list(this.state.listingInfo.cons)}</section>
 					</Paper>
 				</div>
 			</div>
@@ -268,11 +281,6 @@ class ListingInfo extends Component {
 		if (this.props.user) {
 			if (this.props.favorites.length) {
 				for (let index = 0; index < this.props.favorites.length; index++) {
-					console.log(
-						this.props.favorites[index].listing_id,
-						' SHOULD === ',
-						this.state.listingInfo.listing_id
-					);
 					if (this.props.favorites[index].listing_id === this.state.listingInfo.listing_id) {
 						favoriteIcon = favoriteIcon_Remove;
 						break;

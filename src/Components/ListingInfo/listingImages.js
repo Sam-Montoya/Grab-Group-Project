@@ -53,7 +53,6 @@ class TextMobileStepper extends React.Component {
 	test() {
 		switch (this.state.activeStep) {
 			case 0:
-				console.log('hit');
 				this.setState({
 					pictures: (
 						<div className="imgContainer">
@@ -103,7 +102,6 @@ class TextMobileStepper extends React.Component {
 
 	componentWillReceiveProps(nextProps) {
 		this.props = nextProps;
-		console.log(nextProps);
 	}
 
 	componentDidMount() {
