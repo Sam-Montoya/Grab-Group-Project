@@ -10,6 +10,8 @@ import axios from 'axios';
 import Paper from 'material-ui/Paper';
 import { getUserFavorites } from '../../../Redux/reducer';
 import CategoriesBar from '../../SharedComponents/CategoriesBar';
+import SnackBars from '../../SharedComponents/SnackBars';
+import DialogBox from '../../SharedComponents/Dialog';
 
 class MyFavorites extends Component {
 	constructor() {
@@ -21,6 +23,12 @@ class MyFavorites extends Component {
 			checkedC: false,
 			checkedD: false,
 			checkedE: false,
+			isOpen: false,
+			snackbar_message: '',
+			dialogOpen: false,
+			dialog_message: 'Are you sure you want to remove this listing from your favorites?',
+			dialog_title: 'Remove from Favorites',
+			selected_listing_id: '',
 			filters: {
 				checkedA: '',
 				checkedB: '',
@@ -56,7 +64,11 @@ class MyFavorites extends Component {
 	removeFavorite = (listing_id) => {
 		axios.delete(`/api/removeFavorite/${listing_id}/${this.props.user.user_id}`)
 			.then((response) => {
-				alert('Listing has been removed from your favorites');
+				this.setState({
+					isOpen: true,
+					snackbar_message: 'Listing has been removed from your favorites!',
+					dialogOpen: false
+				})
 				this.props.getUserFavorites(this.props.user.user_id);
 			}).then((newFavorites) => {
 				axios.get('/api/getUserFavorites/' + this.props.user.user_id).then((res) => {
@@ -85,6 +97,8 @@ class MyFavorites extends Component {
 	render() {
 		return (
 			<div >
+				<SnackBars is_open={this.state.isOpen} message={this.state.snackbar_message} />
+				<DialogBox is_open={this.state.dialogOpen} message={this.state.dialog_message} title={this.state.dialog_title} removeFavorite={this.removeFavorite} listing_id={this.state.selected_listing_id} />
 				<div className="myFavoritesPageContainer">
 					<div className="MainContentFavorites">
 						<h1 className="FavoritesPageHeading">My Favorites Page</h1>
@@ -105,7 +119,7 @@ class MyFavorites extends Component {
 		);
 	}
 
-	favoritesMap(favorites){
+	favoritesMap(favorites) {
 		return favorites.map((favorite, i) => {
 			if (favorite.images) {
 				let backgroundColor;
@@ -131,7 +145,7 @@ class MyFavorites extends Component {
 				}
 				return (
 					<div>
-						<div className="removeIcon" onClick={() => this.removeFavorite(favorite.listing_id)} style={{ backgroundColor: 'red', width: '25px', height: '25px' }}><hr className="deleteLine"></hr></div>
+						<div className="removeIcon" onClick={() => this.setState({dialogOpen: true, selected_listing_id: favorite.listing_id})} style={{ backgroundColor: 'red', width: '25px', height: '25px' }}><hr className="deleteLine"></hr></div>
 
 						<Link
 							to={{
