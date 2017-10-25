@@ -30,6 +30,8 @@ class allListings extends Component {
 			profile_pic: '',
 			priceSorting: 'lowest_to_highest',
 			isLoggedIn: false,
+			lowest: 0,
+			highest: 999999999999,
 			filters: {
 				checkedA: '',
 				checkedB: '',
@@ -91,7 +93,41 @@ class allListings extends Component {
 		});
 	};
 
+	checkLowest(input){
+		if(input == ''){
+			this.setState({
+				lowest: 0
+			});
+		} else {
+			this.setState({
+				lowest: input
+			})
+		}
+	}
+
+	checkHighest(input){
+		if(input == ''){
+			this.setState({
+				highest: 999999999999
+			});
+		} else {
+			this.setState({
+				highest: input
+			})
+		}
+	}
+
 	filter(listings){
+		if(this.state.lowest && this.state.highest || this.state.lowest || this.state.highest){
+			listings = listings.filter(listing => {
+				let price = listing.price.split('$');
+				if(parseInt(price[1]) >= parseInt(this.state.lowest) && parseInt(price[1]) <= parseInt(this.state.highest)){
+					return listing;
+				}
+			});
+		}
+
+
 		for(let prop in this.state.filters){
 			if(this.state.filters[prop] !== ''){
 				listings = listings.filter(listing => {
@@ -231,8 +267,8 @@ class allListings extends Component {
 
 					<div className="pricing_container">
 						<h1 style={{ fontWeight: 'bold' }}>Pricing</h1>
-						<Input type="number" placeholder="Lowest" />
-						<Input type="number" placeholder="Highest" />
+						<Input type="number" placeholder="Lowest" onChange={(e) => {this.checkLowest(e.target.value)}}/>
+						<Input type="number" placeholder="Highest" onChange={(e) => {this.checkHighest(e.target.value)}} />
 						<TextField
 							className="pricing_select"
 							select
