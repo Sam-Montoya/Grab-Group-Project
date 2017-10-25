@@ -14,7 +14,6 @@ class MyChats extends React.Component {
 			chats: [],
 			listingData: [],
 			displayedMessages: [],
-			user_id: 'auth_id_1',
 			chats: '',
 			listingUserData: [
 				{
@@ -31,7 +30,7 @@ class MyChats extends React.Component {
 	}
 
 	componentDidMount() {
-		axios.get('/api/getUserChats/auth_id_1').then((chat) => {
+		axios.get('/api/getUserChats/' + this.props.user.auth_id).then((chat) => {
 			this.setState({
 				chats: chat.data
 			});
@@ -65,13 +64,14 @@ class MyChats extends React.Component {
 
 	onSubmit = (message) => {
 		let chatObj = {
-			auth_id_of_comment: 'auth_id_2',
+			auth_id_of_comment: this.props.user.auth_id,
 			client_id: this.state.listingUserData.auth_id,
 			message: message,
 			time_submitted: Date(Date.now())
 		};
 		axios.post('/api/addMessage/' + this.state.currentListingId, chatObj).then((res) => {
-			axios.get('/api/getUserChats/auth_id_1').then((chat) => {
+			console.log(res.data);
+			axios.get('/api/getUserChats/' + this.props.user.auth_id).then((chat) => {
 				this.setState({
 					chats: chat.data
 				});
@@ -139,38 +139,43 @@ class MyChats extends React.Component {
 	}
 
 	messageContainer = () => {
-		let chats = this.state.displayedMessages.map((elem, i) => {
-			if (elem.auth_id_of_comment === this.state.user_id) {
-				return (
-					<div key={i} className="right_comment_container">
-						<img className="profile_pic" src={this.state.listingUserData.profile_pic} alt="" />
-						<section className="right_message_container">
-							<section className="right_message">
-								<h1>{elem.message}</h1>
+		console.log(this.state.displayedMessages);
+		if (this.state.displayedMessages !== null) {
+			let chats = this.state.displayedMessages.map((elem, i) => {
+				if (elem.auth_id_of_comment === this.props.user.auth_id) {
+					console.log('Owner');
+					return (
+						<div key={i} className="left_comment_container">
+							<section className="left_message_container">
+								<section className="left_message">
+									<h1>{elem.message}</h1>
+								</section>
+								<section className="right_time_submitted">
+									<h1>{moment(elem.time_submitted).fromNow()}</h1>
+								</section>
 							</section>
-							<section className="left_time_submitted">
-								<h1>{moment(elem.time_submitted).fromNow()}</h1>
+							<img className="profile_pic" src={this.props.user.profile_pic} alt="" />
+						</div>
+					);
+				} else {
+					console.log('Client');
+					return (
+						<div key={i} className="right_comment_container">
+							<img className="profile_pic" src={this.state.listingData.profile_pic} alt="" />
+							<section className="right_message_container">
+								<section className="right_message">
+									<h1>{elem.message}</h1>
+								</section>
+								<section className="left_time_submitted">
+									<h1>{moment(elem.time_submitted).fromNow()}</h1>
+								</section>
 							</section>
-						</section>
-					</div>
-				);
-			} else {
-				return (
-					<div key={i} className="left_comment_container">
-						<section className="left_message_container">
-							<section className="left_message">
-								<h1>{elem.message}</h1>
-							</section>
-							<section className="right_time_submitted">
-								<h1>{moment(elem.time_submitted).fromNow()}</h1>
-							</section>
-						</section>
-						<img className="profile_pic" src={this.props.user.profile_pic} alt="" />
-					</div>
-				);
-			}
-		});
-		return chats;
+						</div>
+					);
+				}
+			});
+			return chats;
+		}
 	};
 }
 

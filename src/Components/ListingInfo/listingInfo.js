@@ -119,9 +119,20 @@ class ListingInfo extends Component {
 				<div key={i} className="list">
 					<li>{item}</li>
 				</div>
-			)
-		})
+			);
+		});
 		return list;
+	}
+
+	startChat = () => {
+		let chatConfig = {
+			owner_id: this.state.listingInfo.auth_id,
+			client_id: this.props.user.auth_id,
+			listing_id: this.state.listingInfo.listing_id
+		}
+		axios.post('/api/startChat', chatConfig).then((res) => {
+			alert(res.data);
+		})
 	}
 
 	render() {
@@ -141,9 +152,11 @@ class ListingInfo extends Component {
 						</div>
 						<div>{this.userProfileChecker()}</div>
 						<div>
-							<Avatar className="listing_avatar listing_message">
-								<Inbox />
-							</Avatar>
+							<Link to="/myChats" onClick={() => this.startChat()}>
+								<Avatar className="listing_avatar listing_message">
+									<Inbox />
+								</Avatar>
+							</Link>
 						</div>
 						<div>
 							<this.favoriteIcon />
@@ -186,9 +199,11 @@ class ListingInfo extends Component {
 					</div>
 				</div>
 				<div className="listing_header">
-					<h1>{this.state.listingInfo.title.charAt(0).toUpperCase() + this.state.listingInfo.title.slice(1)}</h1>
+					<h1>
+						{this.state.listingInfo.title.charAt(0).toUpperCase() + this.state.listingInfo.title.slice(1)}
+					</h1>
 					<h2>By: {this.state.listingUserInfo.username}</h2>
-					  <h3>Posted: {moment(datePosted).fromNow()}</h3>  
+					<h3>Posted: {moment(datePosted).fromNow()}</h3>
 				</div>
 				<div className="ListingInfoContainer">
 					<Paper className="half1">
@@ -202,12 +217,12 @@ class ListingInfo extends Component {
 						<p>{this.state.listingInfo.description}</p>
 					</Paper>
 					<Paper className="half1">
-						<h3 style={{fontWeight: 'bold', fontSize: '20px'}}>Pros</h3>
-						<section className='list_container'>{this.list(this.state.listingInfo.pros)}</section>
+						<h3 style={{ fontWeight: 'bold', fontSize: '20px' }}>Pros</h3>
+						<section className="list_container">{this.list(this.state.listingInfo.pros)}</section>
 					</Paper>
 					<Paper className="half">
-						<h3 style={{fontWeight: 'bold', fontSize: '20px'}}>Cons</h3>
-						<section className='list_container'>{this.list(this.state.listingInfo.cons)}</section>
+						<h3 style={{ fontWeight: 'bold', fontSize: '20px' }}>Cons</h3>
+						<section className="list_container">{this.list(this.state.listingInfo.cons)}</section>
 					</Paper>
 				</div>
 			</div>
