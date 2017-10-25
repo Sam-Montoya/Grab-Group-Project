@@ -56,42 +56,64 @@ class Profile extends Component {
 	render() {
 		let listings;
 		if (this.state.listings.length) {
-			listings = this.state.listings.map((elem, i) => {
-				if (elem.images)
+			listings = this.state.listings.map((listing, i) => {
+				if (listing.images) {
+					let backgroundColor;
+					switch (listing.category) {
+						case 'Electronics':
+							backgroundColor = 'rgba(53, 138, 255, 0.68)';
+							break;
+						case 'Home':
+							backgroundColor = 'rgba(147, 74, 255, 0.68)';
+							break;
+						case 'Sports':
+							backgroundColor = 'rgba(104, 208, 52, 0.68)';
+							break;
+						case 'Parts':
+							backgroundColor = 'rgba(151, 151, 151, 0.68)';
+							break;
+						case 'Free':
+							backgroundColor = 'rgba(255, 127, 127, 0.68)';
+							break;
+						default:
+							backgroundColor = 'rgba(0, 255, 255, 0.68)';
+							break;
+					}
 					return (
 						<div>
 							<div
 								className="removeIcon"
-								onClick={() => this.removeListing(elem.listing_id)}
+								onClick={() => this.removeListing(listing.listing_id)}
 								style={{ backgroundColor: 'red', width: '25px', height: '25px' }}>
 								<hr className="deleteLine" />
 							</div>
 							<Link
 								to={{
 									pathname: '/listingInfo/' + i,
-									query: elem
+									query: listing
 								}}>
 								<Paper
 									elevation={4}
 									className="item_container"
 									style={{
-										background: `url(${elem.images[0]}) no-repeat center center`,
+										background: `url(${listing.images[0]}) no-repeat center center`,
 										backgroundSize: 'cover'
 									}}>
 									<div
 										className="item_description"
-										style={{ backgroundColor: 'rgba(53, 138, 255, 0.68)' }}>
-										<h1 className="title">{elem.title}</h1>
+										style={{ backgroundColor: backgroundColor }}>
+										<h1 className="title">{listing.title}</h1>
 										<hr />
 										<h2 className="descriptionText">
-											{elem.city}, {elem.state}
+											{listing.city}, {listing.state}
 										</h2>
-										<h3 className="descriptionText">{elem.price}</h3>
+										<h3 className="descriptionText">{listing.price}</h3>
 									</div>
 								</Paper>
 							</Link>
 						</div>
 					);
+				}
 			});
 		}
 
@@ -114,13 +136,13 @@ class Profile extends Component {
 								<div className="FavoriteListingsContainer">{listings}</div>
 							</div>
 						) : (
-							<div className="add_listing_container">
-								<h1 className="ProfileHeading">You have no listings... :(</h1>
-								<Link to="/addListing">
-									<section className="add_listing_button">+</section>
-								</Link>
-							</div>
-						)}
+								<div className="add_listing_container">
+									<h1 className="ProfileHeading">You have no listings... :(</h1>
+									<Link to="/addListing">
+										<section className="add_listing_button">+</section>
+									</Link>
+								</div>
+							)}
 
 						<div className="Chat">
 							<div className="ChatNotification" />
@@ -154,8 +176,8 @@ class Profile extends Component {
 									{this.props.user.city}, {this.props.user.state}
 								</p>
 							) : (
-								<p>You havent filled out your information yet!</p>
-							)}
+									<p>You havent filled out your information yet!</p>
+								)}
 						</div>
 					</div>
 				</div>

@@ -45,7 +45,28 @@ class MyFavorites extends Component {
 
 	render() {
 				let myFavorites = this.props.favorites.map((favorite, i) => {
-					if (favorite.images)
+					if (favorite.images){
+						let backgroundColor;
+						switch (favorite.category) {
+							case 'Electronics':
+								backgroundColor = 'rgba(53, 138, 255, 0.68)';
+								break;
+							case 'Home':
+								backgroundColor = 'rgba(147, 74, 255, 0.68)';
+								break;
+							case 'Sports':
+								backgroundColor = 'rgba(104, 208, 52, 0.68)';
+								break;
+							case 'Parts':
+								backgroundColor = 'rgba(151, 151, 151, 0.68)';
+								break;
+							case 'Free':
+								backgroundColor = 'rgba(255, 127, 127, 0.68)';
+								break;
+							default:
+								backgroundColor = 'rgba(0, 255, 255, 0.68)';
+								break;
+						}
 						return (
 							<div>
 								<div className="removeIcon" onClick={() => this.removeFavorite(favorite.listing_id)} style={{ backgroundColor: 'red', width: '25px', height: '25px' }}><hr className="deleteLine"></hr></div>
@@ -64,7 +85,7 @@ class MyFavorites extends Component {
 										}}>
 										<div
 											className="item_description"
-											style={{ backgroundColor: 'rgba(53, 138, 255, 0.68)' }}>
+											style={{ backgroundColor: backgroundColor }}>
 											<h1 className="title">{favorite.title}</h1>
 											<hr />
 											<h2 className="descriptionText">{favorite.city}, {favorite.state}</h2>
@@ -74,6 +95,7 @@ class MyFavorites extends Component {
 								</Link>
 							</div>
 						);
+					}
 					return this;
 				});
 
