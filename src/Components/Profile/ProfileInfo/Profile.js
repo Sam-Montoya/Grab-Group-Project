@@ -18,7 +18,14 @@ class Profile extends Component {
 			checkedB: false,
 			checkedC: false,
 			checkedD: false,
-			checkedE: false
+			checkedE: false,
+			filters: {
+				checkedA: '',
+				checkedB: '',
+				checkedC: '',
+				checkedD: '',
+				checkedE: ''
+			}
 		};
 
 		this.coverPhotoInfo = this.coverPhotoInfo.bind(this);
@@ -37,7 +44,17 @@ class Profile extends Component {
 	}
 
 	handleChangeInput = (name) => (event) => {
-		this.setState({ [name]: event.target.checked });
+		if (event.target.checked) {
+			this.setState({
+				[name]: event.target.checked,
+				filters: Object.assign({}, this.state.filters, { [name]: event.target.value })
+			});
+		} else {
+			this.setState({
+				[name]: event.target.checked,
+				filters: Object.assign({}, this.state.filters, { [name]: '' })
+			});
+		}
 	};
 
 	removeListing = (listing_id) => {
@@ -53,76 +70,28 @@ class Profile extends Component {
 		});
 	};
 
-	render() {
-		let listings;
-		if (this.state.listings.length) {
-			listings = this.state.listings.map((listing, i) => {
-				if (listing.images) {
-					let backgroundColor;
-					switch (listing.category) {
-						case 'Electronics':
-							backgroundColor = 'rgba(53, 138, 255, 0.68)';
-							break;
-						case 'Home':
-							backgroundColor = 'rgba(147, 74, 255, 0.68)';
-							break;
-						case 'Sports':
-							backgroundColor = 'rgba(104, 208, 52, 0.68)';
-							break;
-						case 'Parts':
-							backgroundColor = 'rgba(151, 151, 151, 0.68)';
-							break;
-						case 'Free':
-							backgroundColor = 'rgba(255, 127, 127, 0.68)';
-							break;
-						default:
-							backgroundColor = 'rgba(0, 255, 255, 0.68)';
-							break;
+	filter(listings){
+		for (let prop in this.state.filters) {
+			if (this.state.filters[prop] !== '') {
+				listings = listings.filter(listing => {
+					for (let prop in this.state.filters) {
+						if (listing.category === this.state.filters[prop]) {
+							return listing;
+						}
 					}
-					return (
-						<div>
-							<div
-								className="removeIcon"
-								onClick={() => this.removeListing(listing.listing_id)}
-								style={{ backgroundColor: 'red', width: '25px', height: '25px' }}>
-								<hr className="deleteLine" />
-							</div>
-							<Link
-								to={{
-									pathname: '/listingInfo/' + i,
-									query: listing
-								}}>
-								<Paper
-									elevation={4}
-									className="item_container"
-									style={{
-										background: `url(${listing.images[0]}) no-repeat center center`,
-										backgroundSize: 'cover'
-									}}>
-									<div
-										className="item_description"
-										style={{ backgroundColor: backgroundColor }}>
-										<h1 className="title">{listing.title}</h1>
-										<hr />
-										<h2 className="descriptionText">
-											{listing.city}, {listing.state}
-										</h2>
-										<h3 className="descriptionText">{listing.price}</h3>
-									</div>
-								</Paper>
-							</Link>
-						</div>
-					);
-				}
-			});
+				});
+			}
 		}
+		return listings;
+	}
 
+	render() {
 		return (
 			<div>
 				<div className="ProfilePageContainer">
 					<div className="rightNavFavorites">
 						{/* Search Categories Function */}
-						{CategoriesBar('electronics', 'home', 'sports', 'parts', 'free')}
+						<CategoriesBar {...this.state} handleChangeInput={this.handleChangeInput} />
 					</div>
 					<div className="MainContentProfile">
 						<div className="CoverPhoto">
@@ -133,7 +102,7 @@ class Profile extends Component {
 						{this.state.listings.length ? (
 							<div>
 								<h1 className="ProfileHeading">My Listings ({this.state.listings.length})</h1>
-								<div className="FavoriteListingsContainer">{listings}</div>
+								<div className="FavoriteListingsContainer">{this.listingMap(this.filter(this.state.listings))}</div>
 							</div>
 						) : (
 								<div className="add_listing_container">
@@ -189,6 +158,68 @@ class Profile extends Component {
 				</div>
 			);
 		}
+	}
+
+	listingMap(listings) {
+		return listings.map((listing, i) => {
+			if (listing.images) {
+				let backgroundColor;
+				switch (listing.category) {
+					case 'Electronics':
+						backgroundColor = 'rgba(53, 138, 255, 0.68)';
+						break;
+					case 'Home':
+						backgroundColor = 'rgba(147, 74, 255, 0.68)';
+						break;
+					case 'Sports':
+						backgroundColor = 'rgba(104, 208, 52, 0.68)';
+						break;
+					case 'Parts':
+						backgroundColor = 'rgba(151, 151, 151, 0.68)';
+						break;
+					case 'Free':
+						backgroundColor = 'rgba(255, 127, 127, 0.68)';
+						break;
+					default:
+						backgroundColor = 'rgba(0, 255, 255, 0.68)';
+						break;
+				}
+				return (
+					<div>
+						<div
+							className="removeIcon"
+							onClick={() => this.removeListing(listing.listing_id)}
+							style={{ backgroundColor: 'red', width: '25px', height: '25px' }}>
+							<hr className="deleteLine" />
+						</div>
+						<Link
+							to={{
+								pathname: '/listingInfo/' + i,
+								query: listing
+							}}>
+							<Paper
+								elevation={4}
+								className="item_container"
+								style={{
+									background: `url(${listing.images[0]}) no-repeat center center`,
+									backgroundSize: 'cover'
+								}}>
+								<div
+									className="item_description"
+									style={{ backgroundColor: backgroundColor }}>
+									<h1 className="title">{listing.title}</h1>
+									<hr />
+									<h2 className="descriptionText">
+										{listing.city}, {listing.state}
+									</h2>
+									<h3 className="descriptionText">{listing.price}</h3>
+								</div>
+							</Paper>
+						</Link>
+					</div>
+				);
+			}
+		});
 	}
 }
 

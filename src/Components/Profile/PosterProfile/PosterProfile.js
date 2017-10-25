@@ -154,7 +154,7 @@ class PosterProfile extends Component {
 				<div className="ProfilePageContainer">
 					<div className="rightNavFavorites">
 						{/* Search Categories Function */}
-						{CategoriesBar('electronics', 'home', 'sports', 'parts', 'free')}
+						<CategoriesBar />
 					</div>
 					<div className="MainContentProfile">
 						<div className="CoverPhoto">
