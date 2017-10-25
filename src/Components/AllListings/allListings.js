@@ -7,6 +7,7 @@ import List, { ListItem, ListItemText } from 'material-ui/List';
 import MenuItem from 'material-ui/Menu/MenuItem';
 import TextField from 'material-ui/TextField';
 import Star from 'material-ui-icons/Star';
+import Button from 'material-ui/Button';
 import Pageview from 'material-ui-icons/List';
 import Input from 'material-ui/Input';
 import { FormControlLabel } from 'material-ui/Form';
@@ -32,6 +33,9 @@ class allListings extends Component {
 			isLoggedIn: false,
 			lowest: 0,
 			highest: 999999999999,
+			zip: '',
+			milesAway: '',
+			zipRadius: [],
 			filters: {
 				checkedA: '',
 				checkedB: '',
@@ -117,7 +121,27 @@ class allListings extends Component {
 		}
 	}
 
+	search(){
+		axios.get(`/api/zipRadius/${this.state.zip}/${this.state.milesAway}`).then(res => {
+			if(res.status === 200){
+				this.setState({
+					zipRadius: res.data.zip_codes
+				})
+			}
+		});
+	}
+
 	filter(listings) {
+		if(this.state.zipRadius.length){
+			listings = listings.filter(listing => {
+				for(let i = 0; i < this.state.zipRadius.length; i++){
+					if(parseInt(listing.zip) === parseInt(this.state.zipRadius[i])){
+						return listing;
+					}
+				}
+			});
+		}
+
 		if (listings.length) {
 			if (this.state.priceSorting === 'Highest to Lowest') {
 				listings = _.sortBy(listings, [function (listing) {
@@ -274,8 +298,9 @@ class allListings extends Component {
 
 					<div className="search_inputs">
 						<p style={{ fontWeight: 'bold' }}>Distance</p>
-						<Input type="number" placeholder="Zip" />
-						<Input type="number" placeholder="Miles Away" />
+						<Input type="number" placeholder="Zip" onChange={(e) => { this.setState({zip: e.target.value}) }} />
+						<Input type="number" placeholder="Miles Away" onChange={(e) => { this.setState({milesAway: e.target.value}) }} />
+						<Button raised className="createButton" onClick={() => {this.search()}}>Search</Button>
 					</div>
 
 					<div className="pricing_container">

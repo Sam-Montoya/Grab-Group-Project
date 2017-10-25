@@ -66,6 +66,10 @@ app.get('/api/search/:search_term', (request, response)  => {
 	let db = app.get('db');
 	getController.search(db, request, response);
 });
+app.get('/api/zipRadius/:zip/:miles', (request, response) => {
+	let db = app.get('db');
+	getController.getZips(db, request, response);
+});
 
 // -- Post Requests
 app.post('/api/addListing', (request, response) => {
