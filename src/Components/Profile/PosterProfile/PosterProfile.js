@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './Profile.css';
+import './PosterProfile.css';
 import Inbox from 'material-ui-icons/Message';
 import Avatar from 'material-ui/Avatar';
 import { FormControlLabel } from 'material-ui/Form';
@@ -10,49 +10,87 @@ import { getUserInfo } from '../../../Redux/reducer';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import CategoriesBar from '../../SharedComponents/CategoriesBar';
+import moment from 'moment';
+import 'moment-timezone';
 
-class Profile extends Component {
+class PosterProfile extends Component {
 	constructor() {
 		super();
 		this.state = {
+			listingUserInfo: {
+				auth_id: '',
+				category: '',
+				city: '',
+				cons: '',
+				contact_status: '',
+				description: '',
+				images: [],
+				listing_id: null,
+				phone_number: '',
+				price: '',
+				pros: '',
+				state: '',
+				time_submitted: '',
+				title: '',
+				user_id: 0,
+				zip: 0
+			},
 			listings: [],
 			checkedA: false,
 			checkedB: false,
 			checkedC: false,
 			checkedD: false,
-			checkedE: false
+			checkedE: false,
+			userInfo: {}
 		};
 
 		this.coverPhotoInfo = this.coverPhotoInfo.bind(this);
 	}
 
 	componentDidMount() {
-		if (this.props.user) {
-			axios.get(`/api/getUserListings/${this.props.user.auth_id}`).then((userListings) => {
+		if (this.props.location.auth_id) {
+			axios.get(`/api/getUserListings/${this.props.location.auth_id}`).then((userListings) => {
 				if (Array.isArray(userListings.data)) {
 					this.setState({
 						listings: userListings.data
 					});
 				}
+			});
+			axios.get('/api/getUserInfo/' + this.props.location.auth_id).then((userData) => {
+				this.setState({
+					userInfo: userData.data
+				});
+			});
+		} else {
+			let listingNumber = this.props.location.pathname;
+			listingNumber = listingNumber.split('/');
+			listingNumber = listingNumber[2];
+			axios.get('/api/getUserInfoById/' + listingNumber).then((userData) => {
+				console.log(userData);
+				this.setState({
+					userInfo: userData.data
+				});
+				axios.get(`/api/getUserListings/${userData.data.auth_id}`).then((userListings) => {
+					if (Array.isArray(userListings.data)) {
+						this.setState({
+							listings: userListings.data
+						});
+					}
+				});
 			});
 		}
 	}
 
-	handleChangeInput = (name) => (event) => {
-		this.setState({ [name]: event.target.checked });
-	};
-
-	removeListing = (listing_id) => {
-		axios.delete(`/api/removeListing/${listing_id}`).then((response) => {
-			alert('Listing has been removed');
-			axios.get(`/api/getUserListings/${this.props.user.auth_id}`).then((userListings) => {
-				if (Array.isArray(userListings.data)) {
-					this.setState({
-						listings: userListings.data
-					});
-				}
+	getUserInfo(auth_id) {
+		axios.get('/api/getUserInfo/' + this.props.location.auth_id).then((userData) => {
+			this.setState({
+				listingUserInfo: userData.data
 			});
 		});
+	}
+
+	handleChangeInput = (name) => (event) => {
+		this.setState({ [name]: event.target.checked });
 	};
 
 	render() {
@@ -62,12 +100,6 @@ class Profile extends Component {
 				if (elem.images)
 					return (
 						<div>
-							<div
-								className="removeIcon"
-								onClick={() => this.removeListing(elem.listing_id)}
-								style={{ backgroundColor: 'red', width: '25px', height: '25px' }}>
-								<hr className="deleteLine" />
-							</div>
 							<Link
 								to={{
 									pathname: '/listingInfo/' + i,
@@ -112,14 +144,16 @@ class Profile extends Component {
 
 						{this.state.listings.length ? (
 							<div>
-								<h1 className="ProfileHeading">My Listings ({this.state.listings.length})</h1>
+								<h1 className="ProfileHeading">
+									{this.state.userInfo.username + "'s "}Listings ({this.state.listings.length})
+								</h1>
 								<div className="FavoriteListingsContainer">{listings}</div>
 							</div>
 						) : (
 							<div className="add_listing_container">
 								<h1 className="ProfileHeading">You have no listings... :(</h1>
 								<Link to="/addListing">
-									<section className="add_listing_button">+</section>
+									<div className="add_listing_button">+</div>
 								</Link>
 							</div>
 						)}
@@ -137,45 +171,26 @@ class Profile extends Component {
 	}
 
 	coverPhotoInfo() {
-		if (this.props.user) {
-			return (
-				<div className="CoverPhotoStuff">
-					<div>
-						<Avatar
-							alt="Me"
-							src={this.props.user.profile_pic}
-							style={{ width: '120px', height: '120px', marginRight: '40px' }}
-						/>
-					</div>
-					<div>
-						<p style={{ fontSize: '30px' }}>{this.props.user.username}</p>
-						<div class="locationProfile">
-							<i class="material-icons">location_on</i>
-							{this.props.user.city && this.props.user.state ? (
-								<p>
-									{this.props.user.city}, {this.props.user.state}
-								</p>
-							) : (
-								<p>You havent filled out your information yet!</p>
-							)}
-						</div>
-					</div>
+		const memberSince = new Date(this.state.userInfo.date_created);
+		return (
+			<div className="CoverPhotoStuff">
+				<Avatar
+					alt="Me"
+					src={this.state.userInfo.profile_pic}
+					style={{ width: '120px', height: '120px', marginRight: '40px' }}
+				/>
+				<div className="memberInfo">
+					<h1>{this.state.userInfo.username}</h1>
+					<br />
+					<h1>Member Since: {moment(memberSince).format('MMMM Do YYYY')}</h1>
 				</div>
-			);
-		} else {
-			return (
-				<div className="CoverPhotoStuff">
-					<h1 style={{ fontSize: '30px' }}>Something went wrong. Please log in!</h1>
-				</div>
-			);
-		}
+			</div>
+		);
 	}
 }
 
 function mapStateToProps(state) {
-	return {
-		user: state.user
-	};
+	return state;
 }
 
-export default connect(mapStateToProps, { getUserInfo })(Profile);
+export default connect(mapStateToProps, { getUserInfo })(PosterProfile);

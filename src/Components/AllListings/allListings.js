@@ -9,26 +9,36 @@ import TextField from 'material-ui/TextField';
 import Star from 'material-ui-icons/Star';
 import Pageview from 'material-ui-icons/List';
 import Input from 'material-ui/Input';
-import profile from '../../images/benMt.1866739e.jpg';
 import { FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 import { Link } from 'react-router-dom';
 import { getUserInfo } from '../../Redux/reducer';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 class allListings extends Component {
 	constructor() {
 		super();
 		this.state = {
 			listings: [],
+			filteredListings: [],
 			checkedA: false,
 			checkedB: false,
 			checkedC: false,
 			checkedD: false,
 			checkedE: false,
 			profile_pic: '',
-			priceSorting: 'lowest_to_highest',
-			isLoggedIn: false
+			priceSorting: 'Most Recent',
+			isLoggedIn: false,
+			lowest: 0,
+			highest: 999999999999,
+			filters: {
+				checkedA: '',
+				checkedB: '',
+				checkedC: '',
+				checkedD: '',
+				checkedE: ''
+			}
 		};
 	}
 
@@ -48,92 +58,118 @@ class allListings extends Component {
 				isLoggedIn: true
 			});
 		}
+		setTimeout(() => {
+			if (this.props.search_term !== '') {
+				axios.get('/api/search/' + this.props.search_term).then((results) => {
+					this.setState({
+						filteredListings: results.data
+					});
+				});
+			} else {
+				this.setState({
+					filteredListings: []
+				});
+			}
+		}, 1000);
 	}
 
 	handleChangeInput = (name) => (event) => {
-		this.setState({ [name]: event.target.checked });
+		if (event.target.checked) {
+			this.setState({
+				[name]: event.target.checked,
+				filters: Object.assign({}, this.state.filters, { [name]: event.target.value })
+			});
+		} else {
+			this.setState({
+				[name]: event.target.checked,
+				filters: Object.assign({}, this.state.filters, { [name]: '' })
+			});
+		}
 	};
 
 	handleInputChange = (name) => (event) => {
 		this.setState({
-			[name]: event.target.value
+			[name]: event.target
 		});
 	};
 
-	render() {
-		let listings = this.state.listings.map((listing, i) => {
-			let backgroundColor;
-			let imageTest;
-			switch (listing.category) {
-				case 'Electronics':
-					backgroundColor = 'rgba(53, 138, 255, 0.68)';
-					break;
-				case 'Home':
-					backgroundColor = 'rgba(147, 74, 255, 0.68)';
-					break;
-				case 'Sports':
-					backgroundColor = 'rgba(104, 208, 52, 0.68)';
-					break;
-				case 'Parts':
-					backgroundColor = 'rgba(151, 151, 151, 0.68)';
-					break;
-				case 'Free':
-					backgroundColor = 'rgba(255, 127, 127, 0.68)';
-					break;
-				default:
-					backgroundColor = 'rgba(0, 255, 255, 0.68)';
-					break;
+	checkLowest(input) {
+		if (input == '') {
+			this.setState({
+				lowest: 0
+			});
+		} else {
+			this.setState({
+				lowest: input
+			})
+		}
+	}
+
+	checkHighest(input) {
+		if (input == '') {
+			this.setState({
+				highest: 999999999999
+			});
+		} else {
+			this.setState({
+				highest: input
+			})
+		}
+	}
+
+	filter(listings) {
+		if (listings.length) {
+			if (this.state.priceSorting === 'Highest to Lowest') {
+				listings = _.sortBy(listings, [function (listing) {
+					let price = listing.price.split('$');
+					return parseInt(price[1]);
+				}]).reverse();
+			} else if (this.state.priceSorting === 'Lowest to Highest') {
+				listings = _.sortBy(listings, [function (listing) {
+					let price = listing.price.split('$');
+					return parseInt(price[1]);
+				}]);
+			} 
+		}
+
+		if (this.state.lowest && this.state.highest || this.state.lowest || this.state.highest) {
+			listings = listings.filter(listing => {
+				let price = listing.price.split('$');
+				if (parseInt(price[1]) >= parseInt(this.state.lowest) && parseInt(price[1]) <= parseInt(this.state.highest)) {
+					return listing;
+				}
+			});
+		}
+
+		for (let prop in this.state.filters) {
+			if (this.state.filters[prop] !== '') {
+				listings = listings.filter(listing => {
+					for (let prop in this.state.filters) {
+						if (listing.category === this.state.filters[prop]) {
+							return listing;
+						}
+					}
+				});
 			}
+		}
+		return listings;
+	}
 
-			if (listing.images !== null) imageTest = listing.images[0];
-			if (this.state.listings.length)
-				return (
-					<div key={i}>
-						<Link
-							to={{
-								pathname: '/listingInfo/' + listing.listing_id,
-								query: listing
-							}}>
-							<Paper
-								elevation={4}
-								className="item_container"
-								style={{
-									background: `url(${imageTest}) no-repeat center center`,
-									backgroundSize: 'cover'
-								}}>
-								<div className="item_description" style={{ backgroundColor: backgroundColor }}>
-									<h1 className="title">{listing.title}</h1>
-									<hr />
-									<h2 className="descriptionText">
-										{listing.city}, {listing.state}
-									</h2>
-									{listing.price === '$0.00' ? (
-										<h3 className="descriptionText">Free</h3>
-									) : (
-										<h3 className="descriptionText">{listing.price}</h3>
-									)}
-								</div>
-							</Paper>
-						</Link>
-					</div>
-				);
-				return this;
-		});
-
+	render() {
 		return (
 			<div className="sidebar">
 				<div className="leftBarOnSearch">
 					{this.state.isLoggedIn ? (
 						<div>
-							<section className="profile_pic_nav_container">
+							<div className="profile_pic_nav_container">
 								<Link to="/profile">
 									<Avatar
 										className="profile_pic_nav"
 										alt="Remy Sharp"
-										src={this.state.profile_pic ? this.state.profile_pic : profile}
+										src={this.state.profile_pic}
 									/>
 								</Link>
-							</section>
+							</div>
 
 							<List className="user_options">
 								<Link to="/myChats">
@@ -162,8 +198,8 @@ class allListings extends Component {
 							</List>
 						</div>
 					) : (
-						<div />
-					)}
+							<div />
+						)}
 
 					<h1 className="search_header">Search Filters</h1>
 
@@ -175,7 +211,7 @@ class allListings extends Component {
 									<Checkbox
 										checked={this.state.checkedA}
 										onChange={this.handleChangeInput('checkedA')}
-										value="checkedA"
+										value={'Electronics'}
 									/>
 								}
 								label="Electronics"
@@ -187,7 +223,7 @@ class allListings extends Component {
 									<Checkbox
 										checked={this.state.checkedB}
 										onChange={this.handleChangeInput('checkedB')}
-										value="checkedB"
+										value={'Home'}
 									/>
 								}
 								label="Home"
@@ -199,7 +235,7 @@ class allListings extends Component {
 									<Checkbox
 										checked={this.state.checkedC}
 										onChange={this.handleChangeInput('checkedC')}
-										value="checkedC"
+										value={'Sports'}
 										style={{ color: 'green' }}
 									/>
 								}
@@ -213,7 +249,7 @@ class allListings extends Component {
 									<Checkbox
 										checked={this.state.checkedD}
 										onChange={this.handleChangeInput('checkedD')}
-										value="checkedD"
+										value={'Parts'}
 										style={{ color: 'grey' }}
 									/>
 								}
@@ -227,7 +263,7 @@ class allListings extends Component {
 									<Checkbox
 										checked={this.state.checkedE}
 										onChange={this.handleChangeInput('checkedE')}
-										value="checkedE"
+										value={'Free'}
 										style={{ color: 'green' }}
 									/>
 								}
@@ -236,36 +272,101 @@ class allListings extends Component {
 						</div>
 					</div>
 
-					<section className="search_inputs">
+					<div className="search_inputs">
 						<p style={{ fontWeight: 'bold' }}>Distance</p>
 						<Input type="number" placeholder="Zip" />
 						<Input type="number" placeholder="Miles Away" />
-					</section>
+					</div>
 
-					<section className="pricing_container">
+					<div className="pricing_container">
 						<h1 style={{ fontWeight: 'bold' }}>Pricing</h1>
-						<Input type="number" placeholder="Lowest" />
-						<Input type="number" placeholder="Highest" />
+						<Input type="number" placeholder="Lowest" onChange={(e) => { this.checkLowest(e.target.value) }} />
+						<Input type="number" placeholder="Highest" onChange={(e) => { this.checkHighest(e.target.value) }} />
 						<TextField
 							className="pricing_select"
+							onChange={(e) => { this.setState({ priceSorting: e.target.value }) }}
 							select
 							value={this.state.priceSorting}
-							onChange={this.handleInputChange('priceSorting')}
 							style={{ width: '82%' }}>
-							<MenuItem value="lowest_to_highest">Lowest to Highest</MenuItem>
-							<MenuItem value="highest_to_lowest">Highest to Lowest</MenuItem>
+							<MenuItem value="Most Recent">Most Recent</MenuItem>
+							<MenuItem value="Lowest to Highest">Lowest to Highest</MenuItem>
+							<MenuItem value="Highest to Lowest">Highest to Lowest</MenuItem>
 						</TextField>
-					</section>
+					</div>
 				</div>
-				<div className="SearchContainer">{listings}</div>
+				<div className="SearchContainer">
+					{this.state.filteredListings.length ? (
+						this.listingsMap(this.filter(this.state.filteredListings))
+					) : (
+							this.listingsMap(this.filter(this.state.listings))
+						)}
+				</div>
 			</div>
 		);
+	}
+
+	listingsMap(listings) {
+		return listings.map((listing, i) => {
+			let backgroundColor;
+			switch (listing.category) {
+				case 'Electronics':
+					backgroundColor = 'rgba(53, 138, 255, 0.68)';
+					break;
+				case 'Home':
+					backgroundColor = 'rgba(147, 74, 255, 0.68)';
+					break;
+				case 'Sports':
+					backgroundColor = 'rgba(104, 208, 52, 0.68)';
+					break;
+				case 'Parts':
+					backgroundColor = 'rgba(151, 151, 151, 0.68)';
+					break;
+				case 'Free':
+					backgroundColor = 'rgba(255, 127, 127, 0.68)';
+					break;
+				default:
+					backgroundColor = 'rgba(0, 255, 255, 0.68)';
+					break;
+			}
+
+			return (
+				<div key={i}>
+					<Link
+						to={{
+							pathname: '/listingInfo/' + listing.listing_id,
+							query: listing
+						}}>
+						<Paper
+							elevation={4}
+							className="item_container"
+							style={{
+								background: `url(${listing.images[0]}) no-repeat center`,
+								backgroundSize: 'cover'
+							}}>
+							<div className="item_description" style={{ backgroundColor: backgroundColor }}>
+								<h1 className="title">{listing.title.charAt(0).toUpperCase() + listing.title.slice(1)}</h1>
+								<hr />
+								<h2 className="descriptionText">
+									{listing.city.charAt(0).toUpperCase() + listing.city.slice(1)}, {listing.state.charAt(0).toUpperCase() + listing.state.slice(1)}
+								</h2>
+								{listing.price === '$0.00' ? (
+									<h3 className="descriptionText">Free</h3>
+								) : (
+										<h3 className="descriptionText">{listing.price}</h3>
+									)}
+							</div>
+						</Paper>
+					</Link>
+				</div>
+			);
+		});
 	}
 }
 
 function mapStateToProps(state) {
 	return {
-		user: state.user
+		user: state.user,
+		search_term: state.search_term
 	};
 }
 

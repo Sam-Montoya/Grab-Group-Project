@@ -5,7 +5,9 @@
 module.exports = {
 	// Adds a listing into the database
 	addListing(DB, request, response) {
+		// console.log(request)
 		DB.find_user(request.body.auth_id).then((userData) => {
+			console.log(userData)
 			if (userData[0]) {
 				let {
 					auth_id,
@@ -53,23 +55,27 @@ module.exports = {
 	// Adds the listing to the favorites
 	addFavorite(DB, request, response) {
 		let { listing_id, user_id } = request.body;
-		DB.add_favorite([ listing_id, user_id ])
+		DB.add_favorite([listing_id, user_id])
 			.then((res) => {
 				response.status(200).send('Favorite has been added!');
 			})
 			.catch((_) => {
 				response.status(400).send('Failed to add favorites.');
-			});
+			})
+			.then((increment) => {
+				DB.increment_favorites(listing_id);
+			})
 	},
 
 	// Adds a message to the chat of that listing
 	startChat(DB, request, response) {
-		DB.start_chat([ request.body.owner_id, request.body.client_id, request.body.listing_id ]).then((_) => {
+		DB.start_chat([request.body.owner_id, request.body.client_id, request.body.listing_id]).then((_) => {
 			response.status(200).send('Chat has been started!');
 		});
 	},
 
 	addMessage(DB, request, response) {
+		console.log(request.body)
 		let commentInfo = {
 			auth_id_of_comment: request.body.auth_id_of_comment,
 			message: request.body.message,

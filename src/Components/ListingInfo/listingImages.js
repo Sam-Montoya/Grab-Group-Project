@@ -53,7 +53,6 @@ class TextMobileStepper extends React.Component {
 	test() {
 		switch (this.state.activeStep) {
 			case 0:
-				console.log('hit');
 				this.setState({
 					pictures: (
 						<div className="imgContainer">
@@ -103,7 +102,6 @@ class TextMobileStepper extends React.Component {
 
 	componentWillReceiveProps(nextProps) {
 		this.props = nextProps;
-		console.log(nextProps);
 	}
 
 	componentDidMount() {
@@ -123,8 +121,7 @@ class TextMobileStepper extends React.Component {
 
 	render() {
 		const classes = this.props.classes;
-		console.log('PICTURE ', this.state.picture);
-
+		
 		return (
 			<div className={classes.root}>
 				<Paper square elevation={0} className={classes.header}>
@@ -133,12 +130,10 @@ class TextMobileStepper extends React.Component {
 					</Typography>
 				</Paper>
 
-				{this.state.picture}
 				{this.state.activeStep === 0 ? (
 					<div className="imgContainer">
 						<img
 							src={this.props.images[0]}
-							style={{ maxHeight: '300px', width: this.state.newWidth1 }}
 							alt=""
 						/>
 					</div>

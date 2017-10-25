@@ -17,7 +17,19 @@ module.exports = {
 	getUserInfo(DB, request, response) {
 		try {
 			DB.get_user_info(request.params.auth_id).then((userData) => {
-				if (userData[0]) response.status(200).send(userData);
+				if (userData[0]) response.status(200).send(userData[0]);
+				else response.status(404).send('User Not Found...');
+			});
+		} catch (err) {
+			response.status(404).send(err);
+			console.log('Something went wrong ' + err);
+		}
+	},
+
+	getUserInfoById(DB, request, response) {
+		try {
+			DB.get_user_info_byID(request.params.user_id).then((userData) => {
+				if (userData[0]) response.status(200).send(userData[0]);
 				else response.status(404).send('User Not Found...');
 			});
 		} catch (err) {
@@ -87,5 +99,11 @@ module.exports = {
 			console.log('HIT');
 			respone.status(404).send(err);
 		}
+	},
+
+	search(DB, request, response) {
+		DB.search_database(request.params.search_term).then((results) => {
+			response.status(200).send(results);
+		});
 	}
 };

@@ -80,7 +80,6 @@ class TemporaryDrawer extends React.Component {
 	componentDidMount() {
 		axios.get(`/auth/me`).then((res) => {
 			//Before the page loads it hits this endpoint to check if there is a user on req.user.
-			console.log('AUTH', res.data);
 			if (res.data.user_name) {
 				//If there is a user.
 				this.setState({
@@ -167,7 +166,6 @@ class TemporaryDrawer extends React.Component {
 
 		return (
 			<div>
-				{console.log(this.state)}
 				<IconButton style={{ color: 'white' }} aria-label="Menu" onClick={this.handleLeftOpen}>
 					<MenuIcon />
 				</IconButton>

@@ -38,6 +38,10 @@ app.get('/api/getUserInfo/:auth_id', (request, response) => {
 	let db = app.get('db');
 	getController.getUserInfo(db, request, response);
 });
+app.get('/api/getUserInfoById/:user_id', (request, response) => {
+	let db = app.get('db');
+	getController.getUserInfoById(db, request, response);
+});
 app.get('/api/getUserFavorites/:user_id', (request, response) => {
 	let db = app.get('db');
 	getController.getUserFavorites(db, request, response);
@@ -57,6 +61,10 @@ app.get('/api/getAllListings', (request, response) => {
 app.get('/api/getListing/:listing_id', (request, response) => {
 	let db = app.get('db');
 	getController.getListing(db, request, response);
+});
+app.get('/api/search/:search_term', (request, response)  => {
+	let db = app.get('db');
+	getController.search(db, request, response);
 });
 
 // -- Post Requests
@@ -106,6 +114,11 @@ app.delete('/api/removeFavorite/:listing_id/:user_id', (request, response) => {
 	deleteController.removeFromFavorites(db, request, response);
 });
 
+app.delete('/api/removeListing/:listing_id', (request, response) => {
+	let db = app.get('db');
+	deleteController.removeListing(db, request, response);
+});
+
 /**
  * Endpoints End
  */
@@ -139,7 +152,6 @@ passport.use(
 					if (user[0]) {
 						return done(null, user);
 					} else {
-						console.log(profile);
 						app
 							.get('db')
 							.create_user([
