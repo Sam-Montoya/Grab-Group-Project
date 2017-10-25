@@ -39,6 +39,8 @@ export default class DialogBox extends React.Component {
     yes() {
         if (this.props.message === 'Are you sure you want to remove this listing from your favorites?') {
             this.props.removeFavorite(this.props.listing_id);
+        } else if (this.props.message === 'Are you sure you want to remove this listing?'){
+            this.props.removeListing(this.props.listing_id);
         }
     }
 

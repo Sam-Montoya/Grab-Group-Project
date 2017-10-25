@@ -8,11 +8,19 @@ import { getUserInfo } from '../../../Redux/reducer';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import CategoriesBar from '../../SharedComponents/CategoriesBar';
+import SnackBars from '../../SharedComponents/SnackBars';
+import DialogBox from '../../SharedComponents/Dialog';
 
 class Profile extends Component {
 	constructor() {
 		super();
 		this.state = {
+			isOpen: false,
+			snackbar_message: '',
+			dialogOpen: false,
+			dialog_message: 'Are you sure you want to remove this listing?',
+			dialog_title: 'Remove Listing',
+			selected_listing_id: '',
 			listings: [],
 			checkedA: false,
 			checkedB: false,
@@ -59,7 +67,11 @@ class Profile extends Component {
 
 	removeListing = (listing_id) => {
 		axios.delete(`/api/removeListing/${listing_id}`).then((response) => {
-			alert('Listing has been removed');
+			this.setState({
+				isOpen: true,
+				snackbar_message: 'Your listing has been removed!',
+				dialogOpen: false
+			})
 			axios.get(`/api/getUserListings/${this.props.user.auth_id}`).then((userListings) => {
 				if (Array.isArray(userListings.data)) {
 					this.setState({
@@ -68,9 +80,14 @@ class Profile extends Component {
 				}
 			});
 		});
+		setTimeout(() => {
+			this.setState({
+				isOpen: false
+			})
+		}, 1500);
 	};
 
-	filter(listings){
+	filter(listings) {
 		for (let prop in this.state.filters) {
 			if (this.state.filters[prop] !== '') {
 				listings = listings.filter(listing => {
@@ -88,6 +105,8 @@ class Profile extends Component {
 	render() {
 		return (
 			<div>
+				<SnackBars is_open={this.state.isOpen} message={this.state.snackbar_message} />
+				<DialogBox is_open={this.state.dialogOpen} message={this.state.dialog_message} title={this.state.dialog_title} removeListing={this.removeListing} listing_id={this.state.selected_listing_id}/>
 				<div className="ProfilePageContainer">
 					<div className="rightNavFavorites">
 						{/* Search Categories Function */}
@@ -188,7 +207,7 @@ class Profile extends Component {
 					<div>
 						<div
 							className="removeIcon"
-							onClick={() => this.removeListing(listing.listing_id)}
+							onClick={() => {this.setState({dialogOpen: true, selected_listing_id: listing.listing_id})}}
 							style={{ backgroundColor: 'red', width: '25px', height: '25px' }}>
 							<hr className="deleteLine" />
 						</div>
