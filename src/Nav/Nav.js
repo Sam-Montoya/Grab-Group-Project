@@ -11,7 +11,6 @@ import { getUserInfo, getUserFavorites, updateSearchTerm } from '../Redux/reduce
 import { Link } from 'react-router-dom';
 import Search from 'material-ui-icons/Search';
 import Avatar from 'material-ui/Avatar';
-import axios from 'axios';
 
 class ButtonAppBar extends Component {
 	constructor() {
