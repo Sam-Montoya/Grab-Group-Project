@@ -26,6 +26,18 @@ module.exports = {
 		}
 	},
 
+	getUserInfoById(DB, request, response) {
+		try {
+			DB.get_user_info_byID(request.params.user_id).then((userData) => {
+				if (userData[0]) response.status(200).send(userData[0]);
+				else response.status(404).send('User Not Found...');
+			});
+		} catch (err) {
+			response.status(404).send(err);
+			console.log('Something went wrong ' + err);
+		}
+	},
+
 	//This should be called when the user updates their favorites (called to get the new updated list)
 	getUserFavorites(DB, request, response) {
 		try {

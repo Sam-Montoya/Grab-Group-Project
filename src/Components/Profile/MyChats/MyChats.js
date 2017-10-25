@@ -5,6 +5,7 @@ import Avatar from 'material-ui/Avatar';
 import { connect } from 'react-redux';
 import Button from 'material-ui/Button';
 import moment from 'moment';
+import { Link } from 'react-router-dom';
 
 class MyChats extends React.Component {
 	constructor() {
@@ -22,7 +23,9 @@ class MyChats extends React.Component {
 			],
 			messageText: '',
 			currentListingId: '',
+			currentPosition: 0,
 			clientInfo: [],
+			userSideInfo: <div />,
 			scrollToBottom: function() {
 				let area = document.getElementById('chat_messages_scroll');
 				area.scrollTop = area.scrollHeight;
@@ -48,13 +51,13 @@ class MyChats extends React.Component {
 				});
 			}
 			if (chat.data[0].owner_id === this.props.user.auth_id) {
-				axios.get('/api/getUserInfo/' + chat.data[0].client_id).then((clientUserData) => {
+				axios.get('/api/getUserInfo/' + chat.data[0].owner_id).then((clientUserData) => {
 					this.setState({
 						clientPic: clientUserData.data
 					});
 				});
 			} else {
-				axios.get('/api/getUserInfo/' + chat.data[0].owner_id).then((clientUserData) => {
+				axios.get('/api/getUserInfo/' + chat.data[0].client_id).then((clientUserData) => {
 					this.setState({
 						clientPic: clientUserData.data
 					});
@@ -71,6 +74,31 @@ class MyChats extends React.Component {
 				});
 			}
 		});
+		axios.get('/api/getUserInfo/' + this.state.listingUserData.auth_id).then((userData) => {
+			this.setState({
+				listingUserData: userData.data
+			});
+			if (this.state.chats[this.state.currentPosition].owner_id === this.props.user.auth_id) {
+				axios
+					.get('/api/getUserInfo/' + this.state.chats[this.state.currentPosition].client_id)
+					.then((clientUserData) => {
+						this.setState({
+							clientPic: clientUserData.data
+						}),
+							this.setUserSideInfo();
+					});
+			} else {
+				axios
+					.get('/api/getUserInfo/' + this.state.chats[this.state.currentPosition].owner_id)
+					.then((clientUserData) => {
+						this.setState({
+							clientPic: clientUserData.data
+						}),
+							this.setUserSideInfo();
+					});
+			}
+		});
+		
 		setTimeout(() => {
 			this.state.scrollToBottom();
 		}, 0.2);
@@ -79,7 +107,6 @@ class MyChats extends React.Component {
 	onSubmit = (message) => {
 		let chatObj = {
 			auth_id_of_comment: this.props.user.auth_id,
-			// client_id: this.state.listingUserData.auth_id,
 			message: message,
 			time_submitted: Date(Date.now())
 		};
@@ -94,20 +121,19 @@ class MyChats extends React.Component {
 	};
 
 	render() {
-		console.log(this.state);
 		let listingPictures;
 		if (this.state.listingData.length) {
 			listingPictures = this.state.listingData.map((elem, i) => {
 				return (
-					<section className="listings_chat_avatar_container">
+					<section key={i} className="listings_chat_avatar_container">
 						<Avatar
 							className="listings_chat_avatar"
-							key={i}
 							onClick={() => {
-								this.getChatsToDisplay(elem.listing_id);
 								this.setState({
-									currentListingId: elem.listing_id
-								});
+									currentListingId: elem.listing_id,
+									currentPosition: i
+								}),
+									this.getChatsToDisplay(elem.listing_id);
 							}}>
 							<img style={{ height: '100%' }} src={elem.images[0]} alt="" />
 						</Avatar>
@@ -139,7 +165,14 @@ class MyChats extends React.Component {
 						</button>
 					</div>
 				</section>
+				{this.state.userSideInfo}
+			</div>
+		);
+	}
 
+	setUserSideInfo = () => {
+		this.setState({
+			userSideInfo: (
 				<section className="chats_profile_container">
 					<Avatar className="listings_profile_avatar">
 						{this.state.clientPic ? (
@@ -149,18 +182,23 @@ class MyChats extends React.Component {
 					{this.state.clientPic ? (
 						<h1 style={{ fontSize: '1.5rem', marginBottom: '20px' }}>{this.state.clientPic.username}</h1>
 					) : null}
-					<Button className="View_Profile_Button">View Listings</Button>
+					{this.state.clientPic ? (
+						<Link
+							to={{
+								pathname: '/ownerProfile/' + this.state.clientPic.user_id,
+								user_id: this.state.clientPic.user_id
+							}}>
+							<Button className="View_Profile_Button">View Listings</Button>
+						</Link>
+					) : null}
 				</section>
-			</div>
-		);
-	}
-
+			)
+		});
+	};
 	messageContainer = () => {
 		if (this.state.displayedMessages !== null) {
 			let chats = this.state.displayedMessages.map((elem, i) => {
-				console.log(elem.auth_id_of_comment + '  DOES === ' + this.props.user.auth_id);
 				if (elem.auth_id_of_comment === this.props.user.auth_id) {
-					console.log('Owner');
 					return (
 						<div key={i} className="left_comment_container">
 							<section className="left_message_container">
@@ -175,7 +213,6 @@ class MyChats extends React.Component {
 						</div>
 					);
 				} else {
-					console.log('Client', this.state.clientPic);
 					return (
 						<div key={i} className="right_comment_container">
 							{this.state.clientPic ? (

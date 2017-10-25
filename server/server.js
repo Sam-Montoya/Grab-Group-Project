@@ -38,6 +38,10 @@ app.get('/api/getUserInfo/:auth_id', (request, response) => {
 	let db = app.get('db');
 	getController.getUserInfo(db, request, response);
 });
+app.get('/api/getUserInfoById/:user_id', (request, response) => {
+	let db = app.get('db');
+	getController.getUserInfoById(db, request, response);
+});
 app.get('/api/getUserFavorites/:user_id', (request, response) => {
 	let db = app.get('db');
 	getController.getUserFavorites(db, request, response);
