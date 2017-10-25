@@ -39,7 +39,7 @@ class ListingInfo extends Component {
 			},
 			newPrice: '',
 			listingUserInfo: {},
-			twitter: require('../../images/TwitterLogo2.png'),
+			twitter: require('../../images/twitterLogo.png'),
 			gmail: require('../../images/mailLogo.png'),
 			faceboook: require('../../images/fbLogo.png'),
 			isFavorite: false,
