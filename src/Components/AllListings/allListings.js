@@ -142,7 +142,6 @@ class allListings extends Component {
 	}
 
 	render() {
-		console.log('Price sorting: ', this.state.priceSorting);
 		return (
 			<div className="sidebar">
 				<div className="leftBarOnSearch">
