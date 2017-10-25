@@ -40,18 +40,30 @@ class MyChats extends React.Component {
 	};
 
 	getListingInfo = () => {
+		function ownerChecker(i, listingData) {
+			console.log(this.state);
+			console.log(listingData.data);
+			if (listingData.data.auth_id === this.props.user.auth_id) {
+				this.getUserInfo(this.state.chats[i].client_id);
+			} else {
+				this.getUserInfo(listingData.data.auth_id);
+			}
+		}
+		ownerChecker = ownerChecker.bind(this);
+
 		for (let i = 0; i < this.state.chats.length; i++) {
-			axios.get('/api/getListing/' + this.state.chats[i].listing_id).then((listingData) => {
-				console.log(listingData.data);
-				this.setState({
-					listingData: [ ...this.state.listingData, listingData.data ]
-				}), this.getUserInfo(listingData.data.auth_id);
-			});
+			console.log(i);
+				axios.get('/api/getListing/' + this.state.chats[i].listing_id).then((listingData) => {
+					this.setState({
+						listingData: [ ...this.state.listingData, listingData.data ]
+					}),
+						ownerChecker(i, listingData);
+				});
 		}
 	};
 
 	getUserInfo = (auth_id) => {
-		console.log(auth_id)
+		console.log(auth_id);
 		axios.get('/api/getUserInfo/' + auth_id).then((userData) => {
 			console.log(userData.data);
 			this.setState({
@@ -152,16 +164,23 @@ class MyChats extends React.Component {
 				<section className="chats_profile_container">
 					<Avatar className="listings_profile_avatar">
 						{this.state.listingUserData ? (
-							<img style={{ height: '100%' }} src={this.state.listingUserData[this.state.currentPosition].profile_pic} alt="" />
+							<img
+								style={{ height: '100%' }}
+								src={this.state.listingUserData[this.state.currentPosition].profile_pic}
+								alt=""
+							/>
 						) : null}
 					</Avatar>
 					{this.state.listingUserData ? (
-						<h1 style={{ fontSize: '1.5rem', marginBottom: '20px' }}>{this.state.listingUserData[this.state.currentPosition].username}</h1>
+						<h1 style={{ fontSize: '1.5rem', marginBottom: '20px' }}>
+							{this.state.listingUserData[this.state.currentPosition].username}
+						</h1>
 					) : null}
 					{this.state.listingUserData ? (
 						<Link
 							to={{
-								pathname: '/ownerProfile/' + this.state.listingUserData[this.state.currentPosition].user_id,
+								pathname:
+									'/ownerProfile/' + this.state.listingUserData[this.state.currentPosition].user_id,
 								user_id: this.state.listingUserData[this.state.currentPosition].user_id
 							}}>
 							<Button className="View_Profile_Button">View Listings</Button>
@@ -190,10 +209,15 @@ class MyChats extends React.Component {
 						</div>
 					);
 				} else {
+					console.log('should be twan ', this.state.listingUserData[this.state.currentPosition]);
 					return (
 						<div key={i} className="right_comment_container">
 							{this.state.listingUserData ? (
-								<img className="profile_pic" src={this.state.listingUserData[this.state.currentPosition].profile_pic} alt="" />
+								<img
+									className="profile_pic"
+									src={this.state.listingUserData[this.state.currentPosition].profile_pic}
+									alt=""
+								/>
 							) : null}
 							<section className="right_message_container">
 								<section className="right_message">
