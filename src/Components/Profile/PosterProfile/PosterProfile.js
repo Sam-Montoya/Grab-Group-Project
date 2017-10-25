@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import './PosterProfile.css';
 import Inbox from 'material-ui-icons/Message';
 import Avatar from 'material-ui/Avatar';
-import { FormControlLabel } from 'material-ui/Form';
-import Checkbox from 'material-ui/Checkbox';
 import axios from 'axios';
 import Paper from 'material-ui/Paper';
 import { getUserInfo } from '../../../Redux/reducer';
