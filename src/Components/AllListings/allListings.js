@@ -14,6 +14,7 @@ import Checkbox from 'material-ui/Checkbox';
 import { Link } from 'react-router-dom';
 import { getUserInfo } from '../../Redux/reducer';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 
 class allListings extends Component {
 	constructor() {
@@ -27,7 +28,7 @@ class allListings extends Component {
 			checkedD: false,
 			checkedE: false,
 			profile_pic: '',
-			priceSorting: 'Lowest to Highest',
+			priceSorting: 'Most Recent',
 			isLoggedIn: false,
 			lowest: 0,
 			highest: 999999999999,
@@ -73,16 +74,16 @@ class allListings extends Component {
 	}
 
 	handleChangeInput = (name) => (event) => {
-		if(event.target.checked){
+		if (event.target.checked) {
 			this.setState({
 				[name]: event.target.checked,
-				filters: Object.assign({}, this.state.filters, {[name]: event.target.value})
-		   });
+				filters: Object.assign({}, this.state.filters, { [name]: event.target.value })
+			});
 		} else {
 			this.setState({
 				[name]: event.target.checked,
-				filters: Object.assign({}, this.state.filters, {[name]: ''})
-		   });
+				filters: Object.assign({}, this.state.filters, { [name]: '' })
+			});
 		}
 	};
 
@@ -92,8 +93,8 @@ class allListings extends Component {
 		});
 	};
 
-	checkLowest(input){
-		if(input == ''){
+	checkLowest(input) {
+		if (input == '') {
 			this.setState({
 				lowest: 0
 			});
@@ -104,8 +105,8 @@ class allListings extends Component {
 		}
 	}
 
-	checkHighest(input){
-		if(input == ''){
+	checkHighest(input) {
+		if (input == '') {
 			this.setState({
 				highest: 999999999999
 			});
@@ -116,22 +117,35 @@ class allListings extends Component {
 		}
 	}
 
-	filter(listings){
-		if(this.state.lowest && this.state.highest || this.state.lowest || this.state.highest){
+	filter(listings) {
+		if (listings.length) {
+			if (this.state.priceSorting === 'Highest to Lowest') {
+				listings = _.sortBy(listings, [function (listing) {
+					let price = listing.price.split('$');
+					return parseInt(price[1]);
+				}]).reverse();
+			} else if (this.state.priceSorting === 'Lowest to Highest') {
+				listings = _.sortBy(listings, [function (listing) {
+					let price = listing.price.split('$');
+					return parseInt(price[1]);
+				}]);
+			} 
+		}
+
+		if (this.state.lowest && this.state.highest || this.state.lowest || this.state.highest) {
 			listings = listings.filter(listing => {
 				let price = listing.price.split('$');
-				if(parseInt(price[1]) >= parseInt(this.state.lowest) && parseInt(price[1]) <= parseInt(this.state.highest)){
+				if (parseInt(price[1]) >= parseInt(this.state.lowest) && parseInt(price[1]) <= parseInt(this.state.highest)) {
 					return listing;
 				}
 			});
 		}
 
-
-		for(let prop in this.state.filters){
-			if(this.state.filters[prop] !== ''){
+		for (let prop in this.state.filters) {
+			if (this.state.filters[prop] !== '') {
 				listings = listings.filter(listing => {
-					for(let prop in this.state.filters){
-						if(listing.category === this.state.filters[prop]){
+					for (let prop in this.state.filters) {
+						if (listing.category === this.state.filters[prop]) {
 							return listing;
 						}
 					}
@@ -266,14 +280,15 @@ class allListings extends Component {
 
 					<div className="pricing_container">
 						<h1 style={{ fontWeight: 'bold' }}>Pricing</h1>
-						<Input type="number" placeholder="Lowest" onChange={(e) => {this.checkLowest(e.target.value)}} />
-						<Input type="number" placeholder="Highest" onChange={(e) => {this.checkHighest(e.target.value)}} />
+						<Input type="number" placeholder="Lowest" onChange={(e) => { this.checkLowest(e.target.value) }} />
+						<Input type="number" placeholder="Highest" onChange={(e) => { this.checkHighest(e.target.value) }} />
 						<TextField
 							className="pricing_select"
-							onChange={(e) => {this.setState({priceSorting: e.target.value})}}
+							onChange={(e) => { this.setState({ priceSorting: e.target.value }) }}
 							select
 							value={this.state.priceSorting}
 							style={{ width: '82%' }}>
+							<MenuItem value="Most Recent">Most Recent</MenuItem>
 							<MenuItem value="Lowest to Highest">Lowest to Highest</MenuItem>
 							<MenuItem value="Highest to Lowest">Highest to Lowest</MenuItem>
 						</TextField>
