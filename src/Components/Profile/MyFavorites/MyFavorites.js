@@ -9,6 +9,7 @@ import Checkbox from 'material-ui/Checkbox';
 import axios from 'axios';
 import Paper from 'material-ui/Paper';
 import { getUserFavorites } from '../../../Redux/reducer';
+import CategoriesBar from '../../SharedComponents/CategoriesBar';
 
 class MyFavorites extends Component {
 	constructor() {
@@ -97,70 +98,7 @@ class MyFavorites extends Component {
 					</div>
 
 					<div className="rightNavFavorites">
-						<div className="categories">
-							<p>Categories</p>
-							<div className="electronics_checkbox">
-								<FormControlLabel
-									control={
-										<Checkbox
-											checked={this.state.checkedA}
-											onChange={this.handleChangeInput('checkedA')}
-											value={'Electronics'}
-										/>
-									}
-									label="Electronics"
-								/>
-							</div>
-							<div className="home_checkbox">
-								<FormControlLabel
-									control={
-										<Checkbox
-											checked={this.state.checkedB}
-											onChange={this.handleChangeInput('checkedB')}
-											value={'Home'}
-											style={{ color: 'Purple' }}
-										/>
-									}
-									label="Home"
-								/>
-							</div>
-							<div className="sports_checkbox">
-								<FormControlLabel
-									control={
-										<Checkbox
-											checked={this.state.checkedC}
-											onChange={this.handleChangeInput('checkedC')}
-											value={'Sports'}
-										/>
-									}
-									label="Sports"
-								/>
-							</div>
-							<div className="parts_checkbox">
-								<FormControlLabel
-									control={
-										<Checkbox
-											checked={this.state.checkedD}
-											onChange={this.handleChangeInput('checkedD')}
-											value={'Parts'}
-										/>
-									}
-									label="Parts"
-								/>
-							</div>
-							<div className="free_checkbox">
-								<FormControlLabel
-									control={
-										<Checkbox
-											checked={this.state.checkedE}
-											onChange={this.handleChangeInput('checkedE')}
-											value={'Free'}
-										/>
-									}
-									label="Free"
-								/>
-							</div>
-						</div>
+						<CategoriesBar {...this.state} handleChangeInput={this.handleChangeInput} />
 					</div>
 				</div>
 			</div >

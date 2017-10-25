@@ -4,7 +4,6 @@ import Checkbox from 'material-ui/Checkbox';
 
 export default class categoriesBar extends Component {
     render() {
-        console.log(this.props);
         return (
             <div className="categories">
                 <p style={{ fontWeight: 'bold', marginBottom: '10px' }}>Categories</p>
