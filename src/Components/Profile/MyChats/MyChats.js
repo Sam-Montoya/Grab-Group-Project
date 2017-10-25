@@ -16,11 +16,7 @@ class MyChats extends React.Component {
 			listingData: [],
 			displayedMessages: [],
 			chats: '',
-			listingUserData: [
-				{
-					profile_pic: ''
-				}
-			],
+			listingUserData: [],
 			messageText: '',
 			currentListingId: '',
 			currentPosition: 0,
@@ -33,37 +29,39 @@ class MyChats extends React.Component {
 		};
 	}
 
-	componentDidMount() {
+	getUserChats = () => {
 		axios.get('/api/getUserChats/' + this.props.user.auth_id).then((chat) => {
+			console.log(chat.data);
 			this.setState({
 				chats: chat.data
-			});
-			for (let i = 0; i < chat.data.length; i++) {
-				axios.get('/api/getListing/' + chat.data[i].listing_id).then((listingData) => {
-					this.setState({
-						listingData: [ ...this.state.listingData, listingData.data ]
-					});
-					axios.get('/api/getUserInfo/' + listingData.data.auth_id).then((userData) => {
-						this.setState({
-							listingUserData: userData.data
-						});
-					});
-				});
-			}
-			if (chat.data[0].owner_id === this.props.user.auth_id) {
-				axios.get('/api/getUserInfo/' + chat.data[0].owner_id).then((clientUserData) => {
-					this.setState({
-						clientPic: clientUserData.data
-					});
-				});
-			} else {
-				axios.get('/api/getUserInfo/' + chat.data[0].client_id).then((clientUserData) => {
-					this.setState({
-						clientPic: clientUserData.data
-					});
-				});
-			}
+			}),
+				this.getListingInfo();
 		});
+	};
+
+	getListingInfo = () => {
+		for (let i = 0; i < this.state.chats.length; i++) {
+			axios.get('/api/getListing/' + this.state.chats[i].listing_id).then((listingData) => {
+				console.log(listingData.data);
+				this.setState({
+					listingData: [ ...this.state.listingData, listingData.data ]
+				}), this.getUserInfo(listingData.data.auth_id);
+			});
+		}
+	};
+
+	getUserInfo = (auth_id) => {
+		console.log(auth_id)
+		axios.get('/api/getUserInfo/' + auth_id).then((userData) => {
+			console.log(userData.data);
+			this.setState({
+				listingUserData: [ ...this.state.listingUserData, userData.data ]
+			});
+		});
+	};
+
+	componentDidMount() {
+		this.getUserChats();
 	}
 
 	getChatsToDisplay = (listing_id) => {
@@ -74,33 +72,10 @@ class MyChats extends React.Component {
 				});
 			}
 		});
-		axios.get('/api/getUserInfo/' + this.state.listingUserData.auth_id).then((userData) => {
-			this.setState({
-				listingUserData: userData.data
-			});
-			if (this.state.chats[this.state.currentPosition].owner_id === this.props.user.auth_id) {
-				axios
-					.get('/api/getUserInfo/' + this.state.chats[this.state.currentPosition].client_id)
-					.then((clientUserData) => {
-						this.setState({
-							clientPic: clientUserData.data
-						}),
-							this.setUserSideInfo();
-					});
-			} else {
-				axios
-					.get('/api/getUserInfo/' + this.state.chats[this.state.currentPosition].owner_id)
-					.then((clientUserData) => {
-						this.setState({
-							clientPic: clientUserData.data
-						}),
-							this.setUserSideInfo();
-					});
-			}
-		});
-		
+
 		setTimeout(() => {
 			this.state.scrollToBottom();
+			this.setUserSideInfo();
 		}, 0.2);
 	};
 
@@ -121,6 +96,7 @@ class MyChats extends React.Component {
 	};
 
 	render() {
+		console.log(this.state);
 		let listingPictures;
 		if (this.state.listingData.length) {
 			listingPictures = this.state.listingData.map((elem, i) => {
@@ -175,18 +151,18 @@ class MyChats extends React.Component {
 			userSideInfo: (
 				<section className="chats_profile_container">
 					<Avatar className="listings_profile_avatar">
-						{this.state.clientPic ? (
-							<img style={{ height: '100%' }} src={this.state.clientPic.profile_pic} alt="" />
+						{this.state.listingUserData ? (
+							<img style={{ height: '100%' }} src={this.state.listingUserData[this.state.currentPosition].profile_pic} alt="" />
 						) : null}
 					</Avatar>
-					{this.state.clientPic ? (
-						<h1 style={{ fontSize: '1.5rem', marginBottom: '20px' }}>{this.state.clientPic.username}</h1>
+					{this.state.listingUserData ? (
+						<h1 style={{ fontSize: '1.5rem', marginBottom: '20px' }}>{this.state.listingUserData[this.state.currentPosition].username}</h1>
 					) : null}
-					{this.state.clientPic ? (
+					{this.state.listingUserData ? (
 						<Link
 							to={{
-								pathname: '/ownerProfile/' + this.state.clientPic.user_id,
-								user_id: this.state.clientPic.user_id
+								pathname: '/ownerProfile/' + this.state.listingUserData[this.state.currentPosition].user_id,
+								user_id: this.state.listingUserData[this.state.currentPosition].user_id
 							}}>
 							<Button className="View_Profile_Button">View Listings</Button>
 						</Link>
@@ -195,6 +171,7 @@ class MyChats extends React.Component {
 			)
 		});
 	};
+
 	messageContainer = () => {
 		if (this.state.displayedMessages !== null) {
 			let chats = this.state.displayedMessages.map((elem, i) => {
@@ -215,8 +192,8 @@ class MyChats extends React.Component {
 				} else {
 					return (
 						<div key={i} className="right_comment_container">
-							{this.state.clientPic ? (
-								<img className="profile_pic" src={this.state.clientPic.profile_pic} alt="" />
+							{this.state.listingUserData ? (
+								<img className="profile_pic" src={this.state.listingUserData[this.state.currentPosition].profile_pic} alt="" />
 							) : null}
 							<section className="right_message_container">
 								<section className="right_message">
