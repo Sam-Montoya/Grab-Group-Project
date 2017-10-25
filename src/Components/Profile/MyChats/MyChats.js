@@ -47,11 +47,19 @@ class MyChats extends React.Component {
 					});
 				});
 			}
-			axios.get('/api/getUserInfo/' + chat.data[0].client_id).then((clientUserData) => {
-				this.setState({
-					clientPic: clientUserData.data
+			if (chat.data[0].owner_id === this.props.user.auth_id) {
+				axios.get('/api/getUserInfo/' + chat.data[0].client_id).then((clientUserData) => {
+					this.setState({
+						clientPic: clientUserData.data
+					});
 				});
-			});
+			} else {
+				axios.get('/api/getUserInfo/' + chat.data[0].owner_id).then((clientUserData) => {
+					this.setState({
+						clientPic: clientUserData.data
+					});
+				});
+			}
 		});
 	}
 
@@ -71,7 +79,7 @@ class MyChats extends React.Component {
 	onSubmit = (message) => {
 		let chatObj = {
 			auth_id_of_comment: this.props.user.auth_id,
-			client_id: this.state.listingUserData.auth_id,
+			// client_id: this.state.listingUserData.auth_id,
 			message: message,
 			time_submitted: Date(Date.now())
 		};
@@ -86,6 +94,7 @@ class MyChats extends React.Component {
 	};
 
 	render() {
+		console.log(this.state);
 		let listingPictures;
 		if (this.state.listingData.length) {
 			listingPictures = this.state.listingData.map((elem, i) => {
@@ -106,7 +115,6 @@ class MyChats extends React.Component {
 				);
 			});
 		}
-		console.log(this.state.clientInfo);
 		return (
 			<div className="chats_container">
 				<section className="chats_listings">{listingPictures}</section>
@@ -150,6 +158,7 @@ class MyChats extends React.Component {
 	messageContainer = () => {
 		if (this.state.displayedMessages !== null) {
 			let chats = this.state.displayedMessages.map((elem, i) => {
+				console.log(elem.auth_id_of_comment + '  DOES === ' + this.props.user.auth_id);
 				if (elem.auth_id_of_comment === this.props.user.auth_id) {
 					console.log('Owner');
 					return (
@@ -166,9 +175,12 @@ class MyChats extends React.Component {
 						</div>
 					);
 				} else {
+					console.log('Client', this.state.clientPic);
 					return (
 						<div key={i} className="right_comment_container">
-							<img className="profile_pic" src={this.state.clientPic.profile_pic} alt="" />
+							{this.state.clientPic ? (
+								<img className="profile_pic" src={this.state.clientPic.profile_pic} alt="" />
+							) : null}
 							<section className="right_message_container">
 								<section className="right_message">
 									<h1>{elem.message}</h1>
