@@ -161,7 +161,7 @@ class MyChats extends React.Component {
 					console.log('Client');
 					return (
 						<div key={i} className="right_comment_container">
-							<img className="profile_pic" src={this.state.listingData.profile_pic} alt="" />
+							<img className="profile_pic" src={this.state.listingUserData.profile_pic} alt="" />
 							<section className="right_message_container">
 								<section className="right_message">
 									<h1>{elem.message}</h1>
