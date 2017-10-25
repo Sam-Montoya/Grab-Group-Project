@@ -187,7 +187,7 @@ class ListingInfo extends Component {
 								<h3 style={{ fontWeight: 'bold' }}>{this.state.listingInfo.contact_status}</h3>
 								{this.state.listingInfo.phone_number ? (
 									<h3>{this.state.listingInfo.phone_number}</h3>
-								) : null}
+								) : <h3 style={{ fontWeight: 'bold' }}>Message Only</h3> }
 							</div>
 						</div>
 

@@ -412,6 +412,7 @@ class AddListing extends Component {
 									color="primary"
 									raised
 									dense
+									disabled={this.state.prosInput ? false : true}
 									className="buttonAdd"
 									onClick={this.handleKeyPressPro}>
 									Add
@@ -435,7 +436,11 @@ class AddListing extends Component {
 									});
 								}}
 							/>
-							<Button color="primary" raised dense className="buttonAdd" onClick={this.handleKeyPressCon}>
+							<Button
+								color="primary"
+								raised dense className="buttonAdd"
+								disabled={this.state.consInput ? false : true}
+								onClick={this.handleKeyPressCon}>
 								Add
 							</Button>
 						</div>
