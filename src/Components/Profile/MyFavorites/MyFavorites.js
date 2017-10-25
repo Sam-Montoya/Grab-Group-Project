@@ -77,6 +77,11 @@ class MyFavorites extends Component {
 					});
 				});
 			})
+		setTimeout(() => {
+			this.setState({
+				isOpen: false
+			})
+		}, 1500);
 	}
 
 	filter(listings) {
