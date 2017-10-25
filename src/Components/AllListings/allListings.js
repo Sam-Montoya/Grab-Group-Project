@@ -9,7 +9,6 @@ import TextField from 'material-ui/TextField';
 import Star from 'material-ui-icons/Star';
 import Pageview from 'material-ui-icons/List';
 import Input from 'material-ui/Input';
-import profile from '../../images/benMt.1866739e.jpg';
 import { FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 import { Link } from 'react-router-dom';
@@ -85,7 +84,7 @@ class allListings extends Component {
 									<Avatar
 										className="profile_pic_nav"
 										alt="Remy Sharp"
-										src={this.state.profile_pic ? this.state.profile_pic : profile}
+										src={this.state.profile_pic ? this.state.profile_pic : null}
 									/>
 								</Link>
 							</div>

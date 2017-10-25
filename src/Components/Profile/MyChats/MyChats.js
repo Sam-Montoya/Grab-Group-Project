@@ -2,8 +2,11 @@ import React from 'react';
 import './MyChats.css';
 import axios from 'axios';
 import Avatar from 'material-ui/Avatar';
+import { connect } from 'react-redux';
+import Button from 'material-ui/Button';
+import moment from 'moment';
 
-export default class MyChats extends React.Component {
+class MyChats extends React.Component {
 	constructor() {
 		super();
 
@@ -11,7 +14,19 @@ export default class MyChats extends React.Component {
 			chats: [],
 			listingData: [],
 			displayedMessages: [],
-			user_id: 'auth_id_1'
+			user_id: 'auth_id_1',
+			chats: '',
+			listingUserData: [
+				{
+					profile_pic: ''
+				}
+			],
+			messageText: '',
+			currentListingId: '',
+			scrollToBottom: function() {
+				let area = document.getElementById('chat_messages_scroll');
+				area.scrollTop = area.scrollHeight;
+			}
 		};
 	}
 
@@ -24,6 +39,11 @@ export default class MyChats extends React.Component {
 				axios.get('/api/getListing/' + chat.data[i].listing_id).then((listingData) => {
 					this.setState({
 						listingData: [ ...this.state.listingData, listingData.data ]
+					});
+					axios.get('/api/getUserInfo/' + listingData.data.auth_id).then((userData) => {
+						this.setState({
+							listingUserData: userData.data
+						});
 					});
 				});
 			}
@@ -38,64 +58,124 @@ export default class MyChats extends React.Component {
 				});
 			}
 		});
+		setTimeout(() => {
+			this.state.scrollToBottom();
+		}, 0.2);
+	};
+
+	onSubmit = (message) => {
+		let chatObj = {
+			auth_id_of_comment: 'auth_id_2',
+			client_id: this.state.listingUserData.auth_id,
+			message: message,
+			time_submitted: Date(Date.now())
+		};
+		axios.post('/api/addMessage/' + this.state.currentListingId, chatObj).then((res) => {
+			axios.get('/api/getUserChats/auth_id_1').then((chat) => {
+				this.setState({
+					chats: chat.data
+				});
+				this.getChatsToDisplay(this.state.currentListingId);
+			});
+		});
 	};
 
 	render() {
-		console.log(this.state);
-
 		let listingPictures;
 		if (this.state.listingData.length) {
 			listingPictures = this.state.listingData.map((elem, i) => {
 				return (
-					<Avatar
-						className="listings_chat_avatar"
-						key={i}
-						onClick={() => {
-							this.getChatsToDisplay(elem.listing_id);
-						}}
-						size={200}>
-						<img style={{ height: '100%' }} src={elem.images[0]} alt="" />
-					</Avatar>
+					<section className="listings_chat_avatar_container">
+						<Avatar
+							className="listings_chat_avatar"
+							key={i}
+							onClick={() => {
+								this.getChatsToDisplay(elem.listing_id);
+								this.setState({
+									currentListingId: elem.listing_id
+								});
+							}}>
+							<img style={{ height: '100%' }} src={elem.images[0]} alt="" />
+						</Avatar>
+					</section>
 				);
 			});
 		}
 
-		let chats = this.state.displayedMessages.map((elem, i) => {
-			return (
-				<div
-					key={i}
-					className={
-						elem.auth_id_of_comment === this.state.user_id ? (
-							'right_comment_container'
-						) : (
-							'left_comment_container'
-						)
-					}>
-					<section
-						className={elem.auth_id_of_comment === this.state.user_id ? 'right_message' : 'left_message'}>
-						<h1>{elem.message}</h1>
-					</section>
-					<img
-						className="profile_pic"
-						src={
-							'https://lh3.googleusercontent.com/-QnkVbgp55Qc/AAAAAAAAAAI/AAAAAAAAAAc/5BT-Kmh3oSg/photo.jpg'
-						}
-						alt=""
-					/>
-				</div>
-			);
-		});
-
 		return (
 			<div className="chats_container">
 				<section className="chats_listings">{listingPictures}</section>
-
-				<section className="chats_messages_container">{chats}</section>
+				<section className="chats_messages_container">
+					<div style={{ width: '100%', height: '70vh', overflow: 'scroll' }} id="chat_messages_scroll">
+						{this.messageContainer()}
+					</div>
+					<div className="chats_inputbox_container">
+						<textarea
+							onChange={(text) => {
+								this.setState({
+									messageText: text.target.value
+								});
+							}}
+							placeholder="Type a message..."
+						/>
+						<button
+							onClick={() => {
+								this.onSubmit(this.state.messageText);
+							}}>
+							Submit
+						</button>
+					</div>
+				</section>
 
 				<section className="chats_profile_container">
-					<h1>Profile Info</h1>
+					<Avatar className="listings_profile_avatar">
+						<img style={{ height: '100%' }} src={this.state.listingUserData.profile_pic} alt="" />
+					</Avatar>
+					<h1 style={{ fontSize: '1.5rem', marginBottom: '20px' }}>{this.state.listingUserData.username}</h1>
+					<Button className="View_Profile_Button">View Listings</Button>
 				</section>
 			</div>
 		);
 	}
+
+	messageContainer = () => {
+		let chats = this.state.displayedMessages.map((elem, i) => {
+			if (elem.auth_id_of_comment === this.state.user_id) {
+				return (
+					<div key={i} className="right_comment_container">
+						<img className="profile_pic" src={this.state.listingUserData.profile_pic} alt="" />
+						<section className="right_message_container">
+							<section className="right_message">
+								<h1>{elem.message}</h1>
+							</section>
+							<section className="left_time_submitted">
+								<h1>{moment(elem.time_submitted).fromNow()}</h1>
+							</section>
+						</section>
+					</div>
+				);
+			} else {
+				return (
+					<div key={i} className="left_comment_container">
+						<section className="left_message_container">
+							<section className="left_message">
+								<h1>{elem.message}</h1>
+							</section>
+							<section className="right_time_submitted">
+								<h1>{moment(elem.time_submitted).fromNow()}</h1>
+							</section>
+						</section>
+						<img className="profile_pic" src={this.props.user.profile_pic} alt="" />
+					</div>
+				);
+			}
+		});
+		return chats;
+	};
 }
+
+function mapStateToProps(state) {
+	return state;
+}
+
+export default connect(mapStateToProps)(MyChats);

@@ -18,7 +18,11 @@ export function getUserInfo() {
 			return userData.data;
 		} else if (userData.data[0].hasOwnProperty('profile_pic')) {
 			return userData.data[0];
-		}
+		} 
+		// else {
+		// 	let tempUser = { profile_pic: 'https://cdn3.iconfinder.com/data/icons/complete-set-icons/512/skype2512x512.png' };
+		// 	return tempUser;
+		// }
 	});
 	return {
 		type: GET_USER_INFO,
@@ -43,11 +47,11 @@ export function getUserFavorites(user_id) {
 	}
 }
 
-export function updateSearchTerm(word){
+export function updateSearchTerm(word) {
 	return {
 		type: UPDATE_SEARCH_TERM,
 		payload: word
-	}
+	};
 }
 
 //REDUCER FUNCTION

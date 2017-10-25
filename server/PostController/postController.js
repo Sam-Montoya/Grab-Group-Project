@@ -75,6 +75,7 @@ module.exports = {
 	},
 
 	addMessage(DB, request, response) {
+		console.log(request.body)
 		let commentInfo = {
 			auth_id_of_comment: request.body.auth_id_of_comment,
 			message: request.body.message,
