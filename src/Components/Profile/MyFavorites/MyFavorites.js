@@ -19,12 +19,19 @@ class MyFavorites extends Component {
 			checkedB: false,
 			checkedC: false,
 			checkedD: false,
-			checkedE: false
+			checkedE: false,
+			filters: {
+				checkedA: '',
+				checkedB: '',
+				checkedC: '',
+				checkedD: '',
+				checkedE: ''
+			}
 		};
 	}
 
 	componentDidMount() {
-		axios.get('/api/getUserListings/' + this.props.user.user_id).then((res) => {
+		axios.get('/api/getUserFavorites/' + this.props.user.user_id).then((res) => {
 			this.setState({
 				listings: res.data
 			});
@@ -32,7 +39,17 @@ class MyFavorites extends Component {
 	}
 
 	handleChangeInput = (name) => (event) => {
-		this.setState({ [name]: event.target.checked });
+		if (event.target.checked) {
+			this.setState({
+				[name]: event.target.checked,
+				filters: Object.assign({}, this.state.filters, { [name]: event.target.value })
+			});
+		} else {
+			this.setState({
+				[name]: event.target.checked,
+				filters: Object.assign({}, this.state.filters, { [name]: '' })
+			});
+		}
 	};
 
 	removeFavorite = (listing_id) => {
@@ -40,146 +57,171 @@ class MyFavorites extends Component {
 			.then((response) => {
 				alert('Listing has been removed from your favorites');
 				this.props.getUserFavorites(this.props.user.user_id);
+			}).then((newFavorites) => {
+				axios.get('/api/getUserFavorites/' + this.props.user.user_id).then((res) => {
+					this.setState({
+						listings: res.data
+					});
+				});
 			})
 	}
 
-	render() {
-				let myFavorites = this.props.favorites.map((favorite, i) => {
-					if (favorite.images){
-						let backgroundColor;
-						switch (favorite.category) {
-							case 'Electronics':
-								backgroundColor = 'rgba(53, 138, 255, 0.68)';
-								break;
-							case 'Home':
-								backgroundColor = 'rgba(147, 74, 255, 0.68)';
-								break;
-							case 'Sports':
-								backgroundColor = 'rgba(104, 208, 52, 0.68)';
-								break;
-							case 'Parts':
-								backgroundColor = 'rgba(151, 151, 151, 0.68)';
-								break;
-							case 'Free':
-								backgroundColor = 'rgba(255, 127, 127, 0.68)';
-								break;
-							default:
-								backgroundColor = 'rgba(0, 255, 255, 0.68)';
-								break;
+	filter(listings) {
+		for (let prop in this.state.filters) {
+			if (this.state.filters[prop] !== '') {
+				listings = listings.filter(listing => {
+					for (let prop in this.state.filters) {
+						if (listing.category === this.state.filters[prop]) {
+							return listing;
 						}
-						return (
-							<div>
-								<div className="removeIcon" onClick={() => this.removeFavorite(favorite.listing_id)} style={{ backgroundColor: 'red', width: '25px', height: '25px' }}><hr className="deleteLine"></hr></div>
-
-								<Link
-									to={{
-										pathname: '/listingInfo/' + favorite.listing_id,
-										query: favorite
-									}}>
-									<Paper
-										elevation={4}
-										className="item_container"
-										style={{
-											background: `url(${favorite.images[0]}) no-repeat center center`,
-											backgroundSize: 'cover'
-										}}>
-										<div
-											className="item_description"
-											style={{ backgroundColor: backgroundColor }}>
-											<h1 className="title">{favorite.title}</h1>
-											<hr />
-											<h2 className="descriptionText">{favorite.city}, {favorite.state}</h2>
-											<h3 className="descriptionText">{favorite.price}</h3>
-										</div>
-									</Paper>
-								</Link>
-							</div>
-						);
 					}
-					return this;
 				});
+			}
+		}
+		return listings;
+	}
 
-				return(
+	render() {
+		return (
 			<div >
-			<div className="myFavoritesPageContainer">
-				<div className="MainContentFavorites">
-					<h1 className="FavoritesPageHeading">My Favorites Page</h1>
-					<div className="FavoriteListingsContainer">{myFavorites}</div>
-				</div>
+				<div className="myFavoritesPageContainer">
+					<div className="MainContentFavorites">
+						<h1 className="FavoritesPageHeading">My Favorites Page</h1>
+						<div className="FavoriteListingsContainer">{this.favoritesMap(this.filter(this.state.listings))}</div>
+					</div>
 
-				<div className="Chat">
-					<Avatar style={{ backgroundColor: '#03A9F4', height: '60px', width: '60px' }}>
-						<Inbox />
-					</Avatar>
-				</div>
+					<div className="Chat">
+						<Avatar style={{ backgroundColor: '#03A9F4', height: '60px', width: '60px' }}>
+							<Inbox />
+						</Avatar>
+					</div>
 
-				<div className="rightNavFavorites">
-					<div className="categories">
-						<p>Categories</p>
-						<div>
-							<FormControlLabel
-								control={
-									<Checkbox
-										checked={this.state.checkedA}
-										onChange={this.handleChangeInput('checkedA')}
-										value="checkedA"
-										style={{ color: 'red' }}
-									/>
-								}
-								label="Electronics"
-							/>
+					<div className="rightNavFavorites">
+						<div className="categories">
+							<p>Categories</p>
+							<div className="electronics_checkbox">
+								<FormControlLabel
+									control={
+										<Checkbox
+											checked={this.state.checkedA}
+											onChange={this.handleChangeInput('checkedA')}
+											value={'Electronics'}
+										/>
+									}
+									label="Electronics"
+								/>
+							</div>
+							<div className="home_checkbox">
+								<FormControlLabel
+									control={
+										<Checkbox
+											checked={this.state.checkedB}
+											onChange={this.handleChangeInput('checkedB')}
+											value={'Home'}
+											style={{ color: 'Purple' }}
+										/>
+									}
+									label="Home"
+								/>
+							</div>
+							<div className="sports_checkbox">
+								<FormControlLabel
+									control={
+										<Checkbox
+											checked={this.state.checkedC}
+											onChange={this.handleChangeInput('checkedC')}
+											value={'Sports'}
+										/>
+									}
+									label="Sports"
+								/>
+							</div>
+							<div className="parts_checkbox">
+								<FormControlLabel
+									control={
+										<Checkbox
+											checked={this.state.checkedD}
+											onChange={this.handleChangeInput('checkedD')}
+											value={'Parts'}
+										/>
+									}
+									label="Parts"
+								/>
+							</div>
+							<div className="free_checkbox">
+								<FormControlLabel
+									control={
+										<Checkbox
+											checked={this.state.checkedE}
+											onChange={this.handleChangeInput('checkedE')}
+											value={'Free'}
+										/>
+									}
+									label="Free"
+								/>
+							</div>
 						</div>
-						<div>
-							<FormControlLabel
-								control={
-									<Checkbox
-										checked={this.state.checkedB}
-										onChange={this.handleChangeInput('checkedB')}
-										value="checkedB"
-										style={{ color: 'Purple' }}
-									/>
-								}
-								label="Home"
-							/>
-						</div>
-						<FormControlLabel
-							control={
-								<Checkbox
-									checked={this.state.checkedC}
-									onChange={this.handleChangeInput('checkedC')}
-									value="checkedC"
-									style={{ color: 'green' }}
-								/>
-							}
-							label="Sports"
-						/>
-						<FormControlLabel
-							control={
-								<Checkbox
-									checked={this.state.checkedD}
-									onChange={this.handleChangeInput('checkedD')}
-									value="checkedD"
-									style={{ color: 'grey' }}
-								/>
-							}
-							label="Parts"
-						/>
-						<FormControlLabel
-							control={
-								<Checkbox
-									checked={this.state.checkedE}
-									onChange={this.handleChangeInput('checkedE')}
-									value="checkedE"
-									style={{ color: 'green' }}
-								/>
-							}
-							label="Free"
-						/>
 					</div>
 				</div>
-			</div>
 			</div >
 		);
+	}
+
+	favoritesMap(favorites){
+		return favorites.map((favorite, i) => {
+			if (favorite.images) {
+				let backgroundColor;
+				switch (favorite.category) {
+					case 'Electronics':
+						backgroundColor = 'rgba(53, 138, 255, 0.68)';
+						break;
+					case 'Home':
+						backgroundColor = 'rgba(147, 74, 255, 0.68)';
+						break;
+					case 'Sports':
+						backgroundColor = 'rgba(104, 208, 52, 0.68)';
+						break;
+					case 'Parts':
+						backgroundColor = 'rgba(151, 151, 151, 0.68)';
+						break;
+					case 'Free':
+						backgroundColor = 'rgba(255, 127, 127, 0.68)';
+						break;
+					default:
+						backgroundColor = 'rgba(0, 255, 255, 0.68)';
+						break;
+				}
+				return (
+					<div>
+						<div className="removeIcon" onClick={() => this.removeFavorite(favorite.listing_id)} style={{ backgroundColor: 'red', width: '25px', height: '25px' }}><hr className="deleteLine"></hr></div>
+
+						<Link
+							to={{
+								pathname: '/listingInfo/' + favorite.listing_id,
+								query: favorite
+							}}>
+							<Paper
+								elevation={4}
+								className="item_container"
+								style={{
+									background: `url(${favorite.images[0]}) no-repeat center center`,
+									backgroundSize: 'cover'
+								}}>
+								<div
+									className="item_description"
+									style={{ backgroundColor: backgroundColor }}>
+									<h1 className="title">{favorite.title}</h1>
+									<hr />
+									<h2 className="descriptionText">{favorite.city}, {favorite.state}</h2>
+									<h3 className="descriptionText">{favorite.price}</h3>
+								</div>
+							</Paper>
+						</Link>
+					</div>
+				);
+			}
+			return this;
+		});
 	}
 }
 
