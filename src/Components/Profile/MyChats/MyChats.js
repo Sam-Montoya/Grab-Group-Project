@@ -22,6 +22,7 @@ class MyChats extends React.Component {
 			],
 			messageText: '',
 			currentListingId: '',
+			clientInfo: [],
 			scrollToBottom: function() {
 				let area = document.getElementById('chat_messages_scroll');
 				area.scrollTop = area.scrollHeight;
@@ -46,6 +47,11 @@ class MyChats extends React.Component {
 					});
 				});
 			}
+			axios.get('/api/getUserInfo/' + chat.data[0].client_id).then((clientUserData) => {
+				this.setState({
+					clientPic: clientUserData.data
+				});
+			});
 		});
 	}
 
@@ -70,7 +76,6 @@ class MyChats extends React.Component {
 			time_submitted: Date(Date.now())
 		};
 		axios.post('/api/addMessage/' + this.state.currentListingId, chatObj).then((res) => {
-			console.log(res.data);
 			axios.get('/api/getUserChats/' + this.props.user.auth_id).then((chat) => {
 				this.setState({
 					chats: chat.data
@@ -101,7 +106,7 @@ class MyChats extends React.Component {
 				);
 			});
 		}
-
+		console.log(this.state.clientInfo);
 		return (
 			<div className="chats_container">
 				<section className="chats_listings">{listingPictures}</section>
@@ -129,9 +134,13 @@ class MyChats extends React.Component {
 
 				<section className="chats_profile_container">
 					<Avatar className="listings_profile_avatar">
-						<img style={{ height: '100%' }} src={this.state.listingUserData.profile_pic} alt="" />
+						{this.state.clientPic ? (
+							<img style={{ height: '100%' }} src={this.state.clientPic.profile_pic} alt="" />
+						) : null}
 					</Avatar>
-					<h1 style={{ fontSize: '1.5rem', marginBottom: '20px' }}>{this.state.listingUserData.username}</h1>
+					{this.state.clientPic ? (
+						<h1 style={{ fontSize: '1.5rem', marginBottom: '20px' }}>{this.state.clientPic.username}</h1>
+					) : null}
 					<Button className="View_Profile_Button">View Listings</Button>
 				</section>
 			</div>
@@ -139,7 +148,6 @@ class MyChats extends React.Component {
 	}
 
 	messageContainer = () => {
-		console.log(this.state.displayedMessages);
 		if (this.state.displayedMessages !== null) {
 			let chats = this.state.displayedMessages.map((elem, i) => {
 				if (elem.auth_id_of_comment === this.props.user.auth_id) {
@@ -158,10 +166,9 @@ class MyChats extends React.Component {
 						</div>
 					);
 				} else {
-					console.log('Client');
 					return (
 						<div key={i} className="right_comment_container">
-							<img className="profile_pic" src={this.state.listingUserData.profile_pic} alt="" />
+							<img className="profile_pic" src={this.state.clientPic.profile_pic} alt="" />
 							<section className="right_message_container">
 								<section className="right_message">
 									<h1>{elem.message}</h1>
