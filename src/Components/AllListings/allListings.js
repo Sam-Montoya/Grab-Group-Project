@@ -9,7 +9,6 @@ import TextField from 'material-ui/TextField';
 import Star from 'material-ui-icons/Star';
 import Pageview from 'material-ui-icons/List';
 import Input from 'material-ui/Input';
-import profile from '../../images/benMt.1866739e.jpg';
 import { FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 import { Link } from 'react-router-dom';
@@ -28,7 +27,7 @@ class allListings extends Component {
 			checkedD: false,
 			checkedE: false,
 			profile_pic: '',
-			priceSorting: 'lowest_to_highest',
+			priceSorting: 'Lowest to Highest',
 			isLoggedIn: false,
 			lowest: 0,
 			highest: 999999999999,
@@ -143,6 +142,7 @@ class allListings extends Component {
 	}
 
 	render() {
+		console.log('Price sorting: ', this.state.priceSorting);
 		return (
 			<div className="sidebar">
 				<div className="leftBarOnSearch">
@@ -153,7 +153,7 @@ class allListings extends Component {
 									<Avatar
 										className="profile_pic_nav"
 										alt="Remy Sharp"
-										src={this.state.profile_pic ? this.state.profile_pic : profile}
+										src={this.state.profile_pic}
 									/>
 								</Link>
 							</div>
@@ -267,16 +267,16 @@ class allListings extends Component {
 
 					<div className="pricing_container">
 						<h1 style={{ fontWeight: 'bold' }}>Pricing</h1>
-						<Input type="number" placeholder="Lowest" onChange={(e) => {this.checkLowest(e.target.value)}}/>
+						<Input type="number" placeholder="Lowest" onChange={(e) => {this.checkLowest(e.target.value)}} />
 						<Input type="number" placeholder="Highest" onChange={(e) => {this.checkHighest(e.target.value)}} />
 						<TextField
 							className="pricing_select"
+							onChange={(e) => {this.setState({priceSorting: e.target.value})}}
 							select
 							value={this.state.priceSorting}
-							onChange={this.handleInputChange('priceSorting')}
 							style={{ width: '82%' }}>
-							<MenuItem value="lowest_to_highest">Lowest to Highest</MenuItem>
-							<MenuItem value="highest_to_lowest">Highest to Lowest</MenuItem>
+							<MenuItem value="Lowest to Highest">Lowest to Highest</MenuItem>
+							<MenuItem value="Highest to Lowest">Highest to Lowest</MenuItem>
 						</TextField>
 					</div>
 				</div>
