@@ -37,6 +37,7 @@ class Profile extends Component {
 		};
 
 		this.coverPhotoInfo = this.coverPhotoInfo.bind(this);
+		this.cancel = this.cancel.bind(this);
 	}
 
 	componentDidMount() {
@@ -90,6 +91,12 @@ class Profile extends Component {
 		}, 1500);
 	};
 
+	cancel(){
+		this.setState({
+			dialogOpen: false
+		});
+	}
+
 	filter(listings) {
 		for (let prop in this.state.filters) {
 			if (this.state.filters[prop] !== '') {
@@ -110,6 +117,7 @@ class Profile extends Component {
 		return (
 			<div>
 				<SnackBars is_open={this.state.isOpen} message={this.state.snackbar_message} />
+<<<<<<< HEAD
 				<DialogBox
 					is_open={this.state.dialogOpen}
 					message={this.state.dialog_message}
@@ -117,6 +125,9 @@ class Profile extends Component {
 					removeListing={this.removeListing}
 					listing_id={this.state.selected_listing_id}
 				/>
+=======
+				<DialogBox is_open={this.state.dialogOpen} message={this.state.dialog_message} title={this.state.dialog_title} removeListing={this.removeListing} listing_id={this.state.selected_listing_id} cancel={this.cancel}/>
+>>>>>>> bd83dab425ffce1997b4e42b9b98572df7729aa3
 				<div className="ProfilePageContainer">
 					<div className="rightNavFavorites">
 						{/* Search Categories Function */}
