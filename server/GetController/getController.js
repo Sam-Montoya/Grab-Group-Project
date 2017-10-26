@@ -71,7 +71,6 @@ module.exports = {
 	getListing(DB, request, response) {
 		try {
 			DB.get_listing(request.params.listing_id).then((listingData) => {
-				console.log(listingData);
 				response.status(200).send(listingData[0]);
 			});
 		} catch (err) {
@@ -96,7 +95,7 @@ module.exports = {
 				}
 			});
 		} catch (err) {
-			console.log('HIT');
+					
 			respone.status(404).send(err);
 		}
 	},
