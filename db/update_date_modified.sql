@@ -1,0 +1,1 @@
+UPDATE chats SET date_modified = $1 WHERE owner_id = $2 AND client_id = $3 AND listing_id = $4;
