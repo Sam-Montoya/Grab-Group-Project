@@ -15,7 +15,8 @@ class ChatAvatars extends React.Component {
 			owner_id: 'google-oauth2|105313138391043301759',
 			client_id: 'google-oauth2|111891641192346730945',
 			listing_id: 44,
-			userChats: []
+			userChats: [],
+			avatarPictures: []
 			// scrollToBottom: function () {
 			// 	let area = document.getElementById('chat_messages_scroll');
 			// 	area.scrollTop = area.scrollHeight;
@@ -29,22 +30,26 @@ class ChatAvatars extends React.Component {
 		// 		client_id: this.props.location.chatInfo.client_id,
 		// 		listing_id: this.props.location.chatInfo.listing_id
 		// 	})
-		// } else {
+		// } else {}
 		axios.get('/api/getUserChats/' + this.state.client_id).then((userData) => {
 			this.setState({
 				userChats: userData.data
-			})
-		})
-		// }
+			});
+			userData.data.map((chat, i) => {
+				axios.get('/api/getListing/' + chat.listing_id).then((listingData) => {
+					this.setState({
+						avatarPictures: [ ...this.state.avatarPictures, listingData.data.images[0] ]
+					});
+				});
+			});
+		});
 	}
 
 	render() {
-		console.log('STATE ', this.state)
+		console.log('STATE ', this.state);
 		return (
-			<div className='chats_container'>
-				<section className='chats_listings'>
-					{console.log(this.renderChatAvatars())}
-				</section>
+			<div className="chats_container">
+				<section className="chats_listings">{this.renderChatAvatars()}</section>
 				{/* <section className='chats_messages_container'>
 					<div style={{ width: '100%', height: '70vh', overflow: 'scroll' }} id='chat_messages_scroll'></div>
 					<div className='chats_inputbox_container'>
@@ -55,29 +60,21 @@ class ChatAvatars extends React.Component {
 					</div>
 				</section> */}
 			</div>
-		)
+		);
 	}
 	renderChatAvatars = () => {
 		if (this.state.userChats.length) {
-			let avatarPictures = this.state.userChats.map((listing, index) => {
-				axios.get('/api/getListing/' + listing.listing_id).then((listingInfo) => {
-					console.log('LISTING INFO ', listingInfo)
-					return (
-						<section key={index} className='listings_chat_avatar_container'>
-							{console.log('hit')}
-							{/* <Avatar
-								className='listings_chat_avatar'
-							>
-								<img style={{ height: '100%' }} src={listingInfo.data.images[0]} alt='' />
-							</Avatar> */}
-							Hi
-						</section>
-					)
-				})
-			})
-			return avatarPictures;
+			return this.state.avatarPictures.map((picture, index) => {
+				return (
+					<section key={index} className="listings_chat_avatar_container">
+						<Avatar className="listings_chat_avatar">
+							<img style={{ height: '100%' }} src={picture} alt="" />
+						</Avatar>
+					</section>
+				);
+			});
 		}
-	}
+	};
 }
 function mapStateToProps(state) {
 	return state;
