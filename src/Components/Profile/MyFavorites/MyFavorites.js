@@ -37,6 +37,7 @@ class MyFavorites extends Component {
 				checkedE: ''
 			}
 		};
+		this.cancel = this.cancel.bind(this);
 	}
 
 	componentDidMount() {
@@ -84,6 +85,12 @@ class MyFavorites extends Component {
 		}, 1500);
 	}
 
+	cancel(){
+		this.setState({
+			dialogOpen: false
+		})
+	}
+
 	filter(listings) {
 		for (let prop in this.state.filters) {
 			if (this.state.filters[prop] !== '') {
@@ -103,7 +110,7 @@ class MyFavorites extends Component {
 		return (
 			<div >
 				<SnackBars is_open={this.state.isOpen} message={this.state.snackbar_message} />
-				<DialogBox is_open={this.state.dialogOpen} message={this.state.dialog_message} title={this.state.dialog_title} removeFavorite={this.removeFavorite} listing_id={this.state.selected_listing_id} />
+				<DialogBox is_open={this.state.dialogOpen} message={this.state.dialog_message} title={this.state.dialog_title} removeFavorite={this.removeFavorite} listing_id={this.state.selected_listing_id} cancel={this.cancel} />
 				<div className="myFavoritesPageContainer">
 					<div className="MainContentFavorites">
 						<h1 className="FavoritesPageHeading">My Favorites Page</h1>

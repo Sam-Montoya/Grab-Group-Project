@@ -34,6 +34,7 @@ export default class DialogBox extends React.Component {
 
     handleRequestClose = () => {
         this.setState({ open: false });
+        this.props.cancel();
     };
 
     yes() {
