@@ -128,7 +128,8 @@ class ListingInfo extends Component {
 		let chatConfig = {
 			owner_id: this.state.listingInfo.auth_id,
 			client_id: this.props.user.auth_id,
-			listing_id: this.state.listingInfo.listing_id
+			listing_id: this.state.listingInfo.listing_id,
+			date_modified: new Date(Date.now())
 		}
 		axios.post('/api/startChat', chatConfig).then((res) => {
 			alert(res.data);
@@ -152,11 +153,27 @@ class ListingInfo extends Component {
 						</div>
 						<div>{this.userProfileChecker()}</div>
 						<div>
-							<Link to="/myChats" onClick={() => this.startChat()}>
-								<Avatar className="listing_avatar listing_message">
-									<Inbox />
-								</Avatar>
-							</Link>
+							{
+								this.props.user
+									?
+									<Link to=
+										{{
+											pathname: '/myChats',
+											chatInfo: {
+												owner_id: this.state.listingInfo.auth_id,
+												client_id: this.props.user.auth_id,
+												listing_id: this.state.listingInfo.listing_id
+											}
+										}} onClick={() => this.startChat()}>
+										<Avatar className="listing_avatar listing_message">
+											<Inbox />
+										</Avatar>
+									</Link>
+									:
+									<Avatar onClick={() => alert('Please log in to send messages')} className="listing_avatar listing_message">
+										<Inbox />
+									</Avatar>
+							}
 						</div>
 						<div>
 							<this.favoriteIcon />
@@ -187,7 +204,7 @@ class ListingInfo extends Component {
 								<h3 style={{ fontWeight: 'bold' }}>{this.state.listingInfo.contact_status}</h3>
 								{this.state.listingInfo.phone_number ? (
 									<h3>{this.state.listingInfo.phone_number}</h3>
-								) : <h3 style={{ fontWeight: 'bold' }}>Message Only</h3> }
+								) : <h3 style={{ fontWeight: 'bold' }}>Message Only</h3>}
 							</div>
 						</div>
 
@@ -225,7 +242,7 @@ class ListingInfo extends Component {
 						<section className="list_container">{this.list(this.state.listingInfo.cons)}</section>
 					</Paper>
 				</div>
-			</div>
+			</div >
 		);
 	}
 

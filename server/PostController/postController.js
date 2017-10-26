@@ -69,7 +69,8 @@ module.exports = {
 
 	// Adds a message to the chat of that listing
 	startChat(DB, request, response) {
-		DB.start_chat([ request.body.owner_id, request.body.client_id, request.body.listing_id ]).then((_) => {
+		console.log(request.body);
+		DB.start_chat([ request.body.owner_id, request.body.client_id, request.body.listing_id, request.body.date_modified ]).then((_) => {
 			response.status(200).send('Chat has been started!');
 		});
 	},
