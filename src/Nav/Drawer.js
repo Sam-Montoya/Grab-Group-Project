@@ -5,7 +5,6 @@ import Drawer from 'material-ui/Drawer';
 import Button from 'material-ui/Button';
 import List, { ListItem, ListItemText } from 'material-ui/List';
 import Home from 'material-ui-icons/Home';
-import Settings from 'material-ui-icons/Settings';
 import Create from 'material-ui-icons/Create';
 import ViewList from 'material-ui-icons/ViewList';
 import MenuIcon from 'material-ui-icons/Menu';
@@ -105,12 +104,6 @@ class TemporaryDrawer extends React.Component {
 			});
 			return <Redirect push to={'/wizard'} />;
 		}
-		if (this.state.redirect === 'settings') {
-			this.setState({
-				redirect: ''
-			});
-			return <Redirect push to={'/'} />;
-		}
 
 		const sideList = (
 			<div>
@@ -147,16 +140,6 @@ class TemporaryDrawer extends React.Component {
 								<Create />
 							</Avatar>
 							<ListItemText primary="Create Listing" />
-						</ListItem>
-					</Link>
-
-					{/* <Divider inset /> */}
-					<Link to="settings">
-						<ListItem button>
-							<Avatar>
-								<Settings />
-							</Avatar>
-							<ListItemText primary="Settings" />
 						</ListItem>
 					</Link>
 					{/* <Divider inset /> */}

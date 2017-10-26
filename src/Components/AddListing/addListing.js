@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
 import axios from 'axios';
-import './test.css';
 import Paper from 'material-ui/Paper';
 import './addListing.css';
 import TextField from 'material-ui/TextField';
@@ -166,7 +165,8 @@ class AddListing extends Component {
 
 	changePrice = (price) => {
 		if (isNaN(price)) {
-			alert('Must be a number')
+			alert('Must be a number');
+
 		}
 		let formatter = new Intl.NumberFormat('en-US', {
 			style: 'currency',
@@ -358,7 +358,7 @@ class AddListing extends Component {
 					<Paper className="halfFirst">
 						<h1>Add Image</h1>
 						<div className="PictureUploadContainer">
-							<div className="test">
+							<div className="dropzoneBorder">
 								<Dropzone multiple={true} accept="image/*" onDrop={this.onImageDrop.bind(this)}>
 									<p>Drop an image or click to select a file to upload.</p>
 								</Dropzone>

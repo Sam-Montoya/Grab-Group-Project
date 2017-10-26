@@ -92,6 +92,42 @@
 
 .nav_controller_container {
 	display: flex;
+	justify-content: space-between;
+	width: 20%;
+}
+
+.nav_add_listing{
+	display: flex;
+}
+
+.add{
+	height: 40px;
+	width: 40px;
+	border: 1.5px solid white;
+	position: relative;
+}
+
+.add_vert{
+	height: 30px;
+	width: 2px;
+	background: white;
+	position: absolute;
+	left: 45%;
+	top: 15%;
+}
+
+.add_horiz{
+	height: 30px;
+	width: 2px;
+	background: white;
+	transform: rotate(90deg);
+	position: absolute;
+	left: 45%;
+	top: 15%;
+}
+
+.nav_profile{
+	display: flex;
 }
 
 .nav_controller_container Avatar {

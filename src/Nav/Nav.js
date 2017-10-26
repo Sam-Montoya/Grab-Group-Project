@@ -50,10 +50,10 @@ class ButtonAppBar extends Component {
 						<div className="navtoolbar">
 							{
 								this.props.user
-								?
-								<Drawer />
-								:
-								null
+									?
+									<Drawer />
+									:
+									null
 							}
 							<div className="navtoolbar">
 								<Typography type="title" color="inherit">
@@ -80,10 +80,20 @@ class ButtonAppBar extends Component {
 						{/* This turnary checks to see if someone is logged in and displays the correct login/logout button accordingly. */}
 						{this.props.user ? (
 							<div className="nav_controller_container">
-								<Avatar alt='' src={this.state.profile_pic} />
-								<a className="logout nav_button" href={process.env.REACT_APP_LOGOUT}>
-									<Button>Logout</Button>
-								</a>
+								<div className="nav_add_listing">
+									<Link to='/addlisting'>
+									<div className="add">
+										<div className="add_vert"></div>
+										<div className="add_horiz"></div>
+									</div>
+									</Link>
+								</div>
+								<div className="nav_profile">
+									<Avatar alt='' src={this.state.profile_pic} />
+									<a className="logout nav_button" href={process.env.REACT_APP_LOGOUT}>
+										<Button>Logout</Button>
+									</a>
+								</div>
 							</div>
 						) : (
 								<a className="login nav_button" href={process.env.REACT_APP_LOGIN}>
