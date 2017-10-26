@@ -24,12 +24,25 @@ class Messages extends React.Component {
 				owner_id: this.props.chatData.owner_id,
 				listing_id: this.props.chatData.listing_id,
 				messages: this.props.chatData.messages,
-				messageText: ''
+                messageText: '',
+                messageIndex: this.props.currentIndex
 			},
 			() => {
 				this.getClientInfo();
 			}
-		);
+        );
+        
+        setInterval( () => {
+            axios.get('/api/getUserChats/' + this.props.user.auth_id).then(messages => {
+                let chatToRender = messages.data.filter((chats) => {
+                    return chats.owner_id === this.state.owner_id && chats.client_id === this.state.client_id && chats.listing_id === this.state.listing_id
+                })
+                this.setState({
+                    messages: chatToRender[0].messages
+                })
+                this.props.updateMessage(chatToRender[0].messages);
+            })
+        }, 5000)
 	}
 	componentWillReceiveProps(nextProps) {
 		this.setState(
@@ -37,16 +50,16 @@ class Messages extends React.Component {
 				client_id: nextProps.chatData.client_id,
 				owner_id: nextProps.chatData.owner_id,
 				listing_id: nextProps.chatData.listing_id,
-				messages: nextProps.chatData.messages
+                messages: nextProps.chatData.messages,
+                messageIndex: nextProps.currentIndex
 			},
 			() => {
 				this.getClientInfo();
-			}
+            }
 		);
 	}
 
 	render() {
-		console.log('MESSAGES STATE: ', this.state);
 		return (
 			<section className="chats_messages_container">
 				<div className="chats_all_messages" id="chat_messages_scroll">

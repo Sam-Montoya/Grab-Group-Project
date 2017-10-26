@@ -19,7 +19,8 @@ class ChatAvatars extends React.Component {
 			userChats: [],
 			avatarPictures: [],
 			chatClicked: false,
-			currentUserChat: ''
+			currentUserChat: [],
+			currentIndex: null
 		};
 	}
 
@@ -32,7 +33,6 @@ class ChatAvatars extends React.Component {
 		// 	})
 		// } else {}
 		axios.get('/api/getUserChats/' + this.props.user.auth_id).then((userData) => {
-			console.log("USERDATA.DATA", userData);
 			userData.data.map((chat, i) => {
 				axios.get('/api/getListing/' + chat.listing_id).then((listingData) => {
 					let newChat = {userData: userData.data[i], listingData}
@@ -44,22 +44,32 @@ class ChatAvatars extends React.Component {
 		});
 	}
 
-	renderChat = (userChats) => {
+	renderChat = (userChats, currentIndex) => {
 		this.setState({
 			chatClicked: true,
-			currentUserChat: userChats
+			currentUserChat: userChats,
+			currentIndex: currentIndex
 		});
 	};
 
+	updateCurrentMessage = (messages) => {
+		let tempArr = this.state.userChats;
+		tempArr[this.state.currentIndex].userData.messages = messages;
+		this.setState({
+			userChats: tempArr
+		})
+	}
+
 	render() {
-		console.log(this.state);
+		console.log('CHATS, ', this.state);
 		return (
 			<div className="chats_container">
 				<section className="chats_listings">{this.renderChatAvatars()}</section>
-					{this.state.chatClicked ? <MessagesContainer chatData={this.state.currentUserChat} /> : <div />}
+					{this.state.chatClicked ? <MessagesContainer chatData={this.state.currentUserChat} updateMessage={this.updateCurrentMessage} /> : <div />}
 			</div>
 		);
 	}
+	
 
 	renderChatAvatars = () => {
 		if (this.state.userChats.length) {
@@ -68,7 +78,7 @@ class ChatAvatars extends React.Component {
 					<section key={index} className="listings_chat_avatar_container">
 						<Avatar
 							className="listings_chat_avatar"
-							onClick={() => this.renderChat(this.state.userChats[index].userData)}>
+							onClick={() => this.renderChat(this.state.userChats[index].userData, index)}>
 							<img style={{ height: '100%' }} src={chat.listingData.data.images[0]} alt="" />
 						</Avatar>
 					</section>
