@@ -6,20 +6,20 @@ import { connect } from 'react-redux';
 import Button from 'material-ui/Button';
 import moment from 'moment';
 import { Link } from 'react-router-dom';
+import MessagesContainer from './Messages';
 
 class ChatAvatars extends React.Component {
 	constructor() {
 		super();
 
 		this.state = {
-			owner_id: 'google-oauth2|105313138391043301759',
-			client_id: 'google-oauth2|111891641192346730945',
-			listing_id: 44,
+			owner_id: '',
+			client_id: '',
+			listing_id: null,
 			userChats: [],
-			avatarPictures: []
-			// scrollToBottom: function () {
-			// 	let area = document.getElementById('chat_messages_scroll');
-			// 	area.scrollTop = area.scrollHeight;
+			avatarPictures: [],
+			chatClicked: false,
+			currentUserChat: ''
 		};
 	}
 
@@ -31,44 +31,45 @@ class ChatAvatars extends React.Component {
 		// 		listing_id: this.props.location.chatInfo.listing_id
 		// 	})
 		// } else {}
-		axios.get('/api/getUserChats/' + this.state.client_id).then((userData) => {
-			this.setState({
-				userChats: userData.data
-			});
+		axios.get('/api/getUserChats/' + this.props.user.auth_id).then((userData) => {
+			console.log("USERDATA.DATA", userData);
 			userData.data.map((chat, i) => {
 				axios.get('/api/getListing/' + chat.listing_id).then((listingData) => {
+					let newChat = {userData: userData.data[i], listingData}
 					this.setState({
-						avatarPictures: [ ...this.state.avatarPictures, listingData.data.images[0] ]
+						userChats: [...this.state.userChats, newChat]
 					});
 				});
 			});
 		});
 	}
 
+	renderChat = (userChats) => {
+		this.setState({
+			chatClicked: true,
+			currentUserChat: userChats
+		});
+	};
+
 	render() {
-		console.log('STATE ', this.state);
+		console.log(this.state);
 		return (
 			<div className="chats_container">
 				<section className="chats_listings">{this.renderChatAvatars()}</section>
-				{/* <section className='chats_messages_container'>
-					<div style={{ width: '100%', height: '70vh', overflow: 'scroll' }} id='chat_messages_scroll'></div>
-					<div className='chats_inputbox_container'>
-						<textarea
-							placeholder='Type a message here..'
-						/>
-						<button>Submit</button>
-					</div>
-				</section> */}
+					{this.state.chatClicked ? <MessagesContainer chatData={this.state.currentUserChat} /> : <div />}
 			</div>
 		);
 	}
+
 	renderChatAvatars = () => {
 		if (this.state.userChats.length) {
-			return this.state.avatarPictures.map((picture, index) => {
+			return this.state.userChats.map((chat, index) => {
 				return (
 					<section key={index} className="listings_chat_avatar_container">
-						<Avatar className="listings_chat_avatar">
-							<img style={{ height: '100%' }} src={picture} alt="" />
+						<Avatar
+							className="listings_chat_avatar"
+							onClick={() => this.renderChat(this.state.userChats[index].userData)}>
+							<img style={{ height: '100%' }} src={chat.listingData.data.images[0]} alt="" />
 						</Avatar>
 					</section>
 				);

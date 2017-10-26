@@ -4,7 +4,7 @@
 	grid-template-columns: repeat(12, 1fr);
 	justify-content: center;
 	margin: auto;
-	height: 89.9vh;
+	height: 93vh;
 }
 
 .chats_listings {
@@ -18,9 +18,15 @@
 .chats_messages_container {
 	grid-column: 3/10;
 	display: flex;
-    flex-direction: column;
-    align-items: center;
-	margin-top: 20px;
+	flex-direction: column;
+	align-items: center;
+}
+
+.chats_all_messages {
+	width: 50vw;
+	height: 75vh;
+	margin-top: 30px;
+	overflow-y: scroll;
 }
 
 .chats_profile_container {
@@ -138,28 +144,32 @@
     bottom: 0;
     width: 50%;
     min-height: 76px;
-    margin-bottom: 20px;
-    overflow: auto;
+	margin-bottom: 20px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 }
 
 .chats_inputbox_container textarea {
     width: 100%;
     height: 50px;
     border-style: none;
-    padding: 0;
+    box-sizing: border-box;
     resize: none;
     font-size: 12px;
-    font-weight: lighter;
+	font-weight: lighter;
+	font-size: 14px;
 }
 
 .chats_inputbox_container button {
     width: 100%;
-    height: 26px;
+    height: 30px;
     font-size: 14px;
     font-weight: lighter;
     border: none;
     background-color: #4fc3f7;
-    color: white;
+	color: white;
 }
 
 .View_Profile_Button {

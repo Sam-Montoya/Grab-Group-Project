@@ -92,9 +92,9 @@ module.exports = {
 					request.params.listing_id,
 					auth_id_of_comment,
 					client_id
-				]).then((_) => {
+				]).then((commentData) => {
 					DB.add_notification(request.body.client_id).then((_) => {
-						response.status(200).send('Comment Submitted from the Owner!');
+						response.status(200).send(commentData[0]);
 					});
 				});
 			} else {
@@ -103,9 +103,10 @@ module.exports = {
 					request.params.listing_id,
 					auth_id_of_comment,
 					owner_id
-				]).then((_) => {
+				]).then((commentData) => {
+					console.log(commentData);
 					DB.add_notification(listingData[0].auth_id).then((_) => {
-						response.status(200).send('Comment Submitted from the Client!');
+						response.status(200).send(commentData[0]);
 					});
 				});
 			}

@@ -40,15 +40,18 @@ class Profile extends Component {
 	}
 
 	componentDidMount() {
-		if (this.props.user) {
-			axios.get(`/api/getUserListings/${this.props.user.auth_id}`).then((userListings) => {
-				if (Array.isArray(userListings.data)) {
-					this.setState({
-						listings: userListings.data
-					});
-				}
-			});
-		}
+		setTimeout(() => {
+			if (this.props.user) {
+				axios.get(`/api/getUserListings/${this.props.user.auth_id}`).then((userListings) => {
+					if (Array.isArray(userListings.data)) {
+						console.log('Slammed');
+						this.setState({
+							listings: userListings.data
+						});
+					}
+				});
+			}
+		}, 500);
 	}
 
 	handleChangeInput = (name) => (event) => {
@@ -71,7 +74,7 @@ class Profile extends Component {
 				isOpen: true,
 				snackbar_message: 'Your listing has been removed!',
 				dialogOpen: false
-			})
+			});
 			axios.get(`/api/getUserListings/${this.props.user.auth_id}`).then((userListings) => {
 				if (Array.isArray(userListings.data)) {
 					this.setState({
@@ -83,14 +86,14 @@ class Profile extends Component {
 		setTimeout(() => {
 			this.setState({
 				isOpen: false
-			})
+			});
 		}, 1500);
 	};
 
 	filter(listings) {
 		for (let prop in this.state.filters) {
 			if (this.state.filters[prop] !== '') {
-				listings = listings.filter(listing => {
+				listings = listings.filter((listing) => {
 					for (let prop in this.state.filters) {
 						if (listing.category === this.state.filters[prop]) {
 							return listing;
@@ -103,10 +106,17 @@ class Profile extends Component {
 	}
 
 	render() {
+		console.log(this.state, this.props);
 		return (
 			<div>
 				<SnackBars is_open={this.state.isOpen} message={this.state.snackbar_message} />
-				<DialogBox is_open={this.state.dialogOpen} message={this.state.dialog_message} title={this.state.dialog_title} removeListing={this.removeListing} listing_id={this.state.selected_listing_id}/>
+				<DialogBox
+					is_open={this.state.dialogOpen}
+					message={this.state.dialog_message}
+					title={this.state.dialog_title}
+					removeListing={this.removeListing}
+					listing_id={this.state.selected_listing_id}
+				/>
 				<div className="ProfilePageContainer">
 					<div className="rightNavFavorites">
 						{/* Search Categories Function */}
@@ -121,16 +131,18 @@ class Profile extends Component {
 						{this.state.listings.length ? (
 							<div>
 								<h1 className="ProfileHeading">My Listings ({this.state.listings.length})</h1>
-								<div className="FavoriteListingsContainer">{this.listingMap(this.filter(this.state.listings))}</div>
+								<div className="FavoriteListingsContainer">
+									{this.listingMap(this.filter(this.state.listings))}
+								</div>
 							</div>
 						) : (
-								<div className="add_listing_container">
-									<h1 className="ProfileHeading">You have no listings... :(</h1>
-									<Link to="/addListing">
-										<section className="add_listing_button">+</section>
-									</Link>
-								</div>
-							)}
+							<div className="add_listing_container">
+								<h1 className="ProfileHeading">You have no listings... :(</h1>
+								<Link to="/addListing">
+									<section className="add_listing_button">+</section>
+								</Link>
+							</div>
+						)}
 
 						<div className="Chat">
 							<div className="ChatNotification" />
@@ -164,8 +176,8 @@ class Profile extends Component {
 									{this.props.user.city}, {this.props.user.state}
 								</p>
 							) : (
-									<p>You havent filled out your information yet!</p>
-								)}
+								<p>You havent filled out your information yet!</p>
+							)}
 						</div>
 					</div>
 				</div>
@@ -207,7 +219,9 @@ class Profile extends Component {
 					<div>
 						<div
 							className="removeIcon"
-							onClick={() => {this.setState({dialogOpen: true, selected_listing_id: listing.listing_id})}}
+							onClick={() => {
+								this.setState({ dialogOpen: true, selected_listing_id: listing.listing_id });
+							}}
 							style={{ backgroundColor: 'red', width: '25px', height: '25px' }}>
 							<hr className="deleteLine" />
 						</div>
@@ -223,9 +237,7 @@ class Profile extends Component {
 									background: `url(${listing.images[0]}) no-repeat center center`,
 									backgroundSize: 'cover'
 								}}>
-								<div
-									className="item_description"
-									style={{ backgroundColor: backgroundColor }}>
+								<div className="item_description" style={{ backgroundColor: backgroundColor }}>
 									<h1 className="title">{listing.title}</h1>
 									<hr />
 									<h2 className="descriptionText">
