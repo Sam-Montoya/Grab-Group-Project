@@ -98,32 +98,33 @@
 
 .nav_add_listing{
 	display: flex;
+	align-items: center;
 }
 
 .add{
-	height: 40px;
-	width: 40px;
+	height: 33px;
+	width: 33px;
 	border: 1.5px solid white;
 	position: relative;
 }
 
 .add_vert{
-	height: 30px;
+	height: 25px;
 	width: 2px;
 	background: white;
 	position: absolute;
-	left: 45%;
-	top: 15%;
+	left: 47%;
+	top: 13%;
 }
 
 .add_horiz{
-	height: 30px;
+	height: 25px;
 	width: 2px;
 	background: white;
 	transform: rotate(90deg);
 	position: absolute;
-	left: 45%;
-	top: 15%;
+	left: 47%;
+	top: 13%;
 }
 
 .nav_profile{
