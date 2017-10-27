@@ -29,6 +29,8 @@ class Messages extends React.Component {
 			},
 			() => {
 				this.getClientInfo();
+				var objDiv = document.getElementById("chat_messages_scroll");
+				objDiv.scrollTop = objDiv.scrollHeight;
 			}
         );
         
@@ -40,7 +42,7 @@ class Messages extends React.Component {
                 this.setState({
                     messages: chatToRender[0].messages
                 })
-                this.props.updateMessage(chatToRender[0].messages);
+				this.props.updateMessage(chatToRender[0].messages);
             })
         }, 5000)
 	}
@@ -55,6 +57,8 @@ class Messages extends React.Component {
 			},
 			() => {
 				this.getClientInfo();
+				var objDiv = document.getElementById("chat_messages_scroll");
+				objDiv.scrollTop = objDiv.scrollHeight;
             }
 		);
 	}
@@ -69,6 +73,7 @@ class Messages extends React.Component {
 					<textarea
 						onChange={(text) => this.setState({ messageText: text.target.value })}
 						placeholder="Type a message here.."
+						id='text_box'
 					/>
 					<button onClick={() => this.submitMessage()}>Submit</button>
 				</div>
@@ -108,6 +113,9 @@ class Messages extends React.Component {
 			this.setState({
 				messages: messages.data.messages
 			});
+			var objDiv = document.getElementById("chat_messages_scroll");
+			objDiv.scrollTop = objDiv.scrollHeight;
+			document.getElementById('text_box').value = "";
 		});
 	};
 
