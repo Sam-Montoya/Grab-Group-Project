@@ -5,7 +5,9 @@
 	width: 210px;
 	height: 210px;
 	margin: 10px;
-	background-size: cover !important;
+	 /* background-size: cover !important;  */
+	/* background-size: 100% auto !important; */
+	 /* background-position:50% 50% !important;  */
 }
 
 .MuiTypography-subheading-145 {

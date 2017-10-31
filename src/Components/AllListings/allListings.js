@@ -366,7 +366,7 @@ class allListings extends Component {
 							className="item_container"
 							style={{
 								background: `url(${listing.images[0]}) no-repeat center`,
-								backgroundSize: 'cover'
+								backgroundSize: 'cover',
 							}}>
 							<div className="item_description" style={{ backgroundColor: backgroundColor }}>
 								<h1 className="title">{listing.title.charAt(0).toUpperCase() + listing.title.slice(1)}</h1>
