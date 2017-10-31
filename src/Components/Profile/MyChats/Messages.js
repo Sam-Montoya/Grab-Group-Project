@@ -24,12 +24,27 @@ class Messages extends React.Component {
 				owner_id: this.props.chatData.owner_id,
 				listing_id: this.props.chatData.listing_id,
 				messages: this.props.chatData.messages,
-				messageText: ''
+                messageText: '',
+                messageIndex: this.props.currentIndex
 			},
 			() => {
 				this.getClientInfo();
+				var objDiv = document.getElementById("chat_messages_scroll");
+				objDiv.scrollTop = objDiv.scrollHeight;
 			}
-		);
+        );
+        
+        setInterval( () => {
+            axios.get('/api/getUserChats/' + this.props.user.auth_id).then(messages => {
+                let chatToRender = messages.data.filter((chats) => {
+                    return chats.owner_id === this.state.owner_id && chats.client_id === this.state.client_id && chats.listing_id === this.state.listing_id
+                })
+                this.setState({
+                    messages: chatToRender[0].messages
+                })
+				this.props.updateMessage(chatToRender[0].messages);
+            })
+        }, 5000)
 	}
 	componentWillReceiveProps(nextProps) {
 		this.setState(
@@ -37,16 +52,18 @@ class Messages extends React.Component {
 				client_id: nextProps.chatData.client_id,
 				owner_id: nextProps.chatData.owner_id,
 				listing_id: nextProps.chatData.listing_id,
-				messages: nextProps.chatData.messages
+                messages: nextProps.chatData.messages,
+                messageIndex: nextProps.currentIndex
 			},
 			() => {
 				this.getClientInfo();
-			}
+				var objDiv = document.getElementById("chat_messages_scroll");
+				objDiv.scrollTop = objDiv.scrollHeight;
+            }
 		);
 	}
 
 	render() {
-		console.log('MESSAGES STATE: ', this.state);
 		return (
 			<section className="chats_messages_container">
 				<div className="chats_all_messages" id="chat_messages_scroll">
@@ -56,6 +73,7 @@ class Messages extends React.Component {
 					<textarea
 						onChange={(text) => this.setState({ messageText: text.target.value })}
 						placeholder="Type a message here.."
+						id='text_box'
 					/>
 					<button onClick={() => this.submitMessage()}>Submit</button>
 				</div>
@@ -95,6 +113,9 @@ class Messages extends React.Component {
 			this.setState({
 				messages: messages.data.messages
 			});
+			var objDiv = document.getElementById("chat_messages_scroll");
+			objDiv.scrollTop = objDiv.scrollHeight;
+			document.getElementById('text_box').value = "";
 		});
 	};
 

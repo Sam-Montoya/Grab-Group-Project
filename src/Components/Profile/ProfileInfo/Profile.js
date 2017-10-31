@@ -91,7 +91,7 @@ class Profile extends Component {
 		}, 1500);
 	};
 
-	cancel(){
+	cancel() {
 		this.setState({
 			dialogOpen: false
 		});
@@ -117,7 +117,14 @@ class Profile extends Component {
 		return (
 			<div>
 				<SnackBars is_open={this.state.isOpen} message={this.state.snackbar_message} />
-				<DialogBox is_open={this.state.dialogOpen} message={this.state.dialog_message} title={this.state.dialog_title} removeListing={this.removeListing} listing_id={this.state.selected_listing_id} cancel={this.cancel}/>
+				<DialogBox
+					is_open={this.state.dialogOpen}
+					message={this.state.dialog_message}
+					title={this.state.dialog_title}
+					removeListing={this.removeListing}
+					listing_id={this.state.selected_listing_id}
+					cancel={this.cancel}
+				/>
 				<div className="ProfilePageContainer">
 					<div className="rightNavFavorites">
 						{/* Search Categories Function */}
