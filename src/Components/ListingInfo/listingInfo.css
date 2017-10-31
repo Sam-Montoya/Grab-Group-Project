@@ -1,14 +1,22 @@
-.imgContainer img {
-	width: 100%;
-	margin: auto;
-}
+
+
 
 .imgContainer {
-	width: 300px;
-	max-height: 350px;
+	width: 400px;
+	max-height: 400px;
 	overflow: hidden;
 	margin: auto;
 }
+
+.imgContainer img {
+  display: block;
+	 max-width:400px; 
+  max-height:400px; 
+  width: auto;
+  height: auto;
+  margin:auto
+}
+
 
 .listing_sidebar {
 	position: fixed;
