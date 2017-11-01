@@ -87,7 +87,7 @@ class PosterProfile extends Component {
 		}
 	};
 
-	filter(listings){
+	filter(listings) {
 		for (let prop in this.state.filters) {
 			if (this.state.filters[prop] !== '') {
 				listings = listings.filter(listing => {
@@ -96,6 +96,7 @@ class PosterProfile extends Component {
 							return listing;
 						}
 					}
+					return true;
 				});
 			}
 		}
@@ -215,6 +216,7 @@ class PosterProfile extends Component {
 					</div>
 				);
 			}
+			return true;
 		});
 	}
 }

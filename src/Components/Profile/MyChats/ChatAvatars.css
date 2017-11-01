@@ -1,23 +1,26 @@
 .chats_container {
-	/* max-width: 1000px; */
-	display: grid;
-	grid-template-columns: repeat(12, 1fr);
-	justify-content: center;
+	display: flex;
 	margin: auto;
-	height: 93vh;
+	height: 94vh;
+}
+
+.chat_container {
+	height: 94vh;
+	display: flex;
 }
 
 .chats_listings {
-	grid-column: 1/3;
 	display: flex;
 	flex-direction: column;
+	width: 12vw;
 	align-items: center;
 	background-color: white;
 }
 
 .chats_messages_container {
-	grid-column: 3/10;
 	display: flex;
+	width: 60vw;
+	height: 80vh;
 	flex-direction: column;
 	align-items: center;
 }
@@ -30,14 +33,16 @@
 }
 
 .chats_profile_container {
-	grid-column: 10/13;
-	background-color: white;
+	width: 28vw;
+	height: 94vh;
+	background-color: #f9f9f9;
 	display: flex;
 	flex-direction: column;
 	flex-wrap: nowrap;
 	justify-content: center;
 	align-items: center;
 	align-content: center;
+	border-left: 1px solid rgb(199, 199, 199);
 }
 
 .listings_chat_avatar {
@@ -173,8 +178,14 @@
 }
 
 .View_Profile_Button {
+	height: 2vw;
+	width: 50%;
+	font-size: 0.9vw;
 	background-color: #4fc3f7 !important;
 	color: white !important;
+	border: none;
+	margin-bottom: 40px;
+	margin-top: 15px;
 }
 
 /* @media screen and (max-width: 900px) {

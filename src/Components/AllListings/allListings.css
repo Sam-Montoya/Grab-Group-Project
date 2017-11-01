@@ -66,7 +66,7 @@
 	position: fixed;
 	top: 0;
 	width: 200px;
-	height: 100vh;
+	height: 93vh;
 	margin-top: 64px;
 	background-color: #f0f0f0;
 	text-align: center;
@@ -186,4 +186,25 @@
 .profile_pic_nav {
 	width: 100% !important;
 	height: 100% !important;
+}
+
+.allListingsButton {
+	margin-top: 10px;
+	width: 45%;
+	height: 30px;
+	border: none;
+	color: white;
+	font-size: 0.65vw;
+	cursor: pointer;
+}
+.allListingsButton:active {
+	opacity: .8;
+}
+
+._resetButton {
+	background-color: rgb(143, 143, 143);
+}
+
+._searchButton {
+	background-color: rgb(87, 171, 240);
 }
