@@ -45,63 +45,7 @@ class ButtonAppBar extends Component {
 	render() {
 		return (
 			<div className="nav">
-				<AppBar>
-					<Toolbar className="navtoolbar">
-						<div className="navtoolbar">
-							{
-								this.props.user
-									?
-									<Drawer />
-									:
-									null
-							}
-							<div className="navtoolbar">
-								<Typography type="title" color="inherit">
-									<Link to="/" className="Logo">
-										Grab
-									</Link>
-								</Typography>
-							</div>
-						</div>
-
-						<div className="wrap">
-							<div className="search">
-								<input type="text" className="search_input" placeholder="What are you looking for?"
-									onChange={(e) => this.search(e.target.value)}
-								/>
-								<button type="submit" className="searchButton">
-									<IconButton>
-										<Search className="search_icon" />
-									</IconButton>
-								</button>
-							</div>
-						</div>
-
-						{/* This turnary checks to see if someone is logged in and displays the correct login/logout button accordingly. */}
-						{this.props.user ? (
-							<div className="nav_controller_container">
-								<div className="nav_add_listing">
-									<Link to='/addlisting'>
-									<div className="add">
-										<div className="add_vert"></div>
-										<div className="add_horiz"></div>
-									</div>
-									</Link>
-								</div>
-								<div className="nav_profile">
-									<Avatar alt='' src={this.state.profile_pic} />
-									<a className="logout nav_button" href={process.env.REACT_APP_LOGOUT}>
-										<Button>Logout</Button>
-									</a>
-								</div>
-							</div>
-						) : (
-								<a className="login nav_button" href={process.env.REACT_APP_LOGIN}>
-									<Button>Login</Button>
-								</a>
-							)}
-					</Toolbar>
-				</AppBar>
+				OK
 			</div>
 		);
 	}
