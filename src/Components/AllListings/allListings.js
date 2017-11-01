@@ -121,9 +121,9 @@ class allListings extends Component {
 		}
 	}
 
-	search(){
+	search() {
 		axios.get(`/api/zipRadius/${this.state.zip}/${this.state.milesAway}`).then(res => {
-			if(res.status === 200){
+			if (res.status === 200) {
 				this.setState({
 					zipRadius: res.data.zip_codes
 				})
@@ -131,11 +131,19 @@ class allListings extends Component {
 		});
 	}
 
+	reset() {
+		this.setState({
+			zip: '',
+			milesAway: '',
+			zipRadius: [],
+		})
+	}
+
 	filter(listings) {
-		if(this.state.zipRadius.length){
+		if (this.state.zipRadius.length) {
 			listings = listings.filter(listing => {
-				for(let i = 0; i < this.state.zipRadius.length; i++){
-					if(parseInt(listing.zip) === parseInt(this.state.zipRadius[i])){
+				for (let i = 0; i < this.state.zipRadius.length; i++) {
+					if (parseInt(listing.zip) === parseInt(this.state.zipRadius[i])) {
 						return listing;
 					}
 				}
@@ -153,7 +161,7 @@ class allListings extends Component {
 					let price = listing.price.split('$');
 					return parseInt(price[1]);
 				}]);
-			} 
+			}
 		}
 
 		if (this.state.lowest && this.state.highest || this.state.lowest || this.state.highest) {
@@ -299,9 +307,10 @@ class allListings extends Component {
 
 					<div className="search_inputs">
 						<p style={{ fontWeight: 'bold' }}>Distance</p>
-						<Input type="number" placeholder="Zip" onChange={(e) => { this.setState({zip: e.target.value}) }} />
-						<Input type="number" placeholder="Miles Away" onChange={(e) => { this.setState({milesAway: e.target.value}) }} />
-						<Button raised className="createButton" onClick={() => {this.search()}}>Search</Button>
+						<Input type="number" placeholder="Zip" value={this.state.zip} onChange={(e) => { this.setState({ zip: e.target.value }) }} />
+						<Input type="number" placeholder="Miles Away" value={this.state.milesAway} onChange={(e) => { this.setState({ milesAway: e.target.value }) }} />
+						<Button raised className="createButton" onClick={() => { this.search() }}>Search</Button>
+						<Button raised className="resetButton" onClick={() => { this.reset() }}>Reset</Button>
 					</div>
 
 					<div className="pricing_container">
