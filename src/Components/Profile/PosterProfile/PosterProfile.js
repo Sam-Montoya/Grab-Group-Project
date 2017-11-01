@@ -15,24 +15,6 @@ class PosterProfile extends Component {
 	constructor() {
 		super();
 		this.state = {
-			listingUserInfo: {
-				auth_id: '',
-				category: '',
-				city: '',
-				cons: '',
-				contact_status: '',
-				description: '',
-				images: [],
-				listing_id: null,
-				phone_number: '',
-				price: '',
-				pros: '',
-				state: '',
-				time_submitted: '',
-				title: '',
-				user_id: 0,
-				zip: 0
-			},
 			userInfo: {},
 			listings: [],
 			checkedA: false,
@@ -48,8 +30,6 @@ class PosterProfile extends Component {
 				checkedE: ''
 			}
 		};
-
-		this.coverPhotoInfo = this.coverPhotoInfo.bind(this);
 	}
 
 	componentDidMount() {
@@ -164,7 +144,7 @@ class PosterProfile extends Component {
 		);
 	}
 
-	coverPhotoInfo() {
+	coverPhotoInfo = () => {
 		const memberSince = new Date(this.state.userInfo.date_created);
 		return (
 			<div className="CoverPhotoStuff">
@@ -207,10 +187,10 @@ class PosterProfile extends Component {
 						break;
 				}
 				return (
-					<div>
+					<div key={i}>
 						<Link
 							to={{
-								pathname: '/listingInfo/' + i,
+								pathname: '/listingInfo/' + listing.listing_id,
 								query: listing
 							}}>
 							<Paper
