@@ -278,19 +278,19 @@ class AddListing extends Component {
 			<div>
 				<h1 className="AddListingHeading">Create Listing</h1>
 				<div className="categoryButtons">
-					<Button raised className={(this.state.category === 'Electronics') ? 'createListing_Electronics_Clicked' : 'createListing_Electronics'} onClick={() => { this.updateCategory('Electronics') }}>
+					<Button  className={(this.state.category === 'Electronics') ? 'createListing_Electronics_Clicked' : 'createListing_Electronics'} onClick={() => { this.updateCategory('Electronics') }}>
 						Electronics
      				</Button>
-					<Button raised className={(this.state.category === 'Home') ? 'createListing_Home_Clicked' : 'createListing_Home'} onClick={() => { this.updateCategory('Home') }}>
+					<Button  className={(this.state.category === 'Home') ? 'createListing_Home_Clicked' : 'createListing_Home'} onClick={() => { this.updateCategory('Home') }}>
 						Home
      				</Button>
-					<Button raised className={(this.state.category === 'Sports') ? 'createListing_Sports_Clicked' : 'createListing_Sports'} onClick={() => { this.updateCategory('Sports') }}>
+					<Button  className={(this.state.category === 'Sports') ? 'createListing_Sports_Clicked' : 'createListing_Sports'} onClick={() => { this.updateCategory('Sports') }}>
 						Sports
      				</Button>
-					<Button raised className={(this.state.category === 'Parts') ? 'createListing_Parts_Clicked' : 'createListing_Parts'} onClick={() => { this.updateCategory('Parts') }}>
+					<Button  className={(this.state.category === 'Parts') ? 'createListing_Parts_Clicked' : 'createListing_Parts'} onClick={() => { this.updateCategory('Parts') }}>
 						Parts
      				</Button>
-					<Button raised className={(this.state.category === 'Free') ? 'createListing_Free_Clicked' : 'createListing_Free'} onClick={() => { this.updateCategory('Free') }}>
+					<Button  className={(this.state.category === 'Free') ? 'createListing_Free_Clicked' : 'createListing_Free'} onClick={() => { this.updateCategory('Free') }}>
 						Free
      				</Button>
 				</div>
@@ -416,10 +416,10 @@ class AddListing extends Component {
 								/>
 								<Button
 									color="primary"
-									raised
 									dense
 									className="buttonAdd"
-									onClick={this.handleKeyPressPro}>
+									onClick={this.handleKeyPressPro}
+									>
 									Add
 								</Button>
 							</div>
@@ -441,18 +441,18 @@ class AddListing extends Component {
 									});
 								}}
 							/>
-							<Button color="primary" raised dense className="buttonAdd" onClick={this.handleKeyPressCon}>
+							<Button color="primary"  dense className="buttonAdd" onClick={this.handleKeyPressCon}>
 								Add
 							</Button>
 						</div>
 						<div>{cons}</div>
 					</Paper>
-					<Button raised className="createButton" onClick={this.handleCreate}>
+					<Button  className="createButton" onClick={this.handleCreate}>
 						Create
       				</Button>
-					<Button raised className="createButton">
+					{/* <Button raised className="createButton">
 						Draft
-      				</Button>
+      				</Button> */}
 				</div>
 			</div>
 		);
