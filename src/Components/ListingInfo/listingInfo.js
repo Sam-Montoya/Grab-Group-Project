@@ -230,15 +230,18 @@ class ListingInfo extends Component {
 						<h3 style={{ fontWeight: 'bold', fontSize: '22px' }}>
 							{this.state.listingInfo.title} Description
 						</h3>
+						<hr style={{ backgroundColor: 'lightgray', borderStyle: 'initial', height: '0.5px'}}/>
 						<br />
 						<p>{this.state.listingInfo.description}</p>
 					</Paper>
-					<Paper className="half1">
+					<Paper className="half">
 						<h3 style={{ fontWeight: 'bold', fontSize: '20px' }}>Pros</h3>
+						<hr style={{ backgroundColor: 'lightgray', borderStyle: 'initial', height: '0.5px'}}/>
 						<section className="list_container">{this.list(this.state.listingInfo.pros)}</section>
 					</Paper>
 					<Paper className="half">
 						<h3 style={{ fontWeight: 'bold', fontSize: '20px' }}>Cons</h3>
+						<hr style={{ backgroundColor: 'lightgray', borderStyle: 'initial', height: '0.5px'}}/>
 						<section className="list_container">{this.list(this.state.listingInfo.cons)}</section>
 					</Paper>
 				</div>
