@@ -316,7 +316,7 @@ class allListings extends Component {
 						<p style={{ fontWeight: 'bold' }}>Distance</p>
 						<Input type="number" placeholder="Zip" value={this.state.zip} onChange={(e) => { this.setState({ zip: e.target.value }) }} />
 						<Input type="number" placeholder="Miles Away" value={this.state.milesAway} onChange={(e) => { this.setState({ milesAway: e.target.value }) }} />
-						<section style={{width: '90%', margin: 'auto', display: 'flex', justifyContent: 'space-around'}}>
+						<section style={{ width: '90%', margin: 'auto', display: 'flex', justifyContent: 'space-around' }}>
 							<button className="allListingsButton _searchButton" onClick={() => { this.search() }}>Search</button>
 							<button className="allListingsButton _resetButton" onClick={() => { this.reset() }}>Reset</button>
 						</section>
@@ -357,19 +357,19 @@ class allListings extends Component {
 			let backgroundColor;
 			switch (listing.category) {
 				case 'Electronics':
-					backgroundColor = 'rgba(53, 138, 255, 0.68)';
+					backgroundColor = 'rgba(53, 138, 255, ';
 					break;
 				case 'Home':
-					backgroundColor = 'rgba(147, 74, 255, 0.68)';
+					backgroundColor = 'rgba(147, 74, 255, ';
 					break;
 				case 'Sports':
-					backgroundColor = 'rgba(104, 208, 52, 0.68)';
+					backgroundColor = 'rgba(104, 208, 52, ';
 					break;
 				case 'Parts':
-					backgroundColor = 'rgba(151, 151, 151, 0.68)';
+					backgroundColor = 'rgba(151, 151, 151, ';
 					break;
 				case 'Free':
-					backgroundColor = 'rgba(255, 127, 127, 0.68)';
+					backgroundColor = 'rgba(255, 127, 127, ';
 					break;
 				default:
 					backgroundColor = 'rgba(0, 255, 255, 0.68)';
@@ -388,9 +388,10 @@ class allListings extends Component {
 							className="item_container"
 							style={{
 								background: `url(${listing.images[0]}) no-repeat center`,
-								backgroundSize: 'cover'
+								backgroundSize: 'cover',
+								borderBottom: '5px solid ' + backgroundColor + '1)'
 							}}>
-							<div className="item_description" style={{ backgroundColor: backgroundColor }}>
+							<div className="item_description" style={{ backgroundColor: backgroundColor + '0.45)' }}>
 								<h1 className="title">{listing.title.charAt(0).toUpperCase() + listing.title.slice(1)}</h1>
 								<hr />
 								<h2 className="descriptionText">
