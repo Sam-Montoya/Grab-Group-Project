@@ -90,10 +90,16 @@
 	margin-bottom: 18px;
 }
 
-.nav_controller_container {
+.nav_container_before {
 	display: flex;
 	justify-content: space-between;
-	width: 20%;
+	width: 17%;
+}
+
+.nav_container_after {
+	display: flex;
+	justify-content: space-between;
+	width: 19%;
 }
 
 .nav_add_listing{

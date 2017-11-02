@@ -38,7 +38,7 @@ class ButtonAppBar extends Component {
 	}
 
 	search = (e) => {
-		e.preventDefault();		
+		e.preventDefault();
 		this.props.updateSearchTerm(this.state.search);
 	}
 
@@ -67,7 +67,7 @@ class ButtonAppBar extends Component {
 						<div className="wrap">
 							<form className="search" onSubmit={this.search}>
 								<input type="text" className="search_input" placeholder="What are you looking for?"
-									onChange={(e) => this.setState({search: e.target.value})}
+									onChange={(e) => this.setState({ search: e.target.value })}
 								/>
 								<button type="submit" className="searchButton">
 									<IconButton>
@@ -79,13 +79,13 @@ class ButtonAppBar extends Component {
 
 						{/* This turnary checks to see if someone is logged in and displays the correct login/logout button accordingly. */}
 						{this.props.user ? (
-							<div className="nav_controller_container">
+							<div className="nav_container_after">
 								<div className="nav_add_listing">
 									<Link to='/addlisting'>
-									<div className="add">
-										<div className="add_vert"></div>
-										<div className="add_horiz"></div>
-									</div>
+										<div className="add">
+											<div className="add_vert"></div>
+											<div className="add_horiz"></div>
+										</div>
 									</Link>
 								</div>
 								<div className="nav_profile">
@@ -96,9 +96,19 @@ class ButtonAppBar extends Component {
 								</div>
 							</div>
 						) : (
-								<a className="login nav_button" href={process.env.REACT_APP_LOGIN}>
-									<Button>Login</Button>
-								</a>
+								<div className="nav_container_before">
+									<div className="nav_add_listing">
+										<a href={process.env.REACT_APP_LOGIN}>
+											<div className="add">
+												<div className="add_vert"></div>
+												<div className="add_horiz"></div>
+											</div>
+										</a>
+									</div>
+									<a className="login nav_button" href={process.env.REACT_APP_LOGIN}>
+										<Button>Login</Button>
+									</a>
+								</div>
 							)}
 					</Toolbar>
 				</AppBar>
