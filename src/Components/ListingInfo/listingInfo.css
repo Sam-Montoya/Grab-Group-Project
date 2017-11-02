@@ -37,6 +37,7 @@ max-width:400px;
 
 .ListingInfoContainer {
 	display: grid;
+	width: 73%;
 	grid-template-columns: repeat(2, 1fr);
 	justify-content: center;
 	margin-left: 200px;
@@ -49,9 +50,12 @@ max-width:400px;
 }
 
 .half {
-	margin: 30px 30px 15px 15px;
-	padding: 20px;
+	margin: 30px 15px 15px 30px;
+	padding: 30px;
+	box-sizing: border-box;
 	text-align: center;
+	min-height: 20vh;
+	font-size: 1.3em;
 }
 
 .full {
@@ -239,7 +243,7 @@ max-width:400px;
 	margin-left: 228px;
 	padding-top: 30px;
 	display: flex;
-	width: 80%;
+	width: 71%;
 	border-bottom: 1px solid rgb(167, 167, 167);
 	margin-top: 10px;
 }
@@ -255,7 +259,9 @@ max-width:400px;
 }
 
 .listing_description {
-	font-size: 18px;
+	font-size: 1.3em;
+	padding: 30px;
+	box-sizing: border-box;
 }
 
 .list_container {
