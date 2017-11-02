@@ -45,7 +45,6 @@ class Profile extends Component {
 			if (this.props.user) {
 				axios.get(`/api/getUserListings/${this.props.user.auth_id}`).then((userListings) => {
 					if (Array.isArray(userListings.data)) {
-						console.log('Slammed');
 						this.setState({
 							listings: userListings.data
 						});
@@ -106,6 +105,7 @@ class Profile extends Component {
 							return listing;
 						}
 					}
+					return true;
 				});
 			}
 		}
@@ -113,7 +113,6 @@ class Profile extends Component {
 	}
 
 	render() {
-		console.log(this.state, this.props);
 		return (
 			<div>
 				<SnackBars is_open={this.state.isOpen} message={this.state.snackbar_message} />
@@ -144,13 +143,13 @@ class Profile extends Component {
 								</div>
 							</div>
 						) : (
-							<div className="add_listing_container">
-								<h1 className="ProfileHeading">You have no listings... :(</h1>
-								<Link to="/addListing">
-									<section className="add_listing_button">+</section>
-								</Link>
-							</div>
-						)}
+								<div className="add_listing_container">
+									<h1 className="ProfileHeading">You have no listings... :(</h1>
+									<Link to="/addListing">
+										<section className="add_listing_button">+</section>
+									</Link>
+								</div>
+							)}
 
 						<div className="Chat">
 							<div className="ChatNotification" />
@@ -184,8 +183,8 @@ class Profile extends Component {
 									{this.props.user.city}, {this.props.user.state}
 								</p>
 							) : (
-								<p>You havent filled out your information yet!</p>
-							)}
+									<p>You havent filled out your information yet!</p>
+								)}
 						</div>
 					</div>
 				</div>
@@ -258,6 +257,7 @@ class Profile extends Component {
 					</div>
 				);
 			}
+			return true;
 		});
 	}
 }

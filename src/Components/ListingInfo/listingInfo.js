@@ -51,11 +51,8 @@ class ListingInfo extends Component {
 	}
 
 	componentDidMount() {
-		let listingNumber = this.props.location.pathname;
-		listingNumber = listingNumber.split('/');
-		listingNumber = listingNumber[2];
-
 		if (this.props.location.query) {
+			console.log('Hit')
 			this.setState({
 				listingInfo: this.props.location.query,
 				newPrice: this.props.location.query.price.slice(1, this.props.location.query.length),
@@ -63,6 +60,7 @@ class ListingInfo extends Component {
 			});
 			this.getUserInfo(this.props.location.query.auth_id);
 		} else {
+			let listingNumber = this.props.location.pathname.split('/')[2];
 			axios.get('/api/getListing/' + listingNumber).then((listingData) => {
 				this.setState({
 					listingInfo: listingData.data,
@@ -201,10 +199,12 @@ class ListingInfo extends Component {
 								<Contact className="listing_contact_icon" />
 							</div>
 							<div className="listing_contact_info">
-								<h3 style={{ fontWeight: 'bold' }}>{this.state.listingInfo.contact_status}</h3>
 								{this.state.listingInfo.phone_number ? (
-									<h3>{this.state.listingInfo.phone_number}</h3>
-								) : <h3 style={{ fontWeight: 'bold' }}>Message Only</h3>}
+									<div style={{ display: 'flex', flexDirection: 'column' }}>
+										<h3 style={{ fontWeight: 'bold', marginBottom: '2px' }}>{this.state.listingInfo.contact_status}</h3>
+										<h3>{this.state.listingInfo.phone_number}</h3>
+									</div>
+								) : <h3 style={{ fontWeight: 'bold' }}>Grab Message Only</h3>}
 							</div>
 						</div>
 

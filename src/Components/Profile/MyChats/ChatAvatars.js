@@ -3,9 +3,6 @@ import './ChatAvatars.css';
 import axios from 'axios';
 import Avatar from 'material-ui/Avatar';
 import { connect } from 'react-redux';
-import Button from 'material-ui/Button';
-import moment from 'moment';
-import { Link } from 'react-router-dom';
 import MessagesContainer from './Messages';
 
 class ChatAvatars extends React.Component {
@@ -40,6 +37,7 @@ class ChatAvatars extends React.Component {
 						userChats: [...this.state.userChats, newChat]
 					});
 				});
+				return true;
 			});
 		});
 	}
@@ -61,11 +59,10 @@ class ChatAvatars extends React.Component {
 	}
 
 	render() {
-		console.log('CHATS, ', this.state);
 		return (
 			<div className="chats_container">
 				<section className="chats_listings">{this.renderChatAvatars()}</section>
-					{this.state.chatClicked ? <MessagesContainer chatData={this.state.currentUserChat} updateMessage={this.updateCurrentMessage} /> : <div />}
+					{this.state.chatClicked ? <MessagesContainer chatData={this.state.currentUserChat} updateMessage={this.updateCurrentMessage} listingData={this.state.userChats[this.state.currentIndex]}/> : <h1>Click on a chat!</h1>}
 			</div>
 		);
 	}

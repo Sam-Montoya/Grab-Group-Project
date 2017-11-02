@@ -316,8 +316,10 @@ class allListings extends Component {
 						<p style={{ fontWeight: 'bold' }}>Distance</p>
 						<Input type="number" placeholder="Zip" value={this.state.zip} onChange={(e) => { this.setState({ zip: e.target.value }) }} />
 						<Input type="number" placeholder="Miles Away" value={this.state.milesAway} onChange={(e) => { this.setState({ milesAway: e.target.value }) }} />
-						<Button raised className="createButton" onClick={() => { this.search() }}>Search</Button>
-						<Button raised className="resetButton" onClick={() => { this.reset() }}>Reset</Button>
+						<section style={{width: '90%', margin: 'auto', display: 'flex', justifyContent: 'space-around'}}>
+							<button className="allListingsButton _searchButton" onClick={() => { this.search() }}>Search</button>
+							<button className="allListingsButton _resetButton" onClick={() => { this.reset() }}>Reset</button>
+						</section>
 					</div>
 
 					<div className="pricing_container">

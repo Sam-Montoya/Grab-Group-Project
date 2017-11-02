@@ -18,7 +18,6 @@ const styles = (theme) => ({
 		display: 'flex',
 		alignItems: 'center',
 		height: 50,
-		// paddingLeft: theme.spacing.unit * 4,
 		marginBottom: 0,
 		backgroundColor: 'white'
 	}
@@ -102,21 +101,6 @@ class TextMobileStepper extends React.Component {
 
 	componentWillReceiveProps(nextProps) {
 		this.props = nextProps;
-	}
-
-	componentDidMount() {
-		let height, width, newWidth1;
-
-		let img = new Image();
-		img.src = this.props.images[0];
-		img.onload = () => {
-			height = img.height;
-			width = img.width;
-			newWidth1 = height / width * 150;
-			this.setState({
-				newWidth1: newWidth1
-			});
-		};
 	}
 
 	render() {

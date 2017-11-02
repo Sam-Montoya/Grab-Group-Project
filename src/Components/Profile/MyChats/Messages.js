@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import moment from 'moment';
 import './ChatAvatars.css';
+import ChatInfo from './ChatInfo'
 
 class Messages extends React.Component {
 	constructor() {
@@ -10,11 +11,11 @@ class Messages extends React.Component {
 
 		this.state = {
 			client_id: '',
+			client_info: {},
 			owner_id: '',
+			owner_info: {},
 			listing_id: null,
-			messages: [],
-			owner_profile_pic: '',
-			client_profile_pic: ''
+			messages: []
 		};
 	}
 	componentDidMount() {
@@ -24,27 +25,28 @@ class Messages extends React.Component {
 				owner_id: this.props.chatData.owner_id,
 				listing_id: this.props.chatData.listing_id,
 				messages: this.props.chatData.messages,
-                messageText: '',
-                messageIndex: this.props.currentIndex
+				messageText: '',
+				messageIndex: this.props.currentIndex,
+				listingData: this.props.listingData.listingData.data
 			},
 			() => {
 				this.getClientInfo();
 				var objDiv = document.getElementById("chat_messages_scroll");
 				objDiv.scrollTop = objDiv.scrollHeight;
 			}
-        );
-        
-        setInterval( () => {
-            axios.get('/api/getUserChats/' + this.props.user.auth_id).then(messages => {
-                let chatToRender = messages.data.filter((chats) => {
-                    return chats.owner_id === this.state.owner_id && chats.client_id === this.state.client_id && chats.listing_id === this.state.listing_id
-                })
-                this.setState({
-                    messages: chatToRender[0].messages
-                })
+		);
+
+		setInterval(() => {
+			axios.get('/api/getUserChats/' + this.props.user.auth_id).then(messages => {
+				let chatToRender = messages.data.filter((chats) => {
+					return chats.owner_id === this.state.owner_id && chats.client_id === this.state.client_id && chats.listing_id === this.state.listing_id
+				})
+				this.setState({
+					messages: chatToRender[0].messages
+				})
 				this.props.updateMessage(chatToRender[0].messages);
-            })
-        }, 5000)
+			})
+		}, 5000)
 	}
 	componentWillReceiveProps(nextProps) {
 		this.setState(
@@ -52,32 +54,41 @@ class Messages extends React.Component {
 				client_id: nextProps.chatData.client_id,
 				owner_id: nextProps.chatData.owner_id,
 				listing_id: nextProps.chatData.listing_id,
-                messages: nextProps.chatData.messages,
-                messageIndex: nextProps.currentIndex
+				messages: nextProps.chatData.messages,
+				messageIndex: nextProps.currentIndex,
+				listingData: nextProps.listingData.listingData.data
 			},
 			() => {
 				this.getClientInfo();
 				var objDiv = document.getElementById("chat_messages_scroll");
 				objDiv.scrollTop = objDiv.scrollHeight;
-            }
+			}
 		);
 	}
 
 	render() {
 		return (
-			<section className="chats_messages_container">
-				<div className="chats_all_messages" id="chat_messages_scroll">
-					{this.renderMessages()}
-				</div>
-				<div className="chats_inputbox_container">
-					<textarea
-						onChange={(text) => this.setState({ messageText: text.target.value })}
-						placeholder="Type a message here.."
-						id='text_box'
-					/>
-					<button onClick={() => this.submitMessage()}>Submit</button>
-				</div>
-			</section>
+			<div className='chat_container'>
+				<section className="chats_messages_container">
+					<div className="chats_all_messages" id="chat_messages_scroll">
+						{this.renderMessages()}
+					</div>
+					<div className="chats_inputbox_container">
+						<textarea
+							onChange={(text) => this.setState({ messageText: text.target.value })}
+							placeholder="Type a message here.."
+							id='text_box'
+						/>
+						<button onClick={() => this.submitMessage()}>Submit</button>
+					</div>
+				</section>
+				<section>
+					{this.state.listingData ?
+						<ChatInfo listingData={this.state.listingData} userData={this.state.owner_info} />
+						: null
+					}
+				</section>
+			</div>
 		);
 	}
 
@@ -85,15 +96,15 @@ class Messages extends React.Component {
 		if (this.props.user.auth_id === this.state.owner_id) {
 			axios.get('/api/getUserInfo/' + this.state.client_id).then((userData) => {
 				this.setState({
-					owner_profile_pic: userData.data.profile_pic,
-					client_profile_pic: this.props.user.profile_pic
+					owner_info: userData.data,
+					client_info: this.props.user
 				});
 			});
 		} else {
 			axios.get('/api/getUserInfo/' + this.state.owner_id).then((userData) => {
 				this.setState({
-					owner_profile_pic: userData.data.profile_pic,
-					client_profile_pic: this.props.user.profile_pic
+					owner_info: userData.data,
+					client_info: this.props.user
 				});
 			});
 		}
@@ -138,13 +149,13 @@ class Messages extends React.Component {
 									<h1>{moment(chat.time_submitted).fromNow()}</h1>
 								</section>
 							</section>
-							<img className="profile_pic" src={this.state.client_profile_pic} alt="" />
+							<img className="profile_pic" src={this.state.client_info.profile_pic} alt="" />
 						</div>
 					);
 				} else {
 					return (
 						<div key={index} className="right_comment_container">
-							<img className="profile_pic" src={this.state.owner_profile_pic} alt="" />
+							<img className="profile_pic" src={this.state.owner_info.profile_pic} alt="" />
 							<section className="right_message_container">
 								<section className="right_message">
 									<h1>{chat.message}</h1>
