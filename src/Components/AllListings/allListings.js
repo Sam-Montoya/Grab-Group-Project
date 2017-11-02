@@ -388,22 +388,21 @@ class allListings extends Component {
 							className="item_container"
 							style={{
 								background: `url(${listing.images[0]}) no-repeat center`,
-								backgroundSize: 'cover',
-								borderBottom: '5px solid ' + backgroundColor + '1)'
+								backgroundSize: 'cover'
 							}}>
-							<div className="item_description" style={{ backgroundColor: backgroundColor + '0.45)' }}>
-								<h1 className="title">{listing.title.charAt(0).toUpperCase() + listing.title.slice(1)}</h1>
-								<hr />
-								<h2 className="descriptionText">
-									{listing.city.charAt(0).toUpperCase() + listing.city.slice(1)}, {listing.state.charAt(0).toUpperCase() + listing.state.slice(1)}
-								</h2>
-								{listing.price === '$0.00' ? (
-									<h3 className="descriptionText">Free</h3>
-								) : (
-										<h3 className="descriptionText">{listing.price}</h3>
-									)}
-							</div>
 						</Paper>
+						<div className="item_description" style={{ backgroundColor: 'white', borderBottom: '5px solid ' + backgroundColor + '1)' }}>
+							<h1 className="title">{listing.title.charAt(0).toUpperCase() + listing.title.slice(1)}</h1>
+							<hr style={{ backgroundColor: backgroundColor + '1)', height: '1.5px' }} />
+							<h2 className="descriptionText">
+								{listing.city.charAt(0).toUpperCase() + listing.city.slice(1)}, {listing.state.charAt(0).toUpperCase() + listing.state.slice(1)}
+							</h2>
+							{listing.price === '$0.00' ? (
+								<h3 className="descriptionText">Free</h3>
+							) : (
+									<h3 className="descriptionText">{listing.price}</h3>
+								)}
+						</div>
 					</Link>
 				</div>
 			);

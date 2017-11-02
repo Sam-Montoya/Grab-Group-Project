@@ -169,24 +169,25 @@ class PosterProfile extends Component {
 				let backgroundColor;
 				switch (listing.category) {
 					case 'Electronics':
-						backgroundColor = 'rgba(53, 138, 255, 0.68)';
+						backgroundColor = 'rgba(53, 138, 255, ';
 						break;
 					case 'Home':
-						backgroundColor = 'rgba(147, 74, 255, 0.68)';
+						backgroundColor = 'rgba(147, 74, 255, ';
 						break;
 					case 'Sports':
-						backgroundColor = 'rgba(104, 208, 52, 0.68)';
+						backgroundColor = 'rgba(104, 208, 52, ';
 						break;
 					case 'Parts':
-						backgroundColor = 'rgba(151, 151, 151, 0.68)';
+						backgroundColor = 'rgba(151, 151, 151, ';
 						break;
 					case 'Free':
-						backgroundColor = 'rgba(255, 127, 127, 0.68)';
+						backgroundColor = 'rgba(255, 127, 127, ';
 						break;
 					default:
 						backgroundColor = 'rgba(0, 255, 255, 0.68)';
 						break;
 				}
+	
 				return (
 					<div key={i}>
 						<Link
@@ -198,20 +199,22 @@ class PosterProfile extends Component {
 								elevation={4}
 								className="item_container"
 								style={{
-									background: `url(${listing.images[0]}) no-repeat center center`,
+									background: `url(${listing.images[0]}) no-repeat center`,
 									backgroundSize: 'cover'
 								}}>
-								<div
-									className="item_description"
-									style={{ backgroundColor: backgroundColor }}>
-									<h1 className="title">{listing.title}</h1>
-									<hr />
-									<h2 className="descriptionText">
-										{listing.city}, {listing.state}
-									</h2>
-									<h3 className="descriptionText">{listing.price}</h3>
-								</div>
 							</Paper>
+							<div className="item_description" style={{ backgroundColor: 'white', borderBottom: '5px solid ' + backgroundColor + '1)' }}>
+								<h1 className="title">{listing.title.charAt(0).toUpperCase() + listing.title.slice(1)}</h1>
+								<hr style={{ backgroundColor: backgroundColor + '1)', height: '1.5px' }} />
+								<h2 className="descriptionText">
+									{listing.city.charAt(0).toUpperCase() + listing.city.slice(1)}, {listing.state.charAt(0).toUpperCase() + listing.state.slice(1)}
+								</h2>
+								{listing.price === '$0.00' ? (
+									<h3 className="descriptionText">Free</h3>
+								) : (
+										<h3 className="descriptionText">{listing.price}</h3>
+									)}
+							</div>
 						</Link>
 					</div>
 				);
