@@ -38,13 +38,15 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "jest",
     "eject": "react-scripts eject"
   },
   "description": "This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).",
   "main": "./server/server.js",
   "proxy": "http://localhost:3060",
-  "devDependencies": {},
+  "devDependencies": {
+    "jest": "^21.2.1"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC"

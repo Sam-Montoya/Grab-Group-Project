@@ -62,19 +62,23 @@ class allListings extends Component {
 				isLoggedIn: true
 			});
 		}
-		setTimeout(() => {
-			if (this.props.search_term !== '') {
-				axios.get('/api/search/' + this.props.search_term).then((results) => {
+		if (nextProps.search_term) {
+			axios.get('/api/search/' + nextProps.search_term).then((results) => {
+				if (results.data.length === 0) {
+					this.setState({
+						filteredListings: `No Listings match ${this.props.search_term}`
+					});
+				} else {
 					this.setState({
 						filteredListings: results.data
 					});
-				});
-			} else {
-				this.setState({
-					filteredListings: []
-				});
-			}
-		}, 1000);
+				}
+			});
+		} else {
+			this.setState({
+				filteredListings: []
+			});
+		}
 	}
 
 	handleChangeInput = (name) => (event) => {
@@ -140,6 +144,10 @@ class allListings extends Component {
 	}
 
 	filter(listings) {
+		if (listings === `No Listings match ${this.props.search_term}`) {
+			return listings;
+		}
+
 		if (this.state.zipRadius.length) {
 			listings = listings.filter(listing => {
 				for (let i = 0; i < this.state.zipRadius.length; i++) {
@@ -342,6 +350,9 @@ class allListings extends Component {
 	}
 
 	listingsMap(listings) {
+		if (listings === `No Listings match ${this.props.search_term}`) {
+			return listings;
+		}
 		return listings.map((listing, i) => {
 			let backgroundColor;
 			switch (listing.category) {
