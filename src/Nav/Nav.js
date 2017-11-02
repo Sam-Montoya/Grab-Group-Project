@@ -16,7 +16,8 @@ class ButtonAppBar extends Component {
 	constructor() {
 		super();
 		this.state = {
-			profile_pic: ''
+			profile_pic: '',
+			search: ''
 		};
 	}
 
@@ -36,10 +37,9 @@ class ButtonAppBar extends Component {
 		}
 	}
 
-	search(input) {
-		let timeout = null;
-		clearTimeout(timeout);
-		this.props.updateSearchTerm(input);
+	search = (e) => {
+		e.preventDefault();		
+		this.props.updateSearchTerm(this.state.search);
 	}
 
 	render() {
@@ -65,16 +65,16 @@ class ButtonAppBar extends Component {
 						</div>
 
 						<div className="wrap">
-							<div className="search">
+							<form className="search" onSubmit={this.search}>
 								<input type="text" className="search_input" placeholder="What are you looking for?"
-									onChange={(e) => this.search(e.target.value)}
+									onChange={(e) => this.setState({search: e.target.value})}
 								/>
 								<button type="submit" className="searchButton">
 									<IconButton>
 										<Search className="search_icon" />
 									</IconButton>
 								</button>
-							</div>
+							</form>
 						</div>
 
 						{/* This turnary checks to see if someone is logged in and displays the correct login/logout button accordingly. */}
