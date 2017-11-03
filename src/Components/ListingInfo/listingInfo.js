@@ -52,7 +52,6 @@ class ListingInfo extends Component {
 
 	componentDidMount() {
 		if (this.props.location.query) {
-			console.log('Hit')
 			this.setState({
 				listingInfo: this.props.location.query,
 				newPrice: this.props.location.query.price.slice(1, this.props.location.query.length),

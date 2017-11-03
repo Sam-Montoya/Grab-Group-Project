@@ -96,7 +96,6 @@ class PosterProfile extends Component {
 							return listing;
 						}
 					}
-					return true;
 				});
 			}
 		}
