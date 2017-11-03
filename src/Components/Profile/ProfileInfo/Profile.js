@@ -105,7 +105,6 @@ class Profile extends Component {
 							return listing;
 						}
 					}
-					return true;
 				});
 			}
 		}
