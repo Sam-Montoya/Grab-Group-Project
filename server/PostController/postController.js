@@ -93,7 +93,7 @@ module.exports = {
 					auth_id_of_comment,
 					client_id
 				]).then((commentData) => {
-					DB.add_notification(request.body.client_id).then((_) => {
+					DB.add_notification(request.body.client_id, request.body.owner_id, request.body.client_id).then((_) => {
 						response.status(200).send(commentData[0]);
 					});
 				});
@@ -105,7 +105,7 @@ module.exports = {
 					owner_id
 				]).then((commentData) => {
 					console.log(commentData);
-					DB.add_notification(listingData[0].auth_id).then((_) => {
+					DB.add_notification(listingData[0].auth_id, request.body.owner_id, request.body.client_id).then((_) => {
 						response.status(200).send(commentData[0]);
 					});
 				});

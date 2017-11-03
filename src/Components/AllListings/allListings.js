@@ -196,7 +196,6 @@ class allListings extends Component {
 	}
 
 	render() {
-		console.log(this.state, this.props);
 		return (
 			<div className="sidebar">
 				<div className="leftBarOnSearch">
