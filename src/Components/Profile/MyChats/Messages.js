@@ -36,6 +36,14 @@ class Messages extends React.Component {
 			}
 		);
 
+		let notificationInfo = {
+			owner_id: this.props.chatData.owner_id,
+			client_id: this.props.chatData.client_id,
+			auth_id: this.props.user.auth_id
+		}
+		axios.put('/api/updateNotificationCount', notificationInfo).then(response => {
+			console.log(response);
+		})
 		setInterval(() => {
 			axios.get('/api/getUserChats/' + this.props.user.auth_id).then(messages => {
 				let chatToRender = messages.data.filter((chats) => {

@@ -36,20 +36,14 @@ module.exports = {
 
 	// Updates the notification count to zero when the user sees it
 	updateNotificationCount(DB, request, response) {
-		DB.find_user(request.params.auth_id).then((user) => {
-			if (user[0]) {
-				DB.update_notification(request.params.auth_id).then((_) => {
-					response.status(200).send('Notifications have been viewed and reset.');
-				});
-			} else {
-				response.status(200).send('User does not Exist');
-			}
+		DB.update_notification([request.body.auth_id, request.body.owner_id, request.body.listing_id]).then((_) => {
+			response.status(200).send('Notifications have been viewed and reset.');
 		});
 	},
 
-	updateImages(DB, request, response){
-		for(let i = 0; i < request.body.images.length; i++){
-			DB.update_images([request.body.images[i], request.body.listing_id]).then((res) => {
+	updateImages(DB, request, response) {
+		for (let i = 0; i < request.body.images.length; i++) {
+			DB.update_images([request.body.images[i], request.body.client_id]).then((res) => {
 				response.status(200).send('Added');
 			});
 		}

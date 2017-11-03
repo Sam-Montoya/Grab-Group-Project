@@ -32,7 +32,7 @@ class ChatAvatars extends React.Component {
 		axios.get('/api/getUserChats/' + this.props.user.auth_id).then((userData) => {
 			userData.data.map((chat, i) => {
 				axios.get('/api/getListing/' + chat.listing_id).then((listingData) => {
-					let newChat = {userData: userData.data[i], listingData}
+					let newChat = { userData: userData.data[i], listingData }
 					this.setState({
 						userChats: [...this.state.userChats, newChat]
 					});
@@ -63,28 +63,28 @@ class ChatAvatars extends React.Component {
 		return (
 			<div className="chats_container">
 				<section className="chats_listings">{this.renderChatAvatars()}</section>
-					{this.state.chatClicked ? <MessagesContainer chatData={this.state.currentUserChat} updateMessage={this.updateCurrentMessage} listingData={this.state.userChats[this.state.currentIndex]}/> : <h1>Click on a chat!</h1>}
+				{this.state.chatClicked ? <MessagesContainer chatData={this.state.currentUserChat} updateMessage={this.updateCurrentMessage} listingData={this.state.userChats[this.state.currentIndex]} /> : <h1>Click on a chat!</h1>}
 			</div>
 		);
 	}
-	
+
 
 	renderChatAvatars = () => {
 		if (this.state.userChats.length) {
 			return this.state.userChats.map((chat, index) => {
 				return (
 					<section key={index} className="listings_chat_avatar_container">
+						{
+							chat.userData.notification ?
+								<section className='notication_circle' />
+								:
+								<h1>No</h1>
+						}
 						<Avatar
 							className="listings_chat_avatar"
 							onClick={() => this.renderChat(this.state.userChats[index].userData, index)}>
 							<img style={{ height: '100%' }} src={chat.listingData.data.images[0]} alt="" />
 						</Avatar>
-						{
-							chat.notification ?
-							<h1>Fuck</h1>
-							:
-							<h1>No</h1>
-						}
 					</section>
 				);
 			});

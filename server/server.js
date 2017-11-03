@@ -90,7 +90,7 @@ app.post('/api/addMessage/:listing_id', (request, response) => {
 });
 
 // -- Put Requests
-app.put('/api/updateNotificationCount/:auth_id', (request, response) => {
+app.put('/api/updateNotificationCount', (request, response) => {
 	let db = app.get('db');
 	putController.updateNotificationCount(db, request, response);
 });
