@@ -229,6 +229,7 @@ class Profile extends Component {
 								pathname: '/listingInfo/' + listing.listing_id,
 								query: listing
 							}}>
+							<div className="removeIcon" onClick={() => this.removeListing(listing.listing_id)}style={{ backgroundColor: 'red', width: '25px', height: '25px' }}><hr className="deleteLine"></hr></div>
 							<Paper
 								elevation={4}
 								className="item_container"
