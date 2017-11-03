@@ -36,6 +36,7 @@ class MyFavorites extends Component {
 			}
 		};
 		this.cancel = this.cancel.bind(this);
+		this.removeFavorite = this.removeFavorite.bind(this);
 	}
 
 	componentDidMount() {
@@ -83,7 +84,7 @@ class MyFavorites extends Component {
 		}, 1500);
 	}
 
-	cancel(){
+	cancel() {
 		this.setState({
 			dialogOpen: false
 		})
@@ -154,15 +155,15 @@ class MyFavorites extends Component {
 						backgroundColor = 'rgba(0, 255, 255, 0.68)';
 						break;
 				}
-	
+
 				return (
 					<div key={i}>
+						<div className="removeIcon" onClick={() => {this.setState({dialogOpen: true, selected_listing_id: listing.listing_id})}} style={{ backgroundColor: 'red', width: '25px', height: '25px' }}><hr className="deleteLine"></hr></div>
 						<Link
 							to={{
 								pathname: '/listingInfo/' + listing.listing_id,
 								query: listing
 							}}>
-							<div className="removeIcon" onClick={() => this.removeFavorite(listing.listing_id)} style={{ backgroundColor: 'red', width: '25px', height: '25px' }}><hr className="deleteLine"></hr></div>
 							<Paper
 								elevation={4}
 								className="item_container"

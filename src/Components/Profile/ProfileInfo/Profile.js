@@ -175,8 +175,8 @@ class Profile extends Component {
 					</div>
 					<div>
 						<p style={{ fontSize: '30px' }}>{this.props.user.username}</p>
-						<div class="locationProfile">
-							<i class="material-icons">location_on</i>
+						<div className="locationProfile">
+							<i className="material-icons">location_on</i>
 							{this.props.user.city && this.props.user.state ? (
 								<p>
 									{this.props.user.city}, {this.props.user.state}
@@ -221,15 +221,16 @@ class Profile extends Component {
 						backgroundColor = 'rgba(0, 255, 255, 0.68)';
 						break;
 				}
-	
+
 				return (
 					<div key={i}>
+						<div className="removeIcon" onClick={() => {this.setState({dialogOpen: true, selected_listing_id: listing.listing_id})}}  style={{ backgroundColor: 'red', width: '25px', height: '25px' }}><hr className="deleteLine"></hr></div>
 						<Link
 							to={{
 								pathname: '/listingInfo/' + listing.listing_id,
 								query: listing
 							}}>
-							<div className="removeIcon" onClick={() => this.removeListing(listing.listing_id)}style={{ backgroundColor: 'red', width: '25px', height: '25px' }}><hr className="deleteLine"></hr></div>
+
 							<Paper
 								elevation={4}
 								className="item_container"
