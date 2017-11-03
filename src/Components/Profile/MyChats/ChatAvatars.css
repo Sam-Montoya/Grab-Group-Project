@@ -51,6 +51,17 @@
 	margin: 15px;
 }
 
+.notication_circle {
+	width: 20px;
+	height: 20px;
+	border-radius: 50px;
+	background-color: red;
+	position: relative;
+	left: 90px;
+	bottom: 30px;
+	z-index: 1;
+}
+
 .listings_profile_avatar {
 	width: 150px !important;
 	height: 150px !important;
