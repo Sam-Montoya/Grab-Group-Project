@@ -39,7 +39,8 @@ class Messages extends React.Component {
 		let notificationInfo = {
 			owner_id: this.props.chatData.owner_id,
 			client_id: this.props.chatData.client_id,
-			auth_id: this.props.user.auth_id
+			auth_id: this.props.user.auth_id,
+			listing_id: this.props.listingData.listingData.data.listing_id
 		}
 		axios.put('/api/updateNotificationCount', notificationInfo).then(response => {
 			console.log(response);
@@ -52,7 +53,7 @@ class Messages extends React.Component {
 				this.setState({
 					messages: chatToRender[0].messages
 				})
-				this.props.updateMessage(chatToRender[0].messages);
+				this.props.updateMessage(chatToRender[0]);
 			})
 		}, 5000)
 	}
