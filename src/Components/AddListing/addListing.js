@@ -269,7 +269,7 @@ class AddListing extends Component {
 			);
 		});
 		return (
-			<div>
+			<div style={{width: '90%', margin: 'auto'}}>
 				<h1 className="AddListingHeading">Create Listing</h1>
 				<div className="categoryButtons">
 					<Button raised className={(this.state.category === 'Electronics') ? 'createListing_Electronics_Clicked' : 'createListing_Electronics'} onClick={() => { this.updateCategory('Electronics') }}>
