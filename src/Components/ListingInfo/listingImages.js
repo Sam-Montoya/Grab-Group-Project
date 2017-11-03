@@ -125,11 +125,11 @@ class TextMobileStepper extends React.Component {
 					<div className="imgContainer">
 						<img src={this.props.images[1]} alt="" />
 					</div>
-				) : this.state.activeStep === 3 ? (
+				) : this.state.activeStep === 2 ? (
 					<div className="imgContainer">
 						<img src={this.props.images[2]} alt="" />
 					</div>
-				) : this.state.activeStep === 4 ? (
+				) : this.state.activeStep === 3 ? (
 					<div className="imgContainer">
 						<img src={this.props.images[3]} alt="" />
 					</div>

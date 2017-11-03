@@ -122,7 +122,8 @@
 	justify-content: space-around;
 	align-items: stretch;
 	align-content: center;
-	margin: 50px 10px;
+	width: 88%;
+	margin: auto;
 }
 
 .createListing_Electronics {
