@@ -13,7 +13,7 @@ import Input from 'material-ui/Input';
 import { FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 import { Link } from 'react-router-dom';
-import { getUserInfo } from '../../Redux/reducer';
+import { getUserInfo, updateUserInfo } from '../../Redux/reducer';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
@@ -53,6 +53,13 @@ class allListings extends Component {
 			});
 		});
 		this.props.getUserInfo();
+		if(this.props.user.auth_id) {
+			console.log(this.props.user.auth_id)
+			axios.get('/api/getUserInfo/' + this.props.user.auth_id).then(userData => {
+				console.log(userData);
+				this.props.updateUserInfo(userData.data);
+			})
+		}
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -196,6 +203,7 @@ class allListings extends Component {
 	}
 
 	render() {
+		console.log(this.props.user);
 		return (
 			<div className="sidebar">
 				<div className="leftBarOnSearch">
@@ -215,7 +223,8 @@ class allListings extends Component {
 								<Link to="/myChats">
 									<ListItem button>
 										<Avatar className="inbox_circle">
-											<h1>{this.props.user.notification_count}</h1>
+											{this.props.user.notification_count !== 0 ?
+												<h1>{this.props.user.notification_count}</h1> : null}
 										</Avatar>
 
 										<ListItemText primary="Inbox" />
@@ -417,4 +426,4 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(mapStateToProps, { getUserInfo })(allListings);
+export default connect(mapStateToProps, { getUserInfo, updateUserInfo })(allListings);

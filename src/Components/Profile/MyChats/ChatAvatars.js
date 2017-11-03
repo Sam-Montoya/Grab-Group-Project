@@ -52,7 +52,7 @@ class ChatAvatars extends React.Component {
 
 	updateCurrentMessage = (messages) => {
 		let tempArr = this.state.userChats;
-		tempArr[this.state.currentIndex].userData.messages = messages;
+		tempArr[this.state.currentIndex].userData = messages;
 		this.setState({
 			userChats: tempArr
 		})
@@ -78,7 +78,7 @@ class ChatAvatars extends React.Component {
 							chat.userData.notification ?
 								<section className='notication_circle' />
 								:
-								<h1>No</h1>
+								null
 						}
 						<Avatar
 							className="listings_chat_avatar"
