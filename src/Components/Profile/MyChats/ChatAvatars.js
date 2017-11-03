@@ -59,6 +59,7 @@ class ChatAvatars extends React.Component {
 	}
 
 	render() {
+		console.log(this.state);
 		return (
 			<div className="chats_container">
 				<section className="chats_listings">{this.renderChatAvatars()}</section>
@@ -78,6 +79,12 @@ class ChatAvatars extends React.Component {
 							onClick={() => this.renderChat(this.state.userChats[index].userData, index)}>
 							<img style={{ height: '100%' }} src={chat.listingData.data.images[0]} alt="" />
 						</Avatar>
+						{
+							chat.notification ?
+							<h1>Fuck</h1>
+							:
+							<h1>No</h1>
+						}
 					</section>
 				);
 			});
