@@ -196,6 +196,7 @@ class allListings extends Component {
 	}
 
 	render() {
+		console.log(this.state, this.props);
 		return (
 			<div className="sidebar">
 				<div className="leftBarOnSearch">
@@ -215,7 +216,7 @@ class allListings extends Component {
 								<Link to="/myChats">
 									<ListItem button>
 										<Avatar className="inbox_circle">
-											<h1>1</h1>
+											<h1>{this.props.user.notification_count}</h1>
 										</Avatar>
 
 										<ListItemText primary="Inbox" />
