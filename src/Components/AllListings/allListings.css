@@ -4,8 +4,10 @@
 	justify-content: flex-end;
 	width: 210px;
 	height: 210px;
-	margin: 10px;
-	background-size: cover !important;
+	margin-left: 10px;
+	margin-right: 10px;
+	margin-bottom: 0;
+	background-size: cover !important; 
 }
 
 .MuiTypography-subheading-145 {
@@ -14,13 +16,15 @@
 }
 
 .item_description {
-	width: 100%;
+	max-width: 210px;
 	height: 80px;
-	color: white;
+	color: rgb(78, 78, 78);
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: flex-start;
+	margin-top: 0 !important;
+	margin: 10px;
 }
 
 .item_description h1 {
@@ -66,9 +70,9 @@
 	position: fixed;
 	top: 0;
 	width: 200px;
-	height: 90vh;
+	height: 93vh;
 	margin-top: 64px;
-	background-color: #f0f0f0;
+	background-color: white;
 	text-align: center;
 	overflow-y: scroll;
 }
@@ -83,6 +87,7 @@
 	grid-column: 2/5;
 	margin-left: 200px;
 	padding-top: 20px;
+	background-color: #efefef;
 }
 
 .MuiListItem-default-124 {
@@ -186,4 +191,25 @@
 .profile_pic_nav {
 	width: 100% !important;
 	height: 100% !important;
+}
+
+.allListingsButton {
+	margin-top: 10px;
+	width: 45%;
+	height: 30px;
+	border: none;
+	color: white;
+	font-size: 0.65vw;
+	cursor: pointer;
+}
+.allListingsButton:active {
+	opacity: .8;
+}
+
+._resetButton {
+	background-color: rgb(143, 143, 143);
+}
+
+._searchButton {
+	background-color: rgb(87, 171, 240);
 }

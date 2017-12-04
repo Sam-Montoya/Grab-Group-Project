@@ -2,22 +2,15 @@ import React, { Component } from 'react';
 import Dropzone from 'react-dropzone';
 import request from 'superagent';
 import axios from 'axios';
-import './test.css';
 import Paper from 'material-ui/Paper';
 import './addListing.css';
 import TextField from 'material-ui/TextField';
 import IconButton from 'material-ui/IconButton';
 import DeleteIcon from 'material-ui-icons/Delete';
 import Button from 'material-ui/Button';
-import MaskedInput from 'react-text-mask';
-import NumberFormat from 'react-number-format';
 import Input from 'material-ui/Input';
-import { MenuItem } from 'material-ui/Menu';
-import { FormControl, FormHelperText } from 'material-ui/Form';
-import Select from 'material-ui/Select';
 import { getUserInfo } from '../../Redux/reducer';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import States from './StatesInput';
 import { FormGroup, FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
@@ -172,7 +165,8 @@ class AddListing extends Component {
 
 	changePrice = (price) => {
 		if (isNaN(price)) {
-			alert('Must be a number')
+			alert('Must be a number');
+
 		}
 		let formatter = new Intl.NumberFormat('en-US', {
 			style: 'currency',
@@ -275,7 +269,7 @@ class AddListing extends Component {
 			);
 		});
 		return (
-			<div>
+			<div style={{width: '90%', margin: 'auto'}}>
 				<h1 className="AddListingHeading">Create Listing</h1>
 				<div className="categoryButtons">
 					<Button  className={(this.state.category === 'Electronics') ? 'createListing_Electronics_Clicked' : 'createListing_Electronics'} onClick={() => { this.updateCategory('Electronics') }}>
@@ -328,7 +322,7 @@ class AddListing extends Component {
 								}}
 								placeholder="Phone (optional)"
 							/>
-							<Input
+							<Input type='number'
 								placeholder="Price"
 								inputProps={{
 									'aria-label': 'Description',
@@ -364,7 +358,7 @@ class AddListing extends Component {
 					<Paper className="halfFirst">
 						<h1>Add Image</h1>
 						<div className="PictureUploadContainer">
-							<div className="test">
+							<div className="dropzoneBorder">
 								<Dropzone multiple={true} accept="image/*" onDrop={this.onImageDrop.bind(this)}>
 									<p>Drop an image or click to select a file to upload.</p>
 								</Dropzone>
@@ -417,6 +411,7 @@ class AddListing extends Component {
 								<Button
 									color="primary"
 									dense
+									disabled={this.state.prosInput ? false : true}
 									className="buttonAdd"
 									onClick={this.handleKeyPressPro}
 									>
@@ -441,7 +436,11 @@ class AddListing extends Component {
 									});
 								}}
 							/>
-							<Button color="primary"  dense className="buttonAdd" onClick={this.handleKeyPressCon}>
+							<Button
+								color="primary"
+								raised dense className="buttonAdd"
+								disabled={this.state.consInput ? false : true}
+								onClick={this.handleKeyPressCon}>
 								Add
 							</Button>
 						</div>

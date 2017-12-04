@@ -90,7 +90,50 @@
 	margin-bottom: 18px;
 }
 
-.nav_controller_container {
+.nav_container_before {
+	display: flex;
+	justify-content: space-between;
+	width: 17%;
+}
+
+.nav_container_after {
+	display: flex;
+	justify-content: space-between;
+	width: 19%;
+}
+
+.nav_add_listing{
+	display: flex;
+	align-items: center;
+}
+
+.add{
+	height: 33px;
+	width: 33px;
+	border: 1.5px solid white;
+	position: relative;
+}
+
+.add_vert{
+	height: 25px;
+	width: 2px;
+	background: white;
+	position: absolute;
+	left: 47%;
+	top: 13%;
+}
+
+.add_horiz{
+	height: 25px;
+	width: 2px;
+	background: white;
+	transform: rotate(90deg);
+	position: absolute;
+	left: 47%;
+	top: 13%;
+}
+
+.nav_profile{
 	display: flex;
 }
 

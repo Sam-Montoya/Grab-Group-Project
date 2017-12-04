@@ -6,3 +6,7 @@ WHERE listing_id = $1;
 DELETE
 FROM chats
 WHERE listing_id = $1;
+
+DELETE
+FROM favorites
+WHERE listing_id = $1;

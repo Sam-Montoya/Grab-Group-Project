@@ -17,6 +17,7 @@ let deleteController = require('./DeleteController/deleteController.js');
 let app = express();
 app.use(bodyParser.json());
 app.use(cors());
+app.use( express.static( `${__dirname}/../build` ) );
 
 massive(process.env.CONNECTIONSTRING)
 	.then((db) => {
@@ -66,6 +67,10 @@ app.get('/api/search/:search_term', (request, response)  => {
 	let db = app.get('db');
 	getController.search(db, request, response);
 });
+app.get('/api/zipRadius/:zip/:miles', (request, response) => {
+	let db = app.get('db');
+	getController.getZips(db, request, response);
+});
 
 // -- Post Requests
 app.post('/api/addListing', (request, response) => {
@@ -86,7 +91,7 @@ app.post('/api/addMessage/:listing_id', (request, response) => {
 });
 
 // -- Put Requests
-app.put('/api/updateNotificationCount/:auth_id', (request, response) => {
+app.put('/api/updateNotificationCount', (request, response) => {
 	let db = app.get('db');
 	putController.updateNotificationCount(db, request, response);
 });

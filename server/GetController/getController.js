@@ -71,7 +71,6 @@ module.exports = {
 	getListing(DB, request, response) {
 		try {
 			DB.get_listing(request.params.listing_id).then((listingData) => {
-				console.log(listingData);
 				response.status(200).send(listingData[0]);
 			});
 		} catch (err) {
@@ -96,7 +95,7 @@ module.exports = {
 				}
 			});
 		} catch (err) {
-			console.log('HIT');
+					
 			respone.status(404).send(err);
 		}
 	},
@@ -105,5 +104,13 @@ module.exports = {
 		DB.search_database(request.params.search_term).then((results) => {
 			response.status(200).send(results);
 		});
+	}, 
+
+	getZips(DB, request, response) {
+		axios.get(`https://www.zipcodeapi.com/rest/${process.env.ZIPCODE_API_KEY}/radius.json/${request.params.zip}/${request.params.miles}/miles?minimal`).then((res) => {
+			if(res.status === 200){
+				response.status(200).send(res.data);
+			}
+		})
 	}
 };

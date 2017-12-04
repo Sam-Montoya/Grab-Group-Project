@@ -1,14 +1,29 @@
-.imgContainer img {
-	width: 100%;
-	margin: auto;
-}
+
+
 
 .imgContainer {
-	width: 300px;
-	max-height: 350px;
+	width: 400px;
+	height: 300px;
 	overflow: hidden;
 	margin: auto;
+
+	display: flex;
+	flex-direction: row;
+	flex-wrap: nowrap;
+	justify-content: center;
+	align-items: center;
+	align-content: center
 }
+
+.imgContainer img {
+  display: block;
+max-width:400px; 
+  max-height:300px; 
+  width: auto;
+  height: auto;
+  margin:auto
+}
+
 
 .listing_sidebar {
 	position: fixed;
@@ -22,6 +37,7 @@
 
 .ListingInfoContainer {
 	display: grid;
+	width: 73%;
 	grid-template-columns: repeat(2, 1fr);
 	justify-content: center;
 	margin-left: 200px;
@@ -34,9 +50,12 @@
 }
 
 .half {
-	margin: 30px 30px 15px 15px;
-	padding: 20px;
+	margin: 30px 15px 15px 30px;
+	padding: 30px;
+	box-sizing: border-box;
 	text-align: center;
+	min-height: 20vh;
+	font-size: 1.3em;
 }
 
 .full {
@@ -74,7 +93,7 @@
 }
 
 .listing_message {
-	background-color: rgb(55, 55, 255) !important;
+	background-color: rgb(100, 100, 255) !important;
 }
 
 .listing_profile {
@@ -224,7 +243,7 @@
 	margin-left: 228px;
 	padding-top: 30px;
 	display: flex;
-	width: 80%;
+	width: 71%;
 	border-bottom: 1px solid rgb(167, 167, 167);
 	margin-top: 10px;
 }
@@ -240,7 +259,9 @@
 }
 
 .listing_description {
-	font-size: 18px;
+	font-size: 1.3em;
+	padding: 30px;
+	box-sizing: border-box;
 }
 
 .list_container {

@@ -2,8 +2,6 @@ import React, { Component } from 'react';
 import './PosterProfile.css';
 import Inbox from 'material-ui-icons/Message';
 import Avatar from 'material-ui/Avatar';
-import { FormControlLabel } from 'material-ui/Form';
-import Checkbox from 'material-ui/Checkbox';
 import axios from 'axios';
 import Paper from 'material-ui/Paper';
 import { getUserInfo } from '../../../Redux/reducer';
@@ -17,34 +15,21 @@ class PosterProfile extends Component {
 	constructor() {
 		super();
 		this.state = {
-			listingUserInfo: {
-				auth_id: '',
-				category: '',
-				city: '',
-				cons: '',
-				contact_status: '',
-				description: '',
-				images: [],
-				listing_id: null,
-				phone_number: '',
-				price: '',
-				pros: '',
-				state: '',
-				time_submitted: '',
-				title: '',
-				user_id: 0,
-				zip: 0
-			},
+			userInfo: {},
 			listings: [],
 			checkedA: false,
 			checkedB: false,
 			checkedC: false,
 			checkedD: false,
 			checkedE: false,
-			userInfo: {}
+			filters: {
+				checkedA: '',
+				checkedB: '',
+				checkedC: '',
+				checkedD: '',
+				checkedE: ''
+			}
 		};
-
-		this.coverPhotoInfo = this.coverPhotoInfo.bind(this);
 	}
 
 	componentDidMount() {
@@ -66,7 +51,6 @@ class PosterProfile extends Component {
 			listingNumber = listingNumber.split('/');
 			listingNumber = listingNumber[2];
 			axios.get('/api/getUserInfoById/' + listingNumber).then((userData) => {
-				console.log(userData);
 				this.setState({
 					userInfo: userData.data
 				});
@@ -90,51 +74,41 @@ class PosterProfile extends Component {
 	}
 
 	handleChangeInput = (name) => (event) => {
-		this.setState({ [name]: event.target.checked });
-	};
-
-	render() {
-		let listings;
-		if (this.state.listings.length) {
-			listings = this.state.listings.map((elem, i) => {
-				if (elem.images)
-					return (
-						<div>
-							<Link
-								to={{
-									pathname: '/listingInfo/' + i,
-									query: elem
-								}}>
-								<Paper
-									elevation={4}
-									className="item_container"
-									style={{
-										background: `url(${elem.images[0]}) no-repeat center center`,
-										backgroundSize: 'cover'
-									}}>
-									<div
-										className="item_description"
-										style={{ backgroundColor: 'rgba(53, 138, 255, 0.68)' }}>
-										<h1 className="title">{elem.title}</h1>
-										<hr />
-										<h2 className="descriptionText">
-											{elem.city}, {elem.state}
-										</h2>
-										<h3 className="descriptionText">{elem.price}</h3>
-									</div>
-								</Paper>
-							</Link>
-						</div>
-					);
+		if (event.target.checked) {
+			this.setState({
+				[name]: event.target.checked,
+				filters: Object.assign({}, this.state.filters, { [name]: event.target.value })
+			});
+		} else {
+			this.setState({
+				[name]: event.target.checked,
+				filters: Object.assign({}, this.state.filters, { [name]: '' })
 			});
 		}
+	};
 
+	filter(listings) {
+		for (let prop in this.state.filters) {
+			if (this.state.filters[prop] !== '') {
+				listings = listings.filter(listing => {
+					for (let prop in this.state.filters) {
+						if (listing.category === this.state.filters[prop]) {
+							return listing;
+						}
+					}
+				});
+			}
+		}
+		return listings;
+	}
+
+	render() {
 		return (
 			<div>
 				<div className="ProfilePageContainer">
 					<div className="rightNavFavorites">
 						{/* Search Categories Function */}
-						{CategoriesBar('electronics', 'home', 'sports', 'parts', 'free')}
+						<CategoriesBar {...this.state} handleChangeInput={this.handleChangeInput} />
 					</div>
 					<div className="MainContentProfile">
 						<div className="CoverPhoto">
@@ -147,16 +121,16 @@ class PosterProfile extends Component {
 								<h1 className="ProfileHeading">
 									{this.state.userInfo.username + "'s "}Listings ({this.state.listings.length})
 								</h1>
-								<div className="FavoriteListingsContainer">{listings}</div>
+								<div className="FavoriteListingsContainer">{this.listingsMap(this.filter(this.state.listings))}</div>
 							</div>
 						) : (
-							<div className="add_listing_container">
-								<h1 className="ProfileHeading">You have no listings... :(</h1>
-								<Link to="/addListing">
-									<div className="add_listing_button">+</div>
-								</Link>
-							</div>
-						)}
+								<div className="add_listing_container">
+									<h1 className="ProfileHeading">You have no listings... :(</h1>
+									<Link to="/addListing">
+										<div className="add_listing_button">+</div>
+									</Link>
+								</div>
+							)}
 
 						<div className="Chat">
 							<div className="ChatNotification" />
@@ -170,7 +144,7 @@ class PosterProfile extends Component {
 		);
 	}
 
-	coverPhotoInfo() {
+	coverPhotoInfo = () => {
 		const memberSince = new Date(this.state.userInfo.date_created);
 		return (
 			<div className="CoverPhotoStuff">
@@ -186,6 +160,66 @@ class PosterProfile extends Component {
 				</div>
 			</div>
 		);
+	}
+
+	listingsMap(listings) {
+		return listings.map((listing, i) => {
+			if (listing.images) {
+				let backgroundColor;
+				switch (listing.category) {
+					case 'Electronics':
+						backgroundColor = 'rgba(53, 138, 255, ';
+						break;
+					case 'Home':
+						backgroundColor = 'rgba(147, 74, 255, ';
+						break;
+					case 'Sports':
+						backgroundColor = 'rgba(104, 208, 52, ';
+						break;
+					case 'Parts':
+						backgroundColor = 'rgba(151, 151, 151, ';
+						break;
+					case 'Free':
+						backgroundColor = 'rgba(255, 127, 127, ';
+						break;
+					default:
+						backgroundColor = 'rgba(0, 255, 255, 0.68)';
+						break;
+				}
+	
+				return (
+					<div key={i}>
+						<Link
+							to={{
+								pathname: '/listingInfo/' + listing.listing_id,
+								query: listing
+							}}>
+							<Paper
+								elevation={4}
+								className="item_container"
+								style={{
+									background: `url(${listing.images[0]}) no-repeat center`,
+									backgroundSize: 'cover'
+								}}>
+							</Paper>
+							<div className="item_description" style={{ backgroundColor: 'white', borderBottom: '5px solid ' + backgroundColor + '1)' }}>
+								<h1 className="title">{listing.title.charAt(0).toUpperCase() + listing.title.slice(1)}</h1>
+								<hr style={{ backgroundColor: backgroundColor + '1)', height: '1.5px' }} />
+								<h2 className="descriptionText">
+									{listing.city.charAt(0).toUpperCase() + listing.city.slice(1)}, {listing.state.charAt(0).toUpperCase() + listing.state.slice(1)}
+								</h2>
+								{listing.price === '$0.00' ? (
+									<h3 className="descriptionText">Free</h3>
+								) : (
+										<h3 className="descriptionText">{listing.price}</h3>
+									)}
+							</div>
+						</Link>
+					</div>
+				);
+			}
+			return true;
+		});
 	}
 }
 

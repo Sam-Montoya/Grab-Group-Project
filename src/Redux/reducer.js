@@ -9,6 +9,7 @@ const initialState = {
 //ACTION TYPES
 const GET_USER_INFO = 'GET_USER_INFO';
 const GET_USER_FAVORITES = 'GET_USER_FAVORITES';
+const UPDATE_USER_INFO = 'UPDATE_USER_INFO';
 const UPDATE_SEARCH_TERM = 'UPDATE_SEARCH_TERM';
 
 //ACTION CREATORS
@@ -18,16 +19,20 @@ export function getUserInfo() {
 			return userData.data;
 		} else if (userData.data[0].hasOwnProperty('profile_pic')) {
 			return userData.data[0];
-		} 
-		// else {
-		// 	let tempUser = { profile_pic: 'https://cdn3.iconfinder.com/data/icons/complete-set-icons/512/skype2512x512.png' };
-		// 	return tempUser;
-		// }
+		}
 	});
 	return {
 		type: GET_USER_INFO,
 		payload: userInfo
 	};
+}
+
+export function updateUserInfo(userData) {
+	console.log("HIT")
+	return {
+		type: UPDATE_USER_INFO,
+		payload: userData
+	}
 }
 
 export function getUserFavorites(user_id) {
@@ -58,6 +63,8 @@ export function updateSearchTerm(word) {
 export default function reducer(state = initialState, action) {
 	switch (action.type) {
 		case GET_USER_INFO + '_FULFILLED':
+			return Object.assign({}, state, { user: action.payload });
+			case UPDATE_USER_INFO:
 			return Object.assign({}, state, { user: action.payload });
 		case GET_USER_FAVORITES + '_FULFILLED':
 			return Object.assign({}, state, { favorites: action.payload });

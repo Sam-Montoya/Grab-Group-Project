@@ -4,11 +4,12 @@ import { Link } from 'react-router-dom';
 import './MyFavorites.css';
 import Inbox from 'material-ui-icons/Message';
 import Avatar from 'material-ui/Avatar';
-import { FormControlLabel } from 'material-ui/Form';
-import Checkbox from 'material-ui/Checkbox';
 import axios from 'axios';
 import Paper from 'material-ui/Paper';
 import { getUserFavorites } from '../../../Redux/reducer';
+import CategoriesBar from '../../SharedComponents/CategoriesBar';
+import SnackBars from '../../SharedComponents/SnackBars';
+import DialogBox from '../../SharedComponents/Dialog';
 
 class MyFavorites extends Component {
 	constructor() {
@@ -19,12 +20,27 @@ class MyFavorites extends Component {
 			checkedB: false,
 			checkedC: false,
 			checkedD: false,
-			checkedE: false
+			checkedE: false,
+			isOpen: false,
+			snackbar_message: '',
+			dialogOpen: false,
+			dialog_message: 'Are you sure you want to remove this listing from your favorites?',
+			dialog_title: 'Remove from Favorites',
+			selected_listing_id: '',
+			filters: {
+				checkedA: '',
+				checkedB: '',
+				checkedC: '',
+				checkedD: '',
+				checkedE: ''
+			}
 		};
+		this.cancel = this.cancel.bind(this);
+		this.removeFavorite = this.removeFavorite.bind(this);
 	}
 
 	componentDidMount() {
-		axios.get('/api/getUserListings/' + this.props.user.user_id).then((res) => {
+		axios.get('/api/getUserFavorites/' + this.props.user.user_id).then((res) => {
 			this.setState({
 				listings: res.data
 			});
@@ -32,132 +48,148 @@ class MyFavorites extends Component {
 	}
 
 	handleChangeInput = (name) => (event) => {
-		this.setState({ [name]: event.target.checked });
+		if (event.target.checked) {
+			this.setState({
+				[name]: event.target.checked,
+				filters: Object.assign({}, this.state.filters, { [name]: event.target.value })
+			});
+		} else {
+			this.setState({
+				[name]: event.target.checked,
+				filters: Object.assign({}, this.state.filters, { [name]: '' })
+			});
+		}
 	};
 
 	removeFavorite = (listing_id) => {
 		axios.delete(`/api/removeFavorite/${listing_id}/${this.props.user.user_id}`)
 			.then((response) => {
-				alert('Listing has been removed from your favorites');
+				this.setState({
+					isOpen: true,
+					snackbar_message: 'Listing has been removed from your favorites!',
+					dialogOpen: false
+				})
 				this.props.getUserFavorites(this.props.user.user_id);
+			}).then((newFavorites) => {
+				axios.get('/api/getUserFavorites/' + this.props.user.user_id).then((res) => {
+					this.setState({
+						listings: res.data
+					});
+				});
 			})
+		setTimeout(() => {
+			this.setState({
+				isOpen: false
+			})
+		}, 1500);
+	}
+
+	cancel() {
+		this.setState({
+			dialogOpen: false
+		})
+	}
+
+	filter(listings) {
+		for (let prop in this.state.filters) {
+			if (this.state.filters[prop] !== '') {
+				listings = listings.filter(listing => {
+					for (let prop in this.state.filters) {
+						if (listing.category === this.state.filters[prop]) {
+							return listing;
+						}
+					}
+					return true;
+				});
+			}
+		}
+		return listings;
 	}
 
 	render() {
-				let myFavorites = this.props.favorites.map((favorite, i) => {
-					if (favorite.images)
-						return (
-							<div>
-								<div className="removeIcon" onClick={() => this.removeFavorite(favorite.listing_id)} style={{ backgroundColor: 'red', width: '25px', height: '25px' }}><hr className="deleteLine"></hr></div>
-
-								<Link
-									to={{
-										pathname: '/listingInfo/' + favorite.listing_id,
-										query: favorite
-									}}>
-									<Paper
-										elevation={4}
-										className="item_container"
-										style={{
-											background: `url(${favorite.images[0]}) no-repeat center center`,
-											backgroundSize: 'cover'
-										}}>
-										<div
-											className="item_description"
-											style={{ backgroundColor: 'rgba(53, 138, 255, 0.68)' }}>
-											<h1 className="title">{favorite.title}</h1>
-											<hr />
-											<h2 className="descriptionText">{favorite.city}, {favorite.state}</h2>
-											<h3 className="descriptionText">{favorite.price}</h3>
-										</div>
-									</Paper>
-								</Link>
-							</div>
-						);
-					return this;
-				});
-
-				return(
+		return (
 			<div >
-			<div className="myFavoritesPageContainer">
-				<div className="MainContentFavorites">
-					<h1 className="FavoritesPageHeading">My Favorites Page</h1>
-					<div className="FavoriteListingsContainer">{myFavorites}</div>
-				</div>
+				<SnackBars is_open={this.state.isOpen} message={this.state.snackbar_message} />
+				<DialogBox is_open={this.state.dialogOpen} message={this.state.dialog_message} title={this.state.dialog_title} removeFavorite={this.removeFavorite} listing_id={this.state.selected_listing_id} cancel={this.cancel} />
+				<div className="myFavoritesPageContainer">
+					<div className="MainContentFavorites">
+						<h1 className="FavoritesPageHeading">My Favorites Page</h1>
+						<div className="FavoriteListingsContainer">{this.favoritesMap(this.filter(this.state.listings))}</div>
+					</div>
 
-				<div className="Chat">
-					<Avatar style={{ backgroundColor: '#03A9F4', height: '60px', width: '60px' }}>
-						<Inbox />
-					</Avatar>
-				</div>
+					<div className="Chat">
+						<Avatar style={{ backgroundColor: '#03A9F4', height: '60px', width: '60px' }}>
+							<Inbox />
+						</Avatar>
+					</div>
 
-				<div className="rightNavFavorites">
-					<div className="categories">
-						<p>Categories</p>
-						<div>
-							<FormControlLabel
-								control={
-									<Checkbox
-										checked={this.state.checkedA}
-										onChange={this.handleChangeInput('checkedA')}
-										value="checkedA"
-										style={{ color: 'red' }}
-									/>
-								}
-								label="Electronics"
-							/>
-						</div>
-						<div>
-							<FormControlLabel
-								control={
-									<Checkbox
-										checked={this.state.checkedB}
-										onChange={this.handleChangeInput('checkedB')}
-										value="checkedB"
-										style={{ color: 'Purple' }}
-									/>
-								}
-								label="Home"
-							/>
-						</div>
-						<FormControlLabel
-							control={
-								<Checkbox
-									checked={this.state.checkedC}
-									onChange={this.handleChangeInput('checkedC')}
-									value="checkedC"
-									style={{ color: 'green' }}
-								/>
-							}
-							label="Sports"
-						/>
-						<FormControlLabel
-							control={
-								<Checkbox
-									checked={this.state.checkedD}
-									onChange={this.handleChangeInput('checkedD')}
-									value="checkedD"
-									style={{ color: 'grey' }}
-								/>
-							}
-							label="Parts"
-						/>
-						<FormControlLabel
-							control={
-								<Checkbox
-									checked={this.state.checkedE}
-									onChange={this.handleChangeInput('checkedE')}
-									value="checkedE"
-									style={{ color: 'green' }}
-								/>
-							}
-							label="Free"
-						/>
+					<div className="rightNavFavorites">
+						<CategoriesBar {...this.state} handleChangeInput={this.handleChangeInput} />
 					</div>
 				</div>
-			</div>
 			</div >
 		);
+	}
+
+	favoritesMap(listing) {
+		return listing.map((listing, i) => {
+			if (listing.images) {
+				let backgroundColor;
+				switch (listing.category) {
+					case 'Electronics':
+						backgroundColor = 'rgba(53, 138, 255, ';
+						break;
+					case 'Home':
+						backgroundColor = 'rgba(147, 74, 255, ';
+						break;
+					case 'Sports':
+						backgroundColor = 'rgba(104, 208, 52, ';
+						break;
+					case 'Parts':
+						backgroundColor = 'rgba(151, 151, 151, ';
+						break;
+					case 'Free':
+						backgroundColor = 'rgba(255, 127, 127, ';
+						break;
+					default:
+						backgroundColor = 'rgba(0, 255, 255, 0.68)';
+						break;
+				}
+
+				return (
+					<div key={i}>
+						<div className="removeIcon" onClick={() => {this.setState({dialogOpen: true, selected_listing_id: listing.listing_id})}} style={{ backgroundColor: 'red', width: '25px', height: '25px' }}><hr className="deleteLine"></hr></div>
+						<Link
+							to={{
+								pathname: '/listingInfo/' + listing.listing_id,
+								query: listing
+							}}>
+							<Paper
+								elevation={4}
+								className="item_container"
+								style={{
+									background: `url(${listing.images[0]}) no-repeat center`,
+									backgroundSize: 'cover'
+								}}>
+							</Paper>
+							<div className="item_description" style={{ backgroundColor: 'white', borderBottom: '5px solid ' + backgroundColor + '1)' }}>
+								<h1 className="title">{listing.title.charAt(0).toUpperCase() + listing.title.slice(1)}</h1>
+								<hr style={{ backgroundColor: backgroundColor + '1)', height: '1.5px' }} />
+								<h2 className="descriptionText">
+									{listing.city.charAt(0).toUpperCase() + listing.city.slice(1)}, {listing.state.charAt(0).toUpperCase() + listing.state.slice(1)}
+								</h2>
+								{listing.price === '$0.00' ? (
+									<h3 className="descriptionText">Free</h3>
+								) : (
+										<h3 className="descriptionText">{listing.price}</h3>
+									)}
+							</div>
+						</Link>
+					</div>
+				);
+			}
+			return this;
+		});
 	}
 }
 

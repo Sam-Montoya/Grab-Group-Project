@@ -51,10 +51,6 @@ class ListingInfo extends Component {
 	}
 
 	componentDidMount() {
-		let listingNumber = this.props.location.pathname;
-		listingNumber = listingNumber.split('/');
-		listingNumber = listingNumber[2];
-
 		if (this.props.location.query) {
 			this.setState({
 				listingInfo: this.props.location.query,
@@ -63,6 +59,7 @@ class ListingInfo extends Component {
 			});
 			this.getUserInfo(this.props.location.query.auth_id);
 		} else {
+			let listingNumber = this.props.location.pathname.split('/')[2];
 			axios.get('/api/getListing/' + listingNumber).then((listingData) => {
 				this.setState({
 					listingInfo: listingData.data,
@@ -128,7 +125,8 @@ class ListingInfo extends Component {
 		let chatConfig = {
 			owner_id: this.state.listingInfo.auth_id,
 			client_id: this.props.user.auth_id,
-			listing_id: this.state.listingInfo.listing_id
+			listing_id: this.state.listingInfo.listing_id,
+			date_modified: new Date(Date.now())
 		}
 		axios.post('/api/startChat', chatConfig).then((res) => {
 			alert(res.data);
@@ -152,11 +150,27 @@ class ListingInfo extends Component {
 						</div>
 						<div>{this.userProfileChecker()}</div>
 						<div>
-							<Link to="/myChats" onClick={() => this.startChat()}>
-								<Avatar className="listing_avatar listing_message">
-									<Inbox />
-								</Avatar>
-							</Link>
+							{
+								this.props.user
+									?
+									<Link to=
+										{{
+											pathname: '/myChats',
+											chatInfo: {
+												owner_id: this.state.listingInfo.auth_id,
+												client_id: this.props.user.auth_id,
+												listing_id: this.state.listingInfo.listing_id
+											}
+										}} onClick={() => this.startChat()}>
+										<Avatar className="listing_avatar listing_message">
+											<Inbox />
+										</Avatar>
+									</Link>
+									:
+									<Avatar onClick={() => alert('Please log in to send messages')} className="listing_avatar listing_message">
+										<Inbox />
+									</Avatar>
+							}
 						</div>
 						<div>
 							<this.favoriteIcon />
@@ -184,10 +198,12 @@ class ListingInfo extends Component {
 								<Contact className="listing_contact_icon" />
 							</div>
 							<div className="listing_contact_info">
-								<h3 style={{ fontWeight: 'bold' }}>{this.state.listingInfo.contact_status}</h3>
 								{this.state.listingInfo.phone_number ? (
-									<h3>{this.state.listingInfo.phone_number}</h3>
-								) : null}
+									<div style={{ display: 'flex', flexDirection: 'column' }}>
+										<h3 style={{ fontWeight: 'bold', marginBottom: '2px' }}>{this.state.listingInfo.contact_status}</h3>
+										<h3>{this.state.listingInfo.phone_number}</h3>
+									</div>
+								) : <h3 style={{ fontWeight: 'bold' }}>Grab Message Only</h3>}
 							</div>
 						</div>
 
@@ -213,19 +229,22 @@ class ListingInfo extends Component {
 						<h3 style={{ fontWeight: 'bold', fontSize: '22px' }}>
 							{this.state.listingInfo.title} Description
 						</h3>
+						<hr style={{ backgroundColor: 'lightgray', borderStyle: 'initial', height: '0.5px'}}/>
 						<br />
 						<p>{this.state.listingInfo.description}</p>
 					</Paper>
-					<Paper className="half1">
+					<Paper className="half">
 						<h3 style={{ fontWeight: 'bold', fontSize: '20px' }}>Pros</h3>
+						<hr style={{ backgroundColor: 'lightgray', borderStyle: 'initial', height: '0.5px'}}/>
 						<section className="list_container">{this.list(this.state.listingInfo.pros)}</section>
 					</Paper>
 					<Paper className="half">
 						<h3 style={{ fontWeight: 'bold', fontSize: '20px' }}>Cons</h3>
+						<hr style={{ backgroundColor: 'lightgray', borderStyle: 'initial', height: '0.5px'}}/>
 						<section className="list_container">{this.list(this.state.listingInfo.cons)}</section>
 					</Paper>
 				</div>
-			</div>
+			</div >
 		);
 	}
 

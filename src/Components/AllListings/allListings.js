@@ -7,12 +7,13 @@ import List, { ListItem, ListItemText } from 'material-ui/List';
 import MenuItem from 'material-ui/Menu/MenuItem';
 import TextField from 'material-ui/TextField';
 import Star from 'material-ui-icons/Star';
+import Button from 'material-ui/Button';
 import Pageview from 'material-ui-icons/List';
 import Input from 'material-ui/Input';
 import { FormControlLabel } from 'material-ui/Form';
 import Checkbox from 'material-ui/Checkbox';
 import { Link } from 'react-router-dom';
-import { getUserInfo } from '../../Redux/reducer';
+import { getUserInfo, updateUserInfo } from '../../Redux/reducer';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 
@@ -32,6 +33,9 @@ class allListings extends Component {
 			isLoggedIn: false,
 			lowest: 0,
 			highest: 999999999999,
+			zip: '',
+			milesAway: '',
+			zipRadius: [],
 			filters: {
 				checkedA: '',
 				checkedB: '',
@@ -49,6 +53,13 @@ class allListings extends Component {
 			});
 		});
 		this.props.getUserInfo();
+		if(this.props.user.auth_id) {
+			console.log(this.props.user.auth_id)
+			axios.get('/api/getUserInfo/' + this.props.user.auth_id).then(userData => {
+				console.log(userData);
+				this.props.updateUserInfo(userData.data);
+			})
+		}
 	}
 
 	componentWillReceiveProps(nextProps) {
@@ -58,19 +69,23 @@ class allListings extends Component {
 				isLoggedIn: true
 			});
 		}
-		setTimeout(() => {
-			if (this.props.search_term !== '') {
-				axios.get('/api/search/' + this.props.search_term).then((results) => {
+		if (nextProps.search_term) {
+			axios.get('/api/search/' + nextProps.search_term).then((results) => {
+				if (results.data.length === 0) {
+					this.setState({
+						filteredListings: `No Listings match ${this.props.search_term}`
+					});
+				} else {
 					this.setState({
 						filteredListings: results.data
 					});
-				});
-			} else {
-				this.setState({
-					filteredListings: []
-				});
-			}
-		}, 1000);
+				}
+			});
+		} else {
+			this.setState({
+				filteredListings: []
+			});
+		}
 	}
 
 	handleChangeInput = (name) => (event) => {
@@ -117,7 +132,39 @@ class allListings extends Component {
 		}
 	}
 
+	search() {
+		axios.get(`/api/zipRadius/${this.state.zip}/${this.state.milesAway}`).then(res => {
+			if (res.status === 200) {
+				this.setState({
+					zipRadius: res.data.zip_codes
+				})
+			}
+		});
+	}
+
+	reset() {
+		this.setState({
+			zip: '',
+			milesAway: '',
+			zipRadius: [],
+		})
+	}
+
 	filter(listings) {
+		if (listings === `No Listings match ${this.props.search_term}`) {
+			return listings;
+		}
+
+		if (this.state.zipRadius.length) {
+			listings = listings.filter(listing => {
+				for (let i = 0; i < this.state.zipRadius.length; i++) {
+					if (parseInt(listing.zip) === parseInt(this.state.zipRadius[i])) {
+						return listing;
+					}
+				}
+			});
+		}
+
 		if (listings.length) {
 			if (this.state.priceSorting === 'Highest to Lowest') {
 				listings = _.sortBy(listings, [function (listing) {
@@ -129,7 +176,7 @@ class allListings extends Component {
 					let price = listing.price.split('$');
 					return parseInt(price[1]);
 				}]);
-			} 
+			}
 		}
 
 		if (this.state.lowest && this.state.highest || this.state.lowest || this.state.highest) {
@@ -156,6 +203,7 @@ class allListings extends Component {
 	}
 
 	render() {
+		console.log(this.props.user);
 		return (
 			<div className="sidebar">
 				<div className="leftBarOnSearch">
@@ -175,7 +223,8 @@ class allListings extends Component {
 								<Link to="/myChats">
 									<ListItem button>
 										<Avatar className="inbox_circle">
-											<h1>1</h1>
+											{this.props.user.notification_count !== 0 ?
+												<h1>{this.props.user.notification_count}</h1> : null}
 										</Avatar>
 
 										<ListItemText primary="Inbox" />
@@ -274,8 +323,12 @@ class allListings extends Component {
 
 					<div className="search_inputs">
 						<p style={{ fontWeight: 'bold' }}>Distance</p>
-						<Input type="number" placeholder="Zip" />
-						<Input type="number" placeholder="Miles Away" />
+						<Input type="number" placeholder="Zip" value={this.state.zip} onChange={(e) => { this.setState({ zip: e.target.value }) }} />
+						<Input type="number" placeholder="Miles Away" value={this.state.milesAway} onChange={(e) => { this.setState({ milesAway: e.target.value }) }} />
+						<section style={{ width: '90%', margin: 'auto', display: 'flex', justifyContent: 'space-around' }}>
+							<button className="allListingsButton _searchButton" onClick={() => { this.search() }}>Search</button>
+							<button className="allListingsButton _resetButton" onClick={() => { this.reset() }}>Reset</button>
+						</section>
 					</div>
 
 					<div className="pricing_container">
@@ -306,23 +359,26 @@ class allListings extends Component {
 	}
 
 	listingsMap(listings) {
+		if (listings === `No Listings match ${this.props.search_term}`) {
+			return listings;
+		}
 		return listings.map((listing, i) => {
 			let backgroundColor;
 			switch (listing.category) {
 				case 'Electronics':
-					backgroundColor = 'rgba(53, 138, 255, 0.68)';
+					backgroundColor = 'rgba(53, 138, 255, ';
 					break;
 				case 'Home':
-					backgroundColor = 'rgba(147, 74, 255, 0.68)';
+					backgroundColor = 'rgba(147, 74, 255, ';
 					break;
 				case 'Sports':
-					backgroundColor = 'rgba(104, 208, 52, 0.68)';
+					backgroundColor = 'rgba(104, 208, 52, ';
 					break;
 				case 'Parts':
-					backgroundColor = 'rgba(151, 151, 151, 0.68)';
+					backgroundColor = 'rgba(151, 151, 151, ';
 					break;
 				case 'Free':
-					backgroundColor = 'rgba(255, 127, 127, 0.68)';
+					backgroundColor = 'rgba(255, 127, 127, ';
 					break;
 				default:
 					backgroundColor = 'rgba(0, 255, 255, 0.68)';
@@ -343,19 +399,19 @@ class allListings extends Component {
 								background: `url(${listing.images[0]}) no-repeat center`,
 								backgroundSize: 'cover'
 							}}>
-							<div className="item_description" style={{ backgroundColor: backgroundColor }}>
-								<h1 className="title">{listing.title.charAt(0).toUpperCase() + listing.title.slice(1)}</h1>
-								<hr />
-								<h2 className="descriptionText">
-									{listing.city.charAt(0).toUpperCase() + listing.city.slice(1)}, {listing.state.charAt(0).toUpperCase() + listing.state.slice(1)}
-								</h2>
-								{listing.price === '$0.00' ? (
-									<h3 className="descriptionText">Free</h3>
-								) : (
-										<h3 className="descriptionText">{listing.price}</h3>
-									)}
-							</div>
 						</Paper>
+						<div className="item_description" style={{ backgroundColor: 'white', borderBottom: '5px solid ' + backgroundColor + '1)' }}>
+							<h1 className="title">{listing.title.charAt(0).toUpperCase() + listing.title.slice(1)}</h1>
+							<hr style={{ backgroundColor: backgroundColor + '1)', height: '1.5px' }} />
+							<h2 className="descriptionText">
+								{listing.city.charAt(0).toUpperCase() + listing.city.slice(1)}, {listing.state.charAt(0).toUpperCase() + listing.state.slice(1)}
+							</h2>
+							{listing.price === '$0.00' ? (
+								<h3 className="descriptionText">Free</h3>
+							) : (
+									<h3 className="descriptionText">{listing.price}</h3>
+								)}
+						</div>
 					</Link>
 				</div>
 			);
@@ -370,4 +426,4 @@ function mapStateToProps(state) {
 	};
 }
 
-export default connect(mapStateToProps, { getUserInfo })(allListings);
+export default connect(mapStateToProps, { getUserInfo, updateUserInfo })(allListings);

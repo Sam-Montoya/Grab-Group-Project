@@ -11,13 +11,13 @@ import { getUserInfo, getUserFavorites, updateSearchTerm } from '../Redux/reduce
 import { Link } from 'react-router-dom';
 import Search from 'material-ui-icons/Search';
 import Avatar from 'material-ui/Avatar';
-import axios from 'axios';
 
 class ButtonAppBar extends Component {
 	constructor() {
 		super();
 		this.state = {
-			profile_pic: ''
+			profile_pic: '',
+			search: ''
 		};
 	}
 
@@ -37,10 +37,9 @@ class ButtonAppBar extends Component {
 		}
 	}
 
-	search(input) {
-		let timeout = null;
-		clearTimeout(timeout);
-		this.props.updateSearchTerm(input);
+	search = (e) => {
+		e.preventDefault();
+		this.props.updateSearchTerm(this.state.search);
 	}
 
 	render() {
@@ -51,10 +50,10 @@ class ButtonAppBar extends Component {
 						<div className="navtoolbar">
 							{
 								this.props.user
-								?
-								<Drawer />
-								:
-								null
+									?
+									<Drawer />
+									:
+									null
 							}
 							<div className="navtoolbar">
 								<Typography type="title" color="inherit">
@@ -66,30 +65,50 @@ class ButtonAppBar extends Component {
 						</div>
 
 						<div className="wrap">
-							<div className="search">
+							<form className="search" onSubmit={this.search}>
 								<input type="text" className="search_input" placeholder="What are you looking for?"
-									onChange={(e) => this.search(e.target.value)}
+									onChange={(e) => this.setState({ search: e.target.value })}
 								/>
 								<button type="submit" className="searchButton">
 									<IconButton>
 										<Search className="search_icon" />
 									</IconButton>
 								</button>
-							</div>
+							</form>
 						</div>
 
 						{/* This turnary checks to see if someone is logged in and displays the correct login/logout button accordingly. */}
 						{this.props.user ? (
-							<div className="nav_controller_container">
-								<Avatar alt='' src={this.state.profile_pic} />
-								<a className="logout nav_button" href={process.env.REACT_APP_LOGOUT}>
-									<Button>Logout</Button>
-								</a>
+							<div className="nav_container_after">
+								<div className="nav_add_listing">
+									<Link to='/addlisting'>
+										<div className="add">
+											<div className="add_vert"></div>
+											<div className="add_horiz"></div>
+										</div>
+									</Link>
+								</div>
+								<div className="nav_profile">
+									<Avatar alt='' src={this.state.profile_pic} />
+									<a className="logout nav_button" href={process.env.REACT_APP_LOGOUT}>
+										<Button>Logout</Button>
+									</a>
+								</div>
 							</div>
 						) : (
-								<a className="login nav_button" href={process.env.REACT_APP_LOGIN}>
-									<Button>Login</Button>
-								</a>
+								<div className="nav_container_before">
+									<div className="nav_add_listing">
+										<a href={process.env.REACT_APP_LOGIN}>
+											<div className="add">
+												<div className="add_vert"></div>
+												<div className="add_horiz"></div>
+											</div>
+										</a>
+									</div>
+									<a className="login nav_button" href={process.env.REACT_APP_LOGIN}>
+										<Button>Login</Button>
+									</a>
+								</div>
 							)}
 					</Toolbar>
 				</AppBar>
