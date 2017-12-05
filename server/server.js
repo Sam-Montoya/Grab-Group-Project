@@ -17,6 +17,7 @@ let deleteController = require('./DeleteController/deleteController.js');
 let app = express();
 app.use(bodyParser.json());
 app.use(cors());
+app.use( express.static( `${__dirname}/../build` ) );
 
 app.use( express.static( `${__dirname}/../build` ) );
 
