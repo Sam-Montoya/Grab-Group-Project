@@ -18,6 +18,8 @@ let app = express();
 app.use(bodyParser.json());
 app.use(cors());
 
+app.use( express.static( `${__dirname}/../build` ) );
+
 massive(process.env.CONNECTIONSTRING)
 	.then((db) => {
 		app.set('db', db);
@@ -191,7 +193,7 @@ app.get('/auth', passport.authenticate('auth0'));
 app.get(
 	'/auth/callback',
 	passport.authenticate('auth0', {
-		successRedirect: 'http://localhost:3000/#/',
+		successRedirect: '/',
 		failureRedirect: '/'
 	})
 );
@@ -206,12 +208,17 @@ app.get('/auth/me', (req, res, next) => {
 
 app.get('/auth/logout', (req, res) => {
 	req.logOut();
-	res.redirect(302, 'http://localhost:3000/#/');
+	res.redirect(302, '/');
 });
 
 /**
  * Auth 0 End
  */
 
+const path = require('path')
+app.get('*', (req, res)=>{
+  res.sendFile(path.join(__dirname, '../build/index.html'));
+})
+
 const port = 3060;
-app.listen(port, console.log(`It's lit on ${port} fam!`));
+app.listen(port, () => console.log(`It's lit on ${port} fam!`));

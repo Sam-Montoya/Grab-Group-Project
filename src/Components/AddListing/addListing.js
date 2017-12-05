@@ -69,7 +69,7 @@ class AddListing extends Component {
 			contact_status: (this.state.checkedA && this.state.checkedB) ? 'Call and Text' : (this.state.checkedA) ? 'Call Only' : 'Text Only',
 			zip: this.state.zip
 		}
-		axios.post('http://localhost:3060/api/addListing', listingObj).then((res) => {
+		axios.post('/api/addListing', listingObj).then((res) => {
 			if (res.status === 200) {
 				alert('Listing has been created');
 				this.props.history.push('/');
@@ -446,7 +446,7 @@ class AddListing extends Component {
 						</div>
 						<div>{cons}</div>
 					</Paper>
-					<Button  className="createButton" onClick={this.handleCreate}>
+					<Button  className="createButton" onClick={this.handleCreate} style={{marginBottom: '20px'}}>
 						Create
       				</Button>
 					{/* <Button raised className="createButton">

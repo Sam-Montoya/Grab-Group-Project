@@ -53,7 +53,7 @@ class allListings extends Component {
 			});
 		});
 		this.props.getUserInfo();
-		if(this.props.user.auth_id) {
+		if(this.props.user) {
 			console.log(this.props.user.auth_id)
 			axios.get('/api/getUserInfo/' + this.props.user.auth_id).then(userData => {
 				console.log(userData);
