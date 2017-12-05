@@ -55,7 +55,7 @@ class Messages extends React.Component {
 				})
 				this.props.updateMessage(chatToRender[0]);
 			})
-		}, 5000)
+		}, 3000)
 	}
 	componentWillReceiveProps(nextProps) {
 		this.setState(
